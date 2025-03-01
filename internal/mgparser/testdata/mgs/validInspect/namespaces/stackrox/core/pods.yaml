@@ -1,0 +1,2556 @@
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      email: support@stackrox.com
+      k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["127.0.0.1/23"],"mac_address":"0a:58:0a:83:00:db","gateway_ips":["127.0.0.1"],"routes":[{"dest":"127.0.0.1/14","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/32","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"}],"ip_address":"127.0.0.1/23","gateway_ip":"127.0.0.1"}}'
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "ovn-kubernetes",
+            "interface": "eth0",
+            "ips": [
+                "127.0.0.1"
+            ],
+            "mac": "0a:58:0a:83:00:db",
+            "default": true,
+            "dns": {}
+        }]
+      meta.helm.sh/release-name: stackrox-central-services
+      meta.helm.sh/release-namespace: stackrox
+      openshift.io/required-scc: nonroot-v2
+      openshift.io/scc: nonroot-v2
+      owner: stackrox
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+      traffic.sidecar.istio.io/excludeInboundPorts: "8443"
+    creationTimestamp: "2025-02-21T13:36:58Z"
+    generateName: central-66b5ffdfdf-
+    labels:
+      app: central
+      app.kubernetes.io/component: central
+      app.kubernetes.io/instance: stackrox-central-services
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: stackrox
+      app.kubernetes.io/part-of: stackrox-central-services
+      app.kubernetes.io/version: 4.6.2
+      helm.sh/chart: stackrox-central-services-400.6.2
+      pod-template-hash: 66b5ffdfdf
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:email: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+            f:openshift.io/required-scc: {}
+            f:owner: {}
+            f:traffic.sidecar.istio.io/excludeInboundPorts: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:app.kubernetes.io/component: {}
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/part-of: {}
+            f:app.kubernetes.io/version: {}
+            f:helm.sh/chart: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"ea2848fc-3b2e-4f94-a462-30a608511bf9"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:preferredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"central"}:
+              .: {}
+              f:command: {}
+              f:env:
+                .: {}
+                k:{"name":"GOMAXPROCS"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:resourceFieldRef: {}
+                k:{"name":"POD_NAMESPACE"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+                k:{"name":"ROX_ENABLE_OPENSHIFT_AUTH"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"ROX_ENABLE_SECURE_METRICS"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"ROX_INSTALL_METHOD"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"ROX_MEMLIMIT"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:resourceFieldRef: {}
+                k:{"name":"ROX_OFFLINE_MODE"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"ROX_OPENSHIFT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"ROX_TELEMETRY_API_WHITELIST"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":8443,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+                k:{"containerPort":9091,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:readinessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:securityContext:
+                .: {}
+                f:capabilities:
+                  .: {}
+                  f:drop: {}
+                f:readOnlyRootFilesystem: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/etc/ext-db"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/pki/ca-trust"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/pki/injected-ca-trust/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/etc/ssl"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/stackrox"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/stackrox.d/endpoints/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/central-license/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/certs/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/db-password"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/default-tls-cert/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/htpasswd/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/jwt/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/monitoring-tls"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/proxy-config/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/tmp"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/usr/local/share/ca-certificates/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/log/stackrox/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/var/run/secrets/openshift/serviceaccount"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext:
+            .: {}
+            f:fsGroup: {}
+            f:runAsUser: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"additional-ca-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"central-bound-sa-token"}:
+              .: {}
+              f:name: {}
+              f:projected:
+                .: {}
+                f:defaultMode: {}
+                f:sources: {}
+            k:{"name":"central-certs-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"central-config-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:name: {}
+                f:optional: {}
+              f:name: {}
+            k:{"name":"central-db-password"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"central-default-tls-cert-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"central-etc-pki-volume"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+            k:{"name":"central-etc-ssl-volume"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+            k:{"name":"central-external-db-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:name: {}
+                f:optional: {}
+              f:name: {}
+            k:{"name":"central-htpasswd-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"central-jwt-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:items: {}
+                f:secretName: {}
+            k:{"name":"central-license-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"central-tmp-volume"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+            k:{"name":"endpoints-config-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:name: {}
+              f:name: {}
+            k:{"name":"monitoring-tls"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"proxy-config-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"trusted-ca-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:items: {}
+                f:name: {}
+                f:optional: {}
+              f:name: {}
+            k:{"name":"varlog"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-02-21T13:36:58Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.ovn.org/pod-networks: {}
+      manager: worker-0.openshift.local
+      operation: Update
+      subresource: status
+      time: "2025-02-21T13:36:58Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.v1.cni.cncf.io/network-status: {}
+      manager: multus-daemon
+      operation: Update
+      subresource: status
+      time: "2025-02-21T13:36:59Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodReadyToStartContainers"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:hostIPs: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"127.0.0.1"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-02-21T13:37:09Z"
+    name: central-66b5ffdfdf-9qtlq
+    namespace: stackrox
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: central-66b5ffdfdf
+      uid: ea2848fc-3b2e-4f94-a462-30a608511bf9
+    resourceVersion: "9403388"
+    uid: ebb8c9dd-578b-4237-b54c-3c283c77e5d5
+  spec:
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+            - key: cloud.google.com/gke-preemptible
+              operator: NotIn
+              values:
+              - "true"
+          weight: 100
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/infra
+              operator: Exists
+          weight: 50
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/compute
+              operator: Exists
+          weight: 25
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/master
+              operator: DoesNotExist
+          weight: 100
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+          weight: 100
+    containers:
+    - command:
+      - /stackrox/central-entrypoint.sh
+      env:
+      - name: ROX_MEMLIMIT
+        valueFrom:
+          resourceFieldRef:
+            divisor: "0"
+            resource: limits.memory
+      - name: GOMAXPROCS
+        valueFrom:
+          resourceFieldRef:
+            divisor: "0"
+            resource: limits.cpu
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: ROX_TELEMETRY_API_WHITELIST
+        value: /api/splunk/ta/*,/v1/auth/m2m/exchange,/api/cli/download/*
+      - name: ROX_OFFLINE_MODE
+        value: "false"
+      - name: ROX_ENABLE_OPENSHIFT_AUTH
+        value: "true"
+      - name: ROX_OPENSHIFT
+        value: "true"
+      - name: ROX_ENABLE_SECURE_METRICS
+        value: "true"
+      - name: ROX_INSTALL_METHOD
+        value: operator
+      image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:8182722b40844e68c9732166d6c77f656aa467d7a85d34451d61938ee9e6a1d3
+      imagePullPolicy: IfNotPresent
+      name: central
+      ports:
+      - containerPort: 8443
+        name: api
+        protocol: TCP
+      - containerPort: 9091
+        name: monitoring-tls
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /v1/ping
+          port: 8443
+          scheme: HTTPS
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: "4"
+          memory: 8Gi
+        requests:
+          cpu: "1"
+          memory: 500Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+          - NET_RAW
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/log/stackrox/
+        name: varlog
+      - mountPath: /tmp
+        name: central-tmp-volume
+      - mountPath: /etc/ssl
+        name: central-etc-ssl-volume
+      - mountPath: /etc/pki/ca-trust
+        name: central-etc-pki-volume
+      - mountPath: /run/secrets/stackrox.io/certs/
+        name: central-certs-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/default-tls-cert/
+        name: central-default-tls-cert-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/htpasswd/
+        name: central-htpasswd-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/jwt/
+        name: central-jwt-volume
+        readOnly: true
+      - mountPath: /usr/local/share/ca-certificates/
+        name: additional-ca-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/central-license/
+        name: central-license-volume
+        readOnly: true
+      - mountPath: /etc/stackrox
+        name: central-config-volume
+      - mountPath: /run/secrets/stackrox.io/proxy-config/
+        name: proxy-config-volume
+        readOnly: true
+      - mountPath: /etc/stackrox.d/endpoints/
+        name: endpoints-config-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/db-password
+        name: central-db-password
+      - mountPath: /etc/ext-db
+        name: central-external-db-volume
+      - mountPath: /var/run/secrets/openshift/serviceaccount
+        name: central-bound-sa-token
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/monitoring-tls
+        name: monitoring-tls
+        readOnly: true
+      - mountPath: /etc/pki/injected-ca-trust/
+        name: trusted-ca-volume
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-t7bqt
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: central-dockercfg-bn277
+    nodeName: worker-0.openshift.local
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 4000
+      runAsUser: 4000
+      seLinuxOptions:
+        level: s0:c27,c4
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: central
+    serviceAccountName: central
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - emptyDir: {}
+      name: varlog
+    - emptyDir: {}
+      name: central-tmp-volume
+    - emptyDir: {}
+      name: central-etc-ssl-volume
+    - emptyDir: {}
+      name: central-etc-pki-volume
+    - name: central-certs-volume
+      secret:
+        defaultMode: 420
+        secretName: central-tls
+    - name: central-default-tls-cert-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: central-default-tls-cert
+    - name: central-htpasswd-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: central-htpasswd
+    - name: central-jwt-volume
+      secret:
+        defaultMode: 420
+        items:
+        - key: jwt-key.pem
+          path: jwt-key.pem
+        secretName: central-tls
+    - name: additional-ca-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: additional-ca
+    - name: central-license-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: central-license
+    - configMap:
+        defaultMode: 420
+        name: central-config
+        optional: true
+      name: central-config-volume
+    - name: proxy-config-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: proxy-config
+    - configMap:
+        defaultMode: 420
+        name: central-endpoints
+      name: endpoints-config-volume
+    - name: central-db-password
+      secret:
+        defaultMode: 420
+        secretName: central-db-password
+    - configMap:
+        defaultMode: 420
+        name: central-external-db
+        optional: true
+      name: central-external-db-volume
+    - name: central-bound-sa-token
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            audience: openshift
+            expirationSeconds: 3600
+            path: token
+    - name: monitoring-tls
+      secret:
+        defaultMode: 420
+        secretName: central-monitoring-tls
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: ca-bundle.crt
+          path: tls-ca-bundle.pem
+        name: injected-cabundle-stackrox-central-services
+        optional: true
+      name: trusted-ca-volume
+    - name: kube-api-access-t7bqt
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T13:37:00Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T13:36:58Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T13:37:09Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T13:37:09Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T13:36:58Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://5c03df480774d43dd88110a7756b707037760abe025f701935ca7e9c8dfba872
+      image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:8182722b40844e68c9732166d6c77f656aa467d7a85d34451d61938ee9e6a1d3
+      imageID: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:4b9a01b61e1f72eb9103718c6fd08f89f3776ba2b0807a8721e890397c158475
+      lastState: {}
+      name: central
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-21T13:36:59Z"
+    hostIP: 127.0.0.1
+    hostIPs:
+    - ip: 127.0.0.1
+    phase: Running
+    podIP: 127.0.0.1
+    podIPs:
+    - ip: 127.0.0.1
+    qosClass: Burstable
+    startTime: "2025-02-21T13:36:58Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      email: support@stackrox.com
+      k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["127.0.0.1/23"],"mac_address":"0a:58:0a:83:00:d1","gateway_ips":["127.0.0.1"],"routes":[{"dest":"127.0.0.1/14","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/32","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"}],"ip_address":"127.0.0.1/23","gateway_ip":"127.0.0.1"}}'
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "ovn-kubernetes",
+            "interface": "eth0",
+            "ips": [
+                "127.0.0.1"
+            ],
+            "mac": "0a:58:0a:83:00:d1",
+            "default": true,
+            "dns": {}
+        }]
+      meta.helm.sh/release-name: stackrox-central-services
+      meta.helm.sh/release-namespace: stackrox
+      openshift.io/scc: restricted-v2
+      owner: stackrox
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    creationTimestamp: "2025-02-14T09:04:32Z"
+    generateName: config-controller-6b79f4c4bb-
+    labels:
+      app: config-controller
+      app.kubernetes.io/component: config-controller
+      app.kubernetes.io/instance: stackrox-central-services
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: stackrox
+      app.kubernetes.io/part-of: stackrox-central-services
+      app.kubernetes.io/version: 4.6.2
+      helm.sh/chart: stackrox-central-services-400.6.2
+      pod-template-hash: 6b79f4c4bb
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:email: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+            f:owner: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:app.kubernetes.io/component: {}
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/part-of: {}
+            f:app.kubernetes.io/version: {}
+            f:helm.sh/chart: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"88700cfe-6846-4033-9195-708be26e4651"}: {}
+        f:spec:
+          f:containers:
+            k:{"name":"manager"}:
+              .: {}
+              f:args: {}
+              f:command: {}
+              f:env:
+                .: {}
+                k:{"name":"POD_NAMESPACE"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:readinessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:securityContext:
+                .: {}
+                f:allowPrivilegeEscalation: {}
+                f:capabilities:
+                  .: {}
+                  f:drop: {}
+                f:readOnlyRootFilesystem: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/certs/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"central-certs-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:items: {}
+                f:secretName: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-02-14T09:04:32Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.ovn.org/pod-networks: {}
+      manager: worker-0.openshift.local
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:04:32Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.v1.cni.cncf.io/network-status: {}
+      manager: multus-daemon
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:04:33Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodReadyToStartContainers"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:hostIPs: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"127.0.0.1"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:05:23Z"
+    name: config-controller-6b79f4c4bb-zjtqm
+    namespace: stackrox
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: config-controller-6b79f4c4bb
+      uid: 88700cfe-6846-4033-9195-708be26e4651
+    resourceVersion: "5084505"
+    uid: 1fc974df-f61d-437f-bf9b-a84f6743781b
+  spec:
+    containers:
+    - args:
+      - --health-probe-bind-address=:8081
+      command:
+      - /stackrox/bin/config-controller
+      env:
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:8182722b40844e68c9732166d6c77f656aa467d7a85d34451d61938ee9e6a1d3
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 50
+        httpGet:
+          path: /healthz
+          port: 8081
+          scheme: HTTP
+        initialDelaySeconds: 15
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: manager
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /readyz
+          port: 8081
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 10m
+          memory: 64Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000710000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /run/secrets/stackrox.io/certs/
+        name: central-certs-volume
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nncmf
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: worker-0.openshift.local
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000710000
+      seLinuxOptions:
+        level: s0:c27,c4
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: config-controller
+    serviceAccountName: config-controller
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: central-certs-volume
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.pem
+          path: ca.pem
+        secretName: central-tls
+    - name: kube-api-access-nncmf
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:05:02Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:04:32Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:05:23Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:05:23Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:04:32Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://76921a3da6da60f0658c74fed64dd51c1442a5b117e0f53d0835a00452269dc4
+      image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:8182722b40844e68c9732166d6c77f656aa467d7a85d34451d61938ee9e6a1d3
+      imageID: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:4b9a01b61e1f72eb9103718c6fd08f89f3776ba2b0807a8721e890397c158475
+      lastState: {}
+      name: manager
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-14T09:05:01Z"
+    hostIP: 127.0.0.1
+    hostIPs:
+    - ip: 127.0.0.1
+    phase: Running
+    podIP: 127.0.0.1
+    podIPs:
+    - ip: 127.0.0.1
+    qosClass: Burstable
+    startTime: "2025-02-14T09:04:32Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["127.0.0.1/23"],"mac_address":"0a:58:0a:81:02:24","gateway_ips":["127.0.0.1"],"routes":[{"dest":"127.0.0.1/14","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/32","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"}],"ip_address":"127.0.0.1/23","gateway_ip":"127.0.0.1"}}'
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "ovn-kubernetes",
+            "interface": "eth0",
+            "ips": [
+                "127.0.0.1"
+            ],
+            "mac": "0a:58:0a:81:02:24",
+            "default": true,
+            "dns": {}
+        }]
+      openshift.io/scc: anyuid
+    creationTimestamp: "2025-02-21T10:03:18Z"
+    generateName: postgres-5d95c6fb56-
+    labels:
+      app: postgres
+      pod-template-hash: 5d95c6fb56
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"9deffb46-db87-421d-b2e2-2ee228f4d309"}: {}
+        f:spec:
+          f:containers:
+            k:{"name":"postgres"}:
+              .: {}
+              f:env:
+                .: {}
+                k:{"name":"POSTGRES_PASSWORD"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"POSTGRES_USER"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":5432,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-02-21T10:03:18Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.ovn.org/pod-networks: {}
+      manager: worker-2.openshift.local
+      operation: Update
+      subresource: status
+      time: "2025-02-21T10:03:18Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodReadyToStartContainers"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:hostIPs: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"127.0.0.1"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-02-21T10:03:19Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.v1.cni.cncf.io/network-status: {}
+      manager: multus-daemon
+      operation: Update
+      subresource: status
+      time: "2025-02-21T10:03:19Z"
+    name: postgres-5d95c6fb56-7zwz9
+    namespace: stackrox
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: postgres-5d95c6fb56
+      uid: 9deffb46-db87-421d-b2e2-2ee228f4d309
+    resourceVersion: "9307552"
+    uid: 0f8584b7-5216-4a78-9217-883afdb90496
+  spec:
+    containers:
+    - env:
+      - name: POSTGRES_PASSWORD
+        value: postgrespassword
+      - name: POSTGRES_USER
+        value: stackrox
+      image: image-registry.openshift-image-registry.svc:5000/stackrox/postgres@sha256:73e38c4ce5355b9b2b9a54b0723473b7315eff9a73eeaf6a03962c23d3935853
+      imagePullPolicy: IfNotPresent
+      name: postgres
+      ports:
+      - containerPort: 5432
+        name: postgres
+        protocol: TCP
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+          - MKNOD
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-vgr9d
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: postgres-dockercfg-rqtcm
+    nodeName: worker-2.openshift.local
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      seLinuxOptions:
+        level: s0:c27,c4
+    serviceAccount: postgres
+    serviceAccountName: postgres
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-vgr9d
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T10:03:19Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T10:03:18Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T10:03:19Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T10:03:19Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-21T10:03:18Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://8fe0e069d7589055299019a4bf01aa3b8e304ed9debe28e7ab777270098995b0
+      image: image-registry.openshift-image-registry.svc:5000/stackrox/postgres@sha256:73e38c4ce5355b9b2b9a54b0723473b7315eff9a73eeaf6a03962c23d3935853
+      imageID: image-registry.openshift-image-registry.svc:5000/stackrox/postgres@sha256:73e38c4ce5355b9b2b9a54b0723473b7315eff9a73eeaf6a03962c23d3935853
+      lastState: {}
+      name: postgres
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-21T10:03:19Z"
+    hostIP: 127.0.0.1
+    hostIPs:
+    - ip: 127.0.0.1
+    phase: Running
+    podIP: 127.0.0.1
+    podIPs:
+    - ip: 127.0.0.1
+    qosClass: BestEffort
+    startTime: "2025-02-21T10:03:18Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      email: support@stackrox.com
+      k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["127.0.0.1/23"],"mac_address":"0a:58:0a:80:03:8f","gateway_ips":["127.0.0.1"],"routes":[{"dest":"127.0.0.1/14","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/32","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"}],"ip_address":"127.0.0.1/23","gateway_ip":"127.0.0.1"}}'
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "ovn-kubernetes",
+            "interface": "eth0",
+            "ips": [
+                "127.0.0.1"
+            ],
+            "mac": "0a:58:0a:80:03:8f",
+            "default": true,
+            "dns": {}
+        }]
+      meta.helm.sh/release-name: stackrox-central-services
+      meta.helm.sh/release-namespace: stackrox
+      openshift.io/required-scc: nonroot-v2
+      openshift.io/scc: nonroot-v2
+      owner: stackrox
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+      traffic.sidecar.istio.io/excludeInboundPorts: 8080,8443
+    creationTimestamp: "2025-02-14T09:04:32Z"
+    generateName: scanner-74dbd48b9d-
+    labels:
+      app: scanner
+      app.kubernetes.io/component: scanner
+      app.kubernetes.io/instance: stackrox-central-services
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: stackrox
+      app.kubernetes.io/part-of: stackrox-central-services
+      app.kubernetes.io/version: 4.6.2
+      helm.sh/chart: stackrox-central-services-400.6.2
+      pod-template-hash: 74dbd48b9d
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:email: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+            f:openshift.io/required-scc: {}
+            f:owner: {}
+            f:traffic.sidecar.istio.io/excludeInboundPorts: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:app.kubernetes.io/component: {}
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/part-of: {}
+            f:app.kubernetes.io/version: {}
+            f:helm.sh/chart: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"c71c31ad-054d-4be1-bc69-adbc0cbb636c"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:preferredDuringSchedulingIgnoredDuringExecution: {}
+            f:podAntiAffinity:
+              .: {}
+              f:preferredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"scanner"}:
+              .: {}
+              f:command: {}
+              f:env:
+                .: {}
+                k:{"name":"GOMAXPROCS"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:resourceFieldRef: {}
+                k:{"name":"POD_NAME"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+                k:{"name":"POD_NAMESPACE"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:fieldRef: {}
+                k:{"name":"ROX_MEMLIMIT"}:
+                  .: {}
+                  f:name: {}
+                  f:valueFrom:
+                    .: {}
+                    f:resourceFieldRef: {}
+                k:{"name":"ROX_OPENSHIFT_API"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":8080,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+                k:{"containerPort":8443,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:readinessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:securityContext:
+                .: {}
+                f:capabilities:
+                  .: {}
+                  f:drop: {}
+                f:runAsUser: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/etc/pki/ca-trust"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/etc/pki/injected-ca-trust/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/etc/scanner"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/etc/ssl"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/certs/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/proxy-config/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/secrets"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/usr/local/share/ca-certificates/"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/stackrox"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext:
+            .: {}
+            f:runAsNonRoot: {}
+            f:runAsUser: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"additional-ca-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"proxy-config-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:optional: {}
+                f:secretName: {}
+            k:{"name":"scanner-config-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:name: {}
+              f:name: {}
+            k:{"name":"scanner-db-password"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"scanner-etc-pki-volume"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+            k:{"name":"scanner-etc-ssl-volume"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+            k:{"name":"scanner-tls-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"trusted-ca-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:items: {}
+                f:name: {}
+                f:optional: {}
+              f:name: {}
+            k:{"name":"vuln-temp-db"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-02-14T09:04:32Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.ovn.org/pod-networks: {}
+      manager: worker-1.openshift.local
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:04:32Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.v1.cni.cncf.io/network-status: {}
+      manager: multus-daemon
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:04:33Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodReadyToStartContainers"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:hostIPs: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"127.0.0.1"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:07:13Z"
+    name: scanner-74dbd48b9d-pw8dx
+    namespace: stackrox
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: scanner-74dbd48b9d
+      uid: c71c31ad-054d-4be1-bc69-adbc0cbb636c
+    resourceVersion: "5085438"
+    uid: 22fa70bb-7dd2-4cf7-aff1-ea8721dd1446
+  spec:
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/infra
+              operator: Exists
+          weight: 50
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/compute
+              operator: Exists
+          weight: 25
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/master
+              operator: DoesNotExist
+          weight: 100
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+          weight: 100
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app: scanner
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+    containers:
+    - command:
+      - /entrypoint.sh
+      env:
+      - name: ROX_MEMLIMIT
+        valueFrom:
+          resourceFieldRef:
+            divisor: "0"
+            resource: limits.memory
+      - name: GOMAXPROCS
+        valueFrom:
+          resourceFieldRef:
+            divisor: "0"
+            resource: limits.cpu
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: ROX_OPENSHIFT_API
+        value: "true"
+      image: registry.redhat.io/advanced-cluster-security/rhacs-scanner-rhel8@sha256:f718e68c72291da524132fb0091bc412c412e5736affca49e01dec535d013573
+      imagePullPolicy: IfNotPresent
+      name: scanner
+      ports:
+      - containerPort: 8080
+        name: https
+        protocol: TCP
+      - containerPort: 8443
+        name: grpc
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 6
+        httpGet:
+          path: /scanner/ping
+          port: 8080
+          scheme: HTTPS
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 10
+      resources:
+        limits:
+          cpu: "2"
+          memory: 4Gi
+        requests:
+          cpu: "1"
+          memory: 1500Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+          - NET_RAW
+        runAsUser: 65534
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/ssl
+        name: scanner-etc-ssl-volume
+      - mountPath: /etc/pki/ca-trust
+        name: scanner-etc-pki-volume
+      - mountPath: /usr/local/share/ca-certificates/
+        name: additional-ca-volume
+        readOnly: true
+      - mountPath: /etc/scanner
+        name: scanner-config-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/certs/
+        name: scanner-tls-volume
+        readOnly: true
+      - mountPath: /var/lib/stackrox
+        name: vuln-temp-db
+      - mountPath: /run/secrets/stackrox.io/proxy-config/
+        name: proxy-config-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/secrets
+        name: scanner-db-password
+        readOnly: true
+      - mountPath: /etc/pki/injected-ca-trust/
+        name: trusted-ca-volume
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-tfjf4
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: worker-1.openshift.local
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      seLinuxOptions:
+        level: s0:c27,c4
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: scanner
+    serviceAccountName: scanner
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: additional-ca-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: additional-ca
+    - emptyDir: {}
+      name: scanner-etc-ssl-volume
+    - emptyDir: {}
+      name: scanner-etc-pki-volume
+    - configMap:
+        defaultMode: 420
+        name: scanner-config
+      name: scanner-config-volume
+    - name: scanner-tls-volume
+      secret:
+        defaultMode: 420
+        secretName: scanner-tls
+    - emptyDir: {}
+      name: vuln-temp-db
+    - name: proxy-config-volume
+      secret:
+        defaultMode: 420
+        optional: true
+        secretName: proxy-config
+    - name: scanner-db-password
+      secret:
+        defaultMode: 420
+        secretName: scanner-db-password
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: ca-bundle.crt
+          path: tls-ca-bundle.pem
+        name: injected-cabundle-stackrox-central-services
+        optional: true
+      name: trusted-ca-volume
+    - name: kube-api-access-tfjf4
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:04:45Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:04:32Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:07:13Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:07:13Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:04:32Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://9d53b049afdbbf37ce5754c7c6f26804d867444c446fa4c6d2734d727626ef78
+      image: registry.redhat.io/advanced-cluster-security/rhacs-scanner-rhel8@sha256:f718e68c72291da524132fb0091bc412c412e5736affca49e01dec535d013573
+      imageID: registry.redhat.io/advanced-cluster-security/rhacs-scanner-rhel8@sha256:d38ac805c3a827fbc01686ec53909c919eeb4e5d62730a7ec67d29fbd00bf049
+      lastState: {}
+      name: scanner
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-14T09:04:45Z"
+    hostIP: 127.0.0.1
+    hostIPs:
+    - ip: 127.0.0.1
+    phase: Running
+    podIP: 127.0.0.1
+    podIPs:
+    - ip: 127.0.0.1
+    qosClass: Burstable
+    startTime: "2025-02-14T09:04:32Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      email: support@stackrox.com
+      k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["127.0.0.1/23"],"mac_address":"0a:58:0a:83:00:d3","gateway_ips":["127.0.0.1"],"routes":[{"dest":"127.0.0.1/14","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/32","nextHop":"127.0.0.1"},{"dest":"127.0.0.1/16","nextHop":"127.0.0.1"}],"ip_address":"127.0.0.1/23","gateway_ip":"127.0.0.1"}}'
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "ovn-kubernetes",
+            "interface": "eth0",
+            "ips": [
+                "127.0.0.1"
+            ],
+            "mac": "0a:58:0a:83:00:d3",
+            "default": true,
+            "dns": {}
+        }]
+      meta.helm.sh/release-name: stackrox-central-services
+      meta.helm.sh/release-namespace: stackrox
+      openshift.io/required-scc: nonroot-v2
+      openshift.io/scc: nonroot-v2
+      owner: stackrox
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+      traffic.sidecar.istio.io/excludeInboundPorts: "5432"
+    creationTimestamp: "2025-02-14T09:04:32Z"
+    generateName: scanner-db-d69986857-
+    labels:
+      app: scanner-db
+      app.kubernetes.io/component: scanner
+      app.kubernetes.io/instance: stackrox-central-services
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: stackrox
+      app.kubernetes.io/part-of: stackrox-central-services
+      app.kubernetes.io/version: 4.6.2
+      helm.sh/chart: stackrox-central-services-400.6.2
+      pod-template-hash: d69986857
+    managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:email: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+            f:openshift.io/required-scc: {}
+            f:owner: {}
+            f:traffic.sidecar.istio.io/excludeInboundPorts: {}
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:app.kubernetes.io/component: {}
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/part-of: {}
+            f:app.kubernetes.io/version: {}
+            f:helm.sh/chart: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"0a3068fe-fdeb-47e6-8831-9c5e5b5637b3"}: {}
+        f:spec:
+          f:affinity:
+            .: {}
+            f:nodeAffinity:
+              .: {}
+              f:preferredDuringSchedulingIgnoredDuringExecution: {}
+          f:containers:
+            k:{"name":"db"}:
+              .: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:ports:
+                .: {}
+                k:{"containerPort":5432,"protocol":"TCP"}:
+                  .: {}
+                  f:containerPort: {}
+                  f:name: {}
+                  f:protocol: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/certs"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/postgresql/data"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:initContainers:
+            .: {}
+            k:{"name":"init-db"}:
+              .: {}
+              f:env:
+                .: {}
+                k:{"name":"POSTGRES_PASSWORD_FILE"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+                k:{"name":"ROX_SCANNER_DB_INIT"}:
+                  .: {}
+                  f:name: {}
+                  f:value: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+                  f:memory: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/certs"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/run/secrets/stackrox.io/secrets"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/postgresql/data"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext:
+            .: {}
+            f:fsGroup: {}
+            f:runAsGroup: {}
+            f:runAsNonRoot: {}
+            f:runAsUser: {}
+          f:serviceAccount: {}
+          f:serviceAccountName: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"scanner-config-volume"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:name: {}
+              f:name: {}
+            k:{"name":"scanner-db-data"}:
+              .: {}
+              f:emptyDir: {}
+              f:name: {}
+            k:{"name":"scanner-db-password"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+            k:{"name":"scanner-db-tls-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:items: {}
+                f:secretName: {}
+            k:{"name":"scanner-tls-volume"}:
+              .: {}
+              f:name: {}
+              f:secret:
+                .: {}
+                f:defaultMode: {}
+                f:secretName: {}
+      manager: kube-controller-manager
+      operation: Update
+      time: "2025-02-14T09:04:32Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.v1.cni.cncf.io/network-status: {}
+      manager: multus-daemon
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:04:33Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:k8s.ovn.org/pod-networks: {}
+      manager: worker-0.openshift.local
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:04:33Z"
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodReadyToStartContainers"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:hostIPs: {}
+          f:initContainerStatuses: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"127.0.0.1"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: "2025-02-14T09:06:23Z"
+    name: scanner-db-d69986857-x4jrz
+    namespace: stackrox
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: scanner-db-d69986857
+      uid: 0a3068fe-fdeb-47e6-8831-9c5e5b5637b3
+    resourceVersion: "5085040"
+    uid: 83a9850f-cce3-4efc-89b3-99c949b048cf
+  spec:
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+            - key: cloud.google.com/gke-preemptible
+              operator: NotIn
+              values:
+              - "true"
+          weight: 100
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/infra
+              operator: Exists
+          weight: 50
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/compute
+              operator: Exists
+          weight: 25
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/master
+              operator: DoesNotExist
+          weight: 100
+        - preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+          weight: 100
+    containers:
+    - image: registry.redhat.io/advanced-cluster-security/rhacs-scanner-db-rhel8@sha256:107c291051374cc7dd81f7eab0be6e35fbd55caa1c89c71b2da7a195c53673b0
+      imagePullPolicy: IfNotPresent
+      name: db
+      ports:
+      - containerPort: 5432
+        name: tcp-postgresql
+        protocol: TCP
+      resources:
+        limits:
+          cpu: "2"
+          memory: 4Gi
+        requests:
+          cpu: 200m
+          memory: 512Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/postgresql/data
+        name: scanner-db-data
+      - mountPath: /run/secrets/stackrox.io/certs
+        name: scanner-db-tls-volume
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-cq46s
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - env:
+      - name: POSTGRES_PASSWORD_FILE
+        value: /run/secrets/stackrox.io/secrets/password
+      - name: ROX_SCANNER_DB_INIT
+        value: "true"
+      image: registry.redhat.io/advanced-cluster-security/rhacs-scanner-db-rhel8@sha256:107c291051374cc7dd81f7eab0be6e35fbd55caa1c89c71b2da7a195c53673b0
+      imagePullPolicy: IfNotPresent
+      name: init-db
+      resources:
+        limits:
+          cpu: "2"
+          memory: 4Gi
+        requests:
+          cpu: 200m
+          memory: 512Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/postgresql/data
+        name: scanner-db-data
+      - mountPath: /run/secrets/stackrox.io/certs
+        name: scanner-db-tls-volume
+        readOnly: true
+      - mountPath: /run/secrets/stackrox.io/secrets
+        name: scanner-db-password
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-cq46s
+        readOnly: true
+    nodeName: worker-0.openshift.local
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 70
+      runAsGroup: 70
+      runAsNonRoot: true
+      runAsUser: 70
+      seLinuxOptions:
+        level: s0:c27,c4
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: scanner
+    serviceAccountName: scanner
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: scanner-config
+      name: scanner-config-volume
+    - name: scanner-tls-volume
+      secret:
+        defaultMode: 420
+        secretName: scanner-tls
+    - name: scanner-db-tls-volume
+      secret:
+        defaultMode: 416
+        items:
+        - key: cert.pem
+          path: server.crt
+        - key: key.pem
+          path: server.key
+        - key: ca.pem
+          path: root.crt
+        secretName: scanner-db-tls
+    - emptyDir: {}
+      name: scanner-db-data
+    - name: scanner-db-password
+      secret:
+        defaultMode: 420
+        secretName: scanner-db-password
+    - name: kube-api-access-cq46s
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:05:02Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:06:22Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:06:23Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:06:23Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-14T09:04:33Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://9302c4e866fb0a627bd03d4dbd898a20883b1ae7c632144a37abb82b2c10d10c
+      image: registry.redhat.io/advanced-cluster-security/rhacs-scanner-db-rhel8@sha256:107c291051374cc7dd81f7eab0be6e35fbd55caa1c89c71b2da7a195c53673b0
+      imageID: registry.redhat.io/advanced-cluster-security/rhacs-scanner-db-rhel8@sha256:107c291051374cc7dd81f7eab0be6e35fbd55caa1c89c71b2da7a195c53673b0
+      lastState: {}
+      name: db
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-14T09:06:22Z"
+    hostIP: 127.0.0.1
+    hostIPs:
+    - ip: 127.0.0.1
+    initContainerStatuses:
+    - containerID: cri-o://2028610b8758257ac86a5aadf3d4929f3e0b2f586847908e5527ad35d6e1725a
+      image: registry.redhat.io/advanced-cluster-security/rhacs-scanner-db-rhel8@sha256:107c291051374cc7dd81f7eab0be6e35fbd55caa1c89c71b2da7a195c53673b0
+      imageID: registry.redhat.io/advanced-cluster-security/rhacs-scanner-db-rhel8@sha256:107c291051374cc7dd81f7eab0be6e35fbd55caa1c89c71b2da7a195c53673b0
+      lastState: {}
+      name: init-db
+      ready: true
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: cri-o://2028610b8758257ac86a5aadf3d4929f3e0b2f586847908e5527ad35d6e1725a
+          exitCode: 0
+          finishedAt: "2025-02-14T09:06:22Z"
+          reason: Completed
+          startedAt: "2025-02-14T09:05:01Z"
+    phase: Running
+    podIP: 127.0.0.1
+    podIPs:
+    - ip: 127.0.0.1
+    qosClass: Burstable
+    startTime: "2025-02-14T09:04:33Z"
+kind: PodList
+metadata:
+  resourceVersion: "11391531"
