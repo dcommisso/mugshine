@@ -1,14 +1,15 @@
-package img
+package main
 
-import "github.com/dcommisso/img/internal/mgparser"
+import (
+	"github.com/charmbracelet/bubbles/list"
+	"github.com/dcommisso/img/internal/mgparser"
+)
 
 type ActionableElement interface {
+	list.DefaultItem
 	// Init is called to initialize the ActionableElement with the provided
 	// must-gather.
-	Init(mg mgparser.Mg)
-
-	// OutputLine returns the string to display in the list.
-	OutputLine() string
+	Init(mg *mgparser.Mg)
 
 	// IsFailed returns the status of the selected element.
 	IsFailed() bool
