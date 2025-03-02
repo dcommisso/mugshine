@@ -26,24 +26,35 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		if msg.String() == "ctrl+c" {
+		switch msg.String() {
+		case "ctrl+c":
 			return m, tea.Quit
+		case "right":
+			if m.focused < maxNumberOfPanels-1 {
+				m.focused++
+			}
+		case "left":
+			if m.focused > 0 {
+				m.focused--
+			}
 		}
 	}
+
+	// send the msg to the focused panel. This must be done before getting the
+	// selected item.
+	var cmd tea.Cmd
+	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
 
 	// Get the selected items and build the next panel
 	selected := m.panels[m.focused].SelectedItem()
 	m.panels[m.focused+1] = list.New(aeSliceToItem(selected.(ActionableElement).Selected()), list.NewDefaultDelegate(), 50, 20)
 
-	// send the msg to the focused panel
-	var cmd tea.Cmd
-	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
 	return m, cmd
 }
 
 func (m model) View() string {
 	// return m.panels[m.focused].View()
-	return lipgloss.JoinHorizontal(lipgloss.Top, m.panels[0].View(), m.panels[1].View())
+	return lipgloss.JoinHorizontal(lipgloss.Top, m.panels[0].View(), m.panels[1].View(), m.panels[2].View(), m.panels[3].View())
 }
 
 func main() {
