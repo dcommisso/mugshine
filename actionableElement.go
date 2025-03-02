@@ -16,7 +16,7 @@ type ActionableElement interface {
 
 	// Selected returns the list of resources to show in the next column when
 	// the element is is selected.
-	Selected(param string) []ActionableElement
+	Selected() []ActionableElement
 
 	// Pressed returns the file to open when the enter key is pressed on the
 	// selected element.

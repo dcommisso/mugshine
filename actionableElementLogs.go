@@ -24,7 +24,7 @@ type aeLogs struct {
 	mg *mgparser.Mg
 }
 
-func (a aeLogs) Init(mg *mgparser.Mg) {
+func (a *aeLogs) Init(mg *mgparser.Mg) {
 	a.mg = mg
 }
 
@@ -36,7 +36,7 @@ func (a aeLogs) IsFailed() bool {
 	return false
 }
 
-func (a aeLogs) Selected(param string) []ActionableElement {
+func (a aeLogs) Selected() []ActionableElement {
 	nsToReturn := []ActionableElement{}
 	for _, nsName := range a.mg.GetNamespacesAlphabetical() {
 		nsToReturn = append(nsToReturn, aeNamespace{
@@ -65,7 +65,7 @@ func (a aeNamespace) IsFailed() bool {
 	return false
 }
 
-func (a aeNamespace) Selected(param string) []ActionableElement {
+func (a aeNamespace) Selected() []ActionableElement {
 	podsToReturn := []ActionableElement{}
 	for _, podName := range a.namespace.GetPodsAlphabetical() {
 		podsToReturn = append(podsToReturn, aePod{
@@ -94,7 +94,7 @@ func (a aePod) IsFailed() bool {
 	return false
 }
 
-func (a aePod) Selected(param string) []ActionableElement {
+func (a aePod) Selected() []ActionableElement {
 	return []ActionableElement{}
 }
 
@@ -108,8 +108,8 @@ type aeContainer struct {
 	name string
 }
 
-func (a aeContainer) Init(mg mgparser.Mg)                       {}
-func (a aeContainer) Title() string                             { return "" }
-func (a aeContainer) IsFailed() bool                            { return false }
-func (a aeContainer) Selected(param string) []ActionableElement { return nil }
-func (a aeContainer) Pressed() (fileToOpen string)              { return "" }
+func (a aeContainer) Init(mg mgparser.Mg)           {}
+func (a aeContainer) Title() string                 { return "" }
+func (a aeContainer) IsFailed() bool                { return false }
+func (a aeContainer) Selected() []ActionableElement { return nil }
+func (a aeContainer) Pressed() (fileToOpen string)  { return "" }

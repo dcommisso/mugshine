@@ -6,6 +6,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/dcommisso/img/internal/mgparser"
 )
 
@@ -30,6 +31,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	}
 
+	// Get the selected items and build the next panel
+	selected := m.panels[m.focused].SelectedItem()
+	m.panels[m.focused+1] = list.New(aeSliceToItem(selected.(ActionableElement).Selected()), list.NewDefaultDelegate(), 50, 20)
+
 	// send the msg to the focused panel
 	var cmd tea.Cmd
 	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
@@ -37,7 +42,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	return m.panels[m.focused].View()
+	// return m.panels[m.focused].View()
+	return lipgloss.JoinHorizontal(lipgloss.Top, m.panels[0].View(), m.panels[1].View())
 }
 
 func main() {
@@ -49,21 +55,19 @@ func main() {
 	}
 
 	ocpResources := []ActionableElement{
-		aeLogs{},
+		// a pointer is needed since aeLogs Init method has a pointer receiver
+		new(aeLogs),
 	}
 
-	firstPanelItems := make([]list.Item, len(ocpResources))
-
 	// initialize the ActionableElement and add them to firstPanelItems
-	for i, elem := range ocpResources {
+	for _, elem := range ocpResources {
 		elem.Init(mgToLoad)
-		firstPanelItems[i] = elem
 	}
 
 	m := model{
 		focused: 0,
 		panels: [maxNumberOfPanels]list.Model{
-			list.New(firstPanelItems, list.NewDefaultDelegate(), 50, 10),
+			list.New(aeSliceToItem(ocpResources), list.NewDefaultDelegate(), 50, 10),
 		},
 	}
 
