@@ -12,7 +12,7 @@ type Mg struct {
 		End   string
 	}
 	NamespacesPath string
-	Namespaces     map[string]Namespace
+	Namespaces     map[string]*Namespace
 }
 
 // NewMg return an instance of Mg.
@@ -25,10 +25,10 @@ type Mg struct {
 // 2c. if the name of that directory is different than
 // "namespaces", then it must contain a directory named
 // "namespaces" (this is the case of must-gather)
-func NewMg(directory string) (Mg, error) {
+func NewMg(directory string) (*Mg, error) {
 	files, err := os.ReadDir(directory)
 	if err != nil {
-		return Mg{}, err
+		return nil, err
 	}
 
 	dirNumber := 0
@@ -56,11 +56,11 @@ func NewMg(directory string) (Mg, error) {
 	}
 
 	if !timestampFile || !namespaceDir || dirNumber != 1 {
-		return Mg{}, errors.New("bad must-gather format")
+		return nil, errors.New("bad must-gather format")
 	}
 
 	// create namespaces
-	namespacesToReturn := map[string]Namespace{}
+	namespacesToReturn := map[string]*Namespace{}
 	files, _ = os.ReadDir(namespacePath)
 	for _, file := range files {
 		if file.IsDir() {
@@ -68,12 +68,12 @@ func NewMg(directory string) (Mg, error) {
 		}
 	}
 
-	return Mg{
+	return &Mg{
 		NamespacesPath: namespacePath,
 		Namespaces:     namespacesToReturn,
 	}, nil
 }
 
-func (m Mg) GetNamespacesAlphabetical() []string {
+func (m *Mg) GetNamespacesAlphabetical() []string {
 	return getAlphabeticalKeys(m.Namespaces)
 }

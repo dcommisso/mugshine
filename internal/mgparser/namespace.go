@@ -10,7 +10,7 @@ type Namespace struct {
 	Pods map[string]*Pod
 }
 
-func newNamespace(namespaceDirectory string) Namespace {
+func newNamespace(namespaceDirectory string) *Namespace {
 	nsPods := map[string]*Pod{}
 	nsName := filepath.Base(namespaceDirectory)
 	pods, _ := getPods(namespaceDirectory + "/core/pods.yaml")
@@ -25,12 +25,12 @@ func newNamespace(namespaceDirectory string) Namespace {
 		}
 	}
 
-	return Namespace{
+	return &Namespace{
 		Name: nsName,
 		Pods: nsPods,
 	}
 }
 
-func (n Namespace) GetPodsAlphabetical() []string {
+func (n *Namespace) GetPodsAlphabetical() []string {
 	return getAlphabeticalKeys(n.Pods)
 }
