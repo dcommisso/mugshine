@@ -38,3 +38,11 @@ func newPod(pod *v1.Pod, namespaceDirectory string) *Pod {
 func (p *Pod) GetManifestFilePath() string {
 	return strings.TrimSuffix(p.podDirectoryPath, "/") + "/" + p.GetName() + ".yaml"
 }
+
+func (p *Pod) GetContainersAlphabetical() []string {
+	return getAlphabeticalKeys(p.Containers)
+}
+
+func (p *Pod) GetInitContainersAlphabetical() []string {
+	return getAlphabeticalKeys(p.InitContainers)
+}

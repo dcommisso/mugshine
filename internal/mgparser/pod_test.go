@@ -113,3 +113,66 @@ func TestNewPod(t *testing.T) {
 		})
 	}
 }
+
+// TestGetContainersAlphabetical actually tests both
+// TestGetContainersAlphabetical and TestGetInitContainersAlphabetical
+func TestGetContainersAlphabetical(t *testing.T) {
+	const (
+		mgPath      = "./testdata/mgs/validMg"
+		inspectPath = "./testdata/mgs/validInspect"
+	)
+	cases := map[string]struct {
+		mgPath                             string
+		namespaceName                      string
+		podName                            string
+		expectedContainersAlphabetical     []string
+		expectedInitContainersAlphabetical []string
+	}{
+		"kube-multus-additional-cni-plugins": {
+			mgPath:        mgPath,
+			namespaceName: "openshift-multus",
+			podName:       "multus-additional-cni-plugins-hpx5v",
+			expectedContainersAlphabetical: []string{
+				"kube-multus-additional-cni-plugins",
+			},
+			expectedInitContainersAlphabetical: []string{
+				"bond-cni-plugin",
+				"cni-plugins",
+				"egress-router-binary-copy",
+				"routeoverride-cni",
+				"whereabouts-cni",
+				"whereabouts-cni-bincopy",
+			},
+		},
+		"multus-admission-controller-75968f7c47-554fb": {
+			mgPath:        mgPath,
+			namespaceName: "openshift-multus",
+			podName:       "multus-admission-controller-75968f7c47-554fb",
+			expectedContainersAlphabetical: []string{
+				"kube-rbac-proxy",
+				"multus-admission-controller",
+			},
+			expectedInitContainersAlphabetical: []string{},
+		},
+		"scanner-db-d69986857-x4jrz": {
+			mgPath:        inspectPath,
+			namespaceName: "stackrox",
+			podName:       "scanner-db-d69986857-x4jrz",
+			expectedContainersAlphabetical: []string{
+				"db",
+			},
+			expectedInitContainersAlphabetical: []string{
+				"init-db",
+			},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			mg01, _ := NewMg(tc.mgPath)
+			pod01 := mg01.Namespaces[tc.namespaceName].Pods[tc.podName]
+
+			assert.Equal(t, tc.expectedContainersAlphabetical, pod01.GetContainersAlphabetical())
+			assert.Equal(t, tc.expectedInitContainersAlphabetical, pod01.GetInitContainersAlphabetical())
+		})
+	}
+}
