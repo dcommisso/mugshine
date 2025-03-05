@@ -11,6 +11,13 @@ type Pod struct {
 	podDirectoryPath string
 }
 
+func newPod(pod *v1.Pod, namespaceDirectory string) *Pod {
+	return &Pod{
+		Pod:              *pod,
+		podDirectoryPath: strings.TrimSuffix(namespaceDirectory, "/") + "/pods/" + pod.GetName(),
+	}
+}
+
 func (p *Pod) GetLogsFilePath(containerName string) string {
 	return strings.TrimSuffix(p.podDirectoryPath, "/") + "/" + containerName + "/" + containerName + "/logs/current.log"
 }

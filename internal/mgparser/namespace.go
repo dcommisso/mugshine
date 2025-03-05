@@ -2,7 +2,6 @@ package mgparser
 
 import (
 	"path/filepath"
-	"strings"
 )
 
 type Namespace struct {
@@ -18,10 +17,7 @@ func newNamespace(namespaceDirectory string) *Namespace {
 	// Some namespace dirs don't contain pods file
 	if pods != nil {
 		for _, pod := range pods {
-			nsPods[pod.GetName()] = &Pod{
-				Pod:              pod,
-				podDirectoryPath: strings.TrimSuffix(namespaceDirectory, "/") + "/pods/" + pod.GetName(),
-			}
+			nsPods[pod.GetName()] = newPod(&pod, namespaceDirectory)
 		}
 	}
 
