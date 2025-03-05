@@ -17,3 +17,7 @@ func newContainer(container *v1.ContainerStatus, podDirectory string) *Container
 		ContainerDirectoryPath: strings.TrimSuffix(podDirectory, "/") + "/" + container.Name + "/" + container.Name,
 	}
 }
+
+func (c *Container) GetLogsFilename() string {
+	return strings.TrimSuffix(c.ContainerDirectoryPath, "/") + "/logs/current.log"
+}
