@@ -9,12 +9,29 @@ import (
 type Pod struct {
 	v1.Pod
 	podDirectoryPath string
+	Containers       map[string]*Container
+	InitContainers   map[string]*Container
 }
 
 func newPod(pod *v1.Pod, namespaceDirectory string) *Pod {
+	podDirectoryPath := strings.TrimSuffix(namespaceDirectory, "/") + "/pods/" + pod.GetName()
+
+	containersToReturn := map[string]*Container{}
+	initContainersToReturn := map[string]*Container{}
+
+	for _, container := range pod.Status.ContainerStatuses {
+		containersToReturn[container.Name] = newContainer(&container, podDirectoryPath)
+	}
+
+	for _, initContainer := range pod.Status.InitContainerStatuses {
+		initContainersToReturn[initContainer.Name] = newContainer(&initContainer, podDirectoryPath)
+	}
+
 	return &Pod{
 		Pod:              *pod,
-		podDirectoryPath: strings.TrimSuffix(namespaceDirectory, "/") + "/pods/" + pod.GetName(),
+		podDirectoryPath: podDirectoryPath,
+		Containers:       containersToReturn,
+		InitContainers:   initContainersToReturn,
 	}
 }
 
