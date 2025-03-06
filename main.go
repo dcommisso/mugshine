@@ -14,9 +14,43 @@ const (
 	maxNumberOfPanels = 4
 )
 
+type panel struct {
+	list.Model
+	active bool
+}
+
 type model struct {
-	panels  [maxNumberOfPanels]list.Model
+	panels  [maxNumberOfPanels]panel
 	focused int
+}
+
+func (m *model) newPanel(index int, model list.Model) {
+	m.panels[index].Model = model
+	m.panels[index].active = true
+}
+
+func (m *model) deletePanel(index int) {
+	m.panels[index].active = false
+}
+
+func (m *model) increaseFocused() {
+	if m.focused == len(m.panels)-1 {
+		return
+	}
+
+	m.focused++
+}
+
+func (m *model) decreaseFocused() {
+	if m.focused == 0 {
+		return
+	}
+
+	m.focused--
+	panelToDelete := m.focused + 2
+	if panelToDelete < len(m.panels) {
+		m.deletePanel(panelToDelete)
+	}
 }
 
 func (m model) Init() tea.Cmd {
@@ -30,31 +64,44 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c":
 			return m, tea.Quit
 		case "right":
-			if m.focused < maxNumberOfPanels-1 {
-				m.focused++
-			}
+			m.increaseFocused()
 		case "left":
-			if m.focused > 0 {
-				m.focused--
-			}
+			m.decreaseFocused()
 		}
 	}
 
 	// send the msg to the focused panel. This must be done before getting the
 	// selected item.
 	var cmd tea.Cmd
-	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
+	m.panels[m.focused].Model, cmd = m.panels[m.focused].Update(msg)
 
 	// Get the selected items and build the next panel
-	selected := m.panels[m.focused].SelectedItem()
-	m.panels[m.focused+1] = list.New(aeSliceToItem(selected.(ActionableElement).Selected()), list.NewDefaultDelegate(), 50, 20)
+	selectedItem := m.panels[m.focused].SelectedItem()
+	itemsInNextPanel := aeSliceToItem(selectedItem.(ActionableElement).Selected())
+	lastPanelIndex := len(m.panels) - 1
+	// Add a new panel only if there are elements to show and we're not on the
+	// last panel. Delete next panel if there's nothing to show (and we're not
+	// on the last one)
+	if len(itemsInNextPanel) > 0 && m.focused < lastPanelIndex {
+		m.newPanel(m.focused+1, list.New(itemsInNextPanel, list.NewDefaultDelegate(), 50, 20))
+	} else if len(itemsInNextPanel) == 0 && m.focused < lastPanelIndex {
+		m.deletePanel(m.focused + 1)
+	}
 
 	return m, cmd
 }
 
 func (m model) View() string {
-	// return m.panels[m.focused].View()
-	return lipgloss.JoinHorizontal(lipgloss.Top, m.panels[0].View(), m.panels[1].View(), m.panels[2].View(), m.panels[3].View())
+	activePanels := []string{}
+	for _, panel := range m.panels {
+		if panel.active {
+			activePanels = append(activePanels, panel.View())
+		} else {
+			break
+		}
+	}
+
+	return lipgloss.JoinHorizontal(lipgloss.Top, activePanels...)
 }
 
 func main() {
@@ -77,8 +124,11 @@ func main() {
 
 	m := model{
 		focused: 0,
-		panels: [maxNumberOfPanels]list.Model{
-			list.New(aeSliceToItem(ocpResources), list.NewDefaultDelegate(), 50, 10),
+		panels: [maxNumberOfPanels]panel{
+			panel{
+				Model:  list.New(aeSliceToItem(ocpResources), list.NewDefaultDelegate(), 50, 10),
+				active: true,
+			},
 		},
 	}
 
