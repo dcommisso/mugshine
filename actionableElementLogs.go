@@ -95,7 +95,25 @@ func (a aePod) IsFailed() bool {
 }
 
 func (a aePod) Selected() []ActionableElement {
-	return []ActionableElement{}
+	containersToReturn := []ActionableElement{}
+
+	// Add containers
+	for _, containerName := range a.pod.GetContainersAlphabetical() {
+		containersToReturn = append(containersToReturn, aeContainer{
+			container: a.pod.Containers[containerName],
+			isInit:    false,
+		})
+	}
+
+	// Add initContainers
+	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
+		containersToReturn = append(containersToReturn, aeContainer{
+			container: a.pod.InitContainers[containerName],
+			isInit:    true,
+		})
+	}
+
+	return containersToReturn
 }
 
 func (a aePod) Pressed() (fileToOpen string) {
@@ -104,12 +122,28 @@ func (a aePod) Pressed() (fileToOpen string) {
 
 /* aeContainer */
 type aeContainer struct {
-	mg   mgparser.Mg
-	name string
+	container *mgparser.Container
+	isInit    bool
 }
 
-func (a aeContainer) Init(mg mgparser.Mg)           {}
-func (a aeContainer) Title() string                 { return "" }
+func (a aeContainer) Init(mg *mgparser.Mg) {}
+
+func (a aeContainer) Title() string {
+	initHeader := ""
+	if a.isInit {
+		initHeader = "[INIT] "
+	}
+	return initHeader + a.container.Name
+}
+
+func (a aeContainer) Description() string { return "" }
+
+func (a aeContainer) FilterValue() string {
+	return a.container.Name
+}
+
 func (a aeContainer) IsFailed() bool                { return false }
 func (a aeContainer) Selected() []ActionableElement { return nil }
-func (a aeContainer) Pressed() (fileToOpen string)  { return "" }
+func (a aeContainer) Pressed() (fileToOpen string) {
+	return a.container.GetLogsFilename()
+}
