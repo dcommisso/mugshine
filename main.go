@@ -34,7 +34,8 @@ func (m *model) deletePanel(index int) {
 }
 
 func (m *model) increaseFocused() {
-	if m.focused == len(m.panels)-1 {
+	// Do nothing if we're on the last panel or if the next panel is empty
+	if m.focused == len(m.panels)-1 || !m.panels[m.focused+1].active {
 		return
 	}
 
