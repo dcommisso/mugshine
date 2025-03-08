@@ -96,13 +96,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	activePanels := []string{}
-	// TODO: use GetActivePanels funcion
-	for _, panel := range m.panels {
-		if panel.active {
-			activePanels = append(activePanels, panel.View())
-		} else {
-			break
-		}
+	for _, panel := range m.getActivePanels() {
+		activePanels = append(activePanels, panel.View())
 	}
 
 	return lipgloss.JoinHorizontal(lipgloss.Top, activePanels...)
@@ -130,17 +125,6 @@ func main() {
 	m.panels[0].active = true
 
 	m.updateNextPanel()
-	//	m := model{
-	//		focused: 0,
-	//		panels: [maxNumberOfPanels]panel{
-	//			panel{
-	//				Model:  list.New(aeSliceToItem(ocpResources), list.NewDefaultDelegate(), 50, 10),
-	//				active: true,
-	//			},
-	//		},
-	//		windowWidth:  500,
-	//		windowHeight: 100,
-	//	}
 
 	p := tea.NewProgram(m, tea.WithAltScreen())
 
