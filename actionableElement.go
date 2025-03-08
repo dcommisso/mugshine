@@ -11,6 +11,12 @@ type ActionableElement interface {
 	// must-gather.
 	Init(mg *mgparser.Mg)
 
+	// Returns the function for calculate width of the panel to create
+	GetWidthFunc() func(windowSize int) int
+
+	// Returns the function for calculate height of the panel to create
+	GetHeightFunc() func(windowSize int) int
+
 	// IsFailed returns the status of the selected element.
 	IsFailed() bool
 

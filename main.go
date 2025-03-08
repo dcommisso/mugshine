@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/dcommisso/img/internal/mgparser"
@@ -14,23 +13,26 @@ const (
 	maxNumberOfPanels = 4
 )
 
-type panel struct {
-	list.Model
-	active bool
-}
-
 type model struct {
-	panels  [maxNumberOfPanels]panel
-	focused int
+	panels       [maxNumberOfPanels]panel
+	focused      int
+	windowWidth  int
+	windowHeight int
 }
 
-func (m *model) newPanel(index int, model list.Model) {
-	m.panels[index].Model = model
-	m.panels[index].active = true
+func (m *model) setSize(width, height int) {
+	m.windowWidth = width
+	m.windowHeight = height
 }
 
-func (m *model) deletePanel(index int) {
-	m.panels[index].active = false
+func (m *model) getActivePanels() []panel {
+	var activePanels []panel
+	for _, panel := range m.panels {
+		if panel.active {
+			activePanels = append(activePanels, panel)
+		}
+	}
+	return activePanels
 }
 
 func (m *model) increaseFocused() {
@@ -59,7 +61,17 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	var cmd tea.Cmd
+	var cmds []tea.Cmd
 	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.setSize(msg.Width, msg.Height)
+		for i, p := range m.getActivePanels() {
+			res, cmd := p.Update(msg)
+			m.panels[i] = res.(panel)
+			cmds = append(cmds, cmd)
+		}
+		return m, tea.Batch(cmds...)
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c":
@@ -73,27 +85,18 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	// send the msg to the focused panel. This must be done before getting the
 	// selected item.
-	var cmd tea.Cmd
-	m.panels[m.focused].Model, cmd = m.panels[m.focused].Update(msg)
+	var res tea.Model
+	res, cmd = m.panels[m.focused].Update(msg)
+	m.panels[m.focused] = res.(panel)
 
-	// Get the selected items and build the next panel
-	selectedItem := m.panels[m.focused].SelectedItem()
-	itemsInNextPanel := aeSliceToItem(selectedItem.(ActionableElement).Selected())
-	lastPanelIndex := len(m.panels) - 1
-	// Add a new panel only if there are elements to show and we're not on the
-	// last panel. Delete next panel if there's nothing to show (and we're not
-	// on the last one)
-	if len(itemsInNextPanel) > 0 && m.focused < lastPanelIndex {
-		m.newPanel(m.focused+1, list.New(itemsInNextPanel, list.NewDefaultDelegate(), 50, 20))
-	} else if len(itemsInNextPanel) == 0 && m.focused < lastPanelIndex {
-		m.deletePanel(m.focused + 1)
-	}
+	m.updateNextPanel()
 
 	return m, cmd
 }
 
 func (m model) View() string {
 	activePanels := []string{}
+	// TODO: use GetActivePanels funcion
 	for _, panel := range m.panels {
 		if panel.active {
 			activePanels = append(activePanels, panel.View())
@@ -122,16 +125,22 @@ func main() {
 	for _, elem := range ocpResources {
 		elem.Init(mgToLoad)
 	}
+	m := model{}
+	m.addNewPanel(0, ocpResources)
+	m.panels[0].active = true
 
-	m := model{
-		focused: 0,
-		panels: [maxNumberOfPanels]panel{
-			panel{
-				Model:  list.New(aeSliceToItem(ocpResources), list.NewDefaultDelegate(), 50, 10),
-				active: true,
-			},
-		},
-	}
+	m.updateNextPanel()
+	//	m := model{
+	//		focused: 0,
+	//		panels: [maxNumberOfPanels]panel{
+	//			panel{
+	//				Model:  list.New(aeSliceToItem(ocpResources), list.NewDefaultDelegate(), 50, 10),
+	//				active: true,
+	//			},
+	//		},
+	//		windowWidth:  500,
+	//		windowHeight: 100,
+	//	}
 
 	p := tea.NewProgram(m, tea.WithAltScreen())
 
