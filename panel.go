@@ -12,7 +12,7 @@ type panel struct {
 	active     bool
 }
 
-func (m *model) addNewPanel(index int, actElements []ActionableElement) {
+func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
 	widthFunc := actElements[0].GetWidthFunc()
 	heightFunc := actElements[0].GetHeightFunc()
@@ -27,7 +27,7 @@ func (m *model) addNewPanel(index int, actElements []ActionableElement) {
 
 // updateNextPanel creates/updates/deletes the next panel based on the item
 // selected in focused panel
-func (m *model) updateNextPanel() {
+func (m *model) UpdateNextPanel() {
 	// do nothing if we are at last panel
 	lastPanelIndex := len(m.panels) - 1
 	if m.focused == lastPanelIndex {
@@ -39,7 +39,7 @@ func (m *model) updateNextPanel() {
 
 	// Add a new panel only if there are elements to show, otherwise delete it.
 	if len(itemsInNextPanel) > 0 {
-		m.addNewPanel(m.focused+1, itemsInNextPanel)
+		m.AddNewPanel(m.focused+1, itemsInNextPanel)
 	} else {
 		m.deletePanel(m.focused + 1)
 	}

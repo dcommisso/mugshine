@@ -21,7 +21,7 @@ func (m *model) setSize(width, height int) {
 	m.windowHeight = height
 }
 
-func (m *model) getActivePanels() []panel {
+func (m *model) GetActivePanels() []panel {
 	var activePanels []panel
 	for _, panel := range m.panels {
 		if panel.active {
@@ -31,7 +31,7 @@ func (m *model) getActivePanels() []panel {
 	return activePanels
 }
 
-func (m *model) increaseFocused() {
+func (m *model) IncreaseFocused() {
 	// Do nothing if we're on the last panel or if the next panel is empty
 	if m.focused == len(m.panels)-1 || !m.panels[m.focused+1].active {
 		return
@@ -40,7 +40,7 @@ func (m *model) increaseFocused() {
 	m.focused++
 }
 
-func (m *model) decreaseFocused() {
+func (m *model) DecreaseFocused() {
 	if m.focused == 0 {
 		return
 	}
@@ -62,7 +62,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.setSize(msg.Width, msg.Height)
-		for i, p := range m.getActivePanels() {
+		for i, p := range m.GetActivePanels() {
 			res, cmd := p.Update(msg)
 			m.panels[i] = res.(panel)
 			cmds = append(cmds, cmd)
@@ -73,9 +73,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c":
 			return m, tea.Quit
 		case "right":
-			m.increaseFocused()
+			m.IncreaseFocused()
 		case "left":
-			m.decreaseFocused()
+			m.DecreaseFocused()
 		}
 	}
 
@@ -85,14 +85,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	res, cmd = m.panels[m.focused].Update(msg)
 	m.panels[m.focused] = res.(panel)
 
-	m.updateNextPanel()
+	m.UpdateNextPanel()
 
 	return m, cmd
 }
 
 func (m model) View() string {
 	activePanels := []string{}
-	for _, panel := range m.getActivePanels() {
+	for _, panel := range m.GetActivePanels() {
 		activePanels = append(activePanels, panel.View())
 	}
 

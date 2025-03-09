@@ -26,10 +26,10 @@ func main() {
 		elem.Init(mgToLoad)
 	}
 	m := model{}
-	m.addNewPanel(0, ocpResources)
+	m.AddNewPanel(0, ocpResources)
 	m.panels[0].active = true
 
-	m.updateNextPanel()
+	m.UpdateNextPanel()
 
 	p := tea.NewProgram(m, tea.WithAltScreen())
 
