@@ -5,11 +5,20 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+type PanelStatus int
+
+const (
+	PanelStatusPrevious PanelStatus = iota
+	PanelStatusFocused
+	PanelStatusNext
+)
+
 type panel struct {
 	list       list.Model
 	widthFunc  func(windowSize int) int
 	heightFunc func(windowSize int) int
 	active     bool
+	status     PanelStatus
 }
 
 func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
@@ -40,6 +49,7 @@ func (m *model) UpdateNextPanel() {
 	// Add a new panel only if there are elements to show, otherwise delete it.
 	if len(itemsInNextPanel) > 0 {
 		m.AddNewPanel(m.focused+1, itemsInNextPanel)
+		m.panels[m.focused+1].SetStatus(PanelStatusNext)
 	} else {
 		m.deletePanel(m.focused + 1)
 	}
@@ -47,6 +57,11 @@ func (m *model) UpdateNextPanel() {
 
 func (m *model) deletePanel(index int) {
 	m.panels[index].active = false
+}
+
+func (p *panel) SetStatus(status PanelStatus) {
+	p.status = status
+	p.list.SetDelegate(p.getDelegate())
 }
 
 func (p panel) Init() tea.Cmd {
@@ -64,7 +79,7 @@ func (p panel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (p panel) View() string {
-	return p.list.View()
+	return p.getStyle().Render(p.list.View())
 }
 
 func (p *panel) setSize(windowWidth, windowHeight int) {

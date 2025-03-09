@@ -37,7 +37,9 @@ func (m *model) IncreaseFocused() {
 		return
 	}
 
+	m.panels[m.focused].SetStatus(PanelStatusPrevious)
 	m.focused++
+	m.panels[m.focused].SetStatus(PanelStatusFocused)
 }
 
 func (m *model) DecreaseFocused() {
@@ -46,6 +48,7 @@ func (m *model) DecreaseFocused() {
 	}
 
 	m.focused--
+	m.panels[m.focused].SetStatus(PanelStatusFocused)
 	panelToDelete := m.focused + 2
 	if panelToDelete < len(m.panels) {
 		m.deletePanel(panelToDelete)

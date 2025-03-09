@@ -28,6 +28,7 @@ func main() {
 	m := model{}
 	m.AddNewPanel(0, ocpResources)
 	m.panels[0].active = true
+	m.panels[0].SetStatus(PanelStatusFocused)
 
 	m.UpdateNextPanel()
 
