@@ -22,6 +22,10 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	widthFunc := actElements[0].GetWidthFunc()
 	heightFunc := actElements[0].GetHeightFunc()
 	model := list.New(items, list.NewDefaultDelegate(), widthFunc(m.windowWidth), heightFunc(m.windowHeight))
+
+	//disable help
+	model.SetShowHelp(false)
+
 	m.panels[index] = panel{
 		list:       model,
 		widthFunc:  widthFunc,
