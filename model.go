@@ -26,6 +26,10 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	//disable help
 	model.SetShowHelp(false)
 
+	// remap left/right to pagedown/pageup to avoid overlapping to navigation
+	model.KeyMap.NextPage.SetKeys("pgdown")
+	model.KeyMap.PrevPage.SetKeys("pgup")
+
 	m.panels[index] = panel{
 		list:       model,
 		widthFunc:  widthFunc,
