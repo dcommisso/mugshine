@@ -1,0 +1,3 @@
+resource manifest
+namespace:openshift-operator-lifecycle-manager
+name:package-server-manager-6984bc476c-w6jf7

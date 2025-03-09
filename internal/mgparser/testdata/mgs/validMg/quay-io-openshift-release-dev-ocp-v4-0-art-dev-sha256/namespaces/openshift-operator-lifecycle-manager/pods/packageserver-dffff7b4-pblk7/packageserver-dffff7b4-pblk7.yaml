@@ -1,0 +1,3 @@
+resource manifest
+namespace:openshift-operator-lifecycle-manager
+name:packageserver-dffff7b4-pblk7

@@ -1,0 +1,3 @@
+logs of
+container: kube-rbac-proxy
+pod: multus-admission-controller-75968f7c47-554fb

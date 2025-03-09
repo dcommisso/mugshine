@@ -1,0 +1,3 @@
+resource manifest
+namespace:openshift-multus
+name:multus-4qflw

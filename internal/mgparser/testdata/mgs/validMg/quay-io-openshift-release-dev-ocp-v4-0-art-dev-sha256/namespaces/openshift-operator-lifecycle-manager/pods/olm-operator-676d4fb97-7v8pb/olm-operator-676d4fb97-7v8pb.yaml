@@ -1,0 +1,3 @@
+resource manifest
+namespace:openshift-operator-lifecycle-manager
+name:olm-operator-676d4fb97-7v8pb

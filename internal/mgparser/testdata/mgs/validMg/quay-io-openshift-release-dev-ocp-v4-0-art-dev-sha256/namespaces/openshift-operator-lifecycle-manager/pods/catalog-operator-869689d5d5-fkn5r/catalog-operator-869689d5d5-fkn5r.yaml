@@ -1,0 +1,3 @@
+resource manifest
+namespace:openshift-operator-lifecycle-manager
+name:catalog-operator-869689d5d5-fkn5r
