@@ -114,9 +114,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c":
 			return m, tea.Quit
-		case "right":
+		case "right", "tab":
 			m.IncreaseFocused()
-		case "left":
+		case "left", "shift+tab":
 			m.DecreaseFocused()
 		}
 	}
