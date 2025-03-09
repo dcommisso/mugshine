@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -14,6 +15,44 @@ type model struct {
 	focused      int
 	windowWidth  int
 	windowHeight int
+}
+
+func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
+	items := aeSliceToItem(actElements)
+	widthFunc := actElements[0].GetWidthFunc()
+	heightFunc := actElements[0].GetHeightFunc()
+	model := list.New(items, list.NewDefaultDelegate(), widthFunc(m.windowWidth), heightFunc(m.windowHeight))
+	m.panels[index] = panel{
+		list:       model,
+		widthFunc:  widthFunc,
+		heightFunc: heightFunc,
+		active:     true,
+	}
+}
+
+// updateNextPanel creates/updates/deletes the next panel based on the item
+// selected in focused panel
+func (m *model) UpdateNextPanel() {
+	// do nothing if we are at last panel
+	lastPanelIndex := len(m.panels) - 1
+	if m.focused == lastPanelIndex {
+		return
+	}
+
+	selectedItem := m.panels[m.focused].list.SelectedItem()
+	itemsInNextPanel := selectedItem.(ActionableElement).Selected()
+
+	// Add a new panel only if there are elements to show, otherwise delete it.
+	if len(itemsInNextPanel) > 0 {
+		m.AddNewPanel(m.focused+1, itemsInNextPanel)
+		m.panels[m.focused+1].SetStatus(PanelStatusNext)
+	} else {
+		m.deletePanel(m.focused + 1)
+	}
+}
+
+func (m *model) deletePanel(index int) {
+	m.panels[index].active = false
 }
 
 func (m *model) setSize(width, height int) {
@@ -83,7 +122,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 
 	// send the msg to the focused panel. This must be done before getting the
-	// selected item.
+	// selected item in UpdateNextPanel function.
 	var res tea.Model
 	res, cmd = m.panels[m.focused].Update(msg)
 	m.panels[m.focused] = res.(panel)
