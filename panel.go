@@ -35,6 +35,14 @@ func (p panel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		p.setSize(msg.Width, msg.Height)
+	case tea.KeyMsg:
+		switch msg.String() {
+		case "enter":
+			filename := p.list.SelectedItem().(ActionableElement).Pressed()
+			if filename != "" {
+				return p, openEditor(filename)
+			}
+		}
 	}
 	p.list, cmd = p.list.Update(msg)
 	return p, cmd
