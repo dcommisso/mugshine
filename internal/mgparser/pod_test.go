@@ -176,3 +176,54 @@ func TestGetContainersAlphabetical(t *testing.T) {
 		})
 	}
 }
+
+// TODO: test more statuses to test cases
+func TestGetOcOutput(t *testing.T) {
+	const (
+		mgPath      = "./testdata/mgs/validMg"
+		inspectPath = "./testdata/mgs/validInspect"
+	)
+	cases := map[string]struct {
+		mgPath           string
+		namespaceName    string
+		podName          string
+		expectedReady    string
+		expectedRestarts int
+		expectedStatus   string
+	}{
+		"multus-2fxcb": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "multus-btg47",
+			expectedReady:    "1/1",
+			expectedRestarts: 1,
+			expectedStatus:   "Running",
+		},
+		"multus-admission-controller-75968f7c47-554fb": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "multus-admission-controller-75968f7c47-554fb",
+			expectedReady:    "2/2",
+			expectedRestarts: 0,
+			expectedStatus:   "Running",
+		},
+		"network-metrics-daemon-l5lr4": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "network-metrics-daemon-l5lr4",
+			expectedReady:    "0/2",
+			expectedRestarts: 0,
+			expectedStatus:   "ContainerStatusUnknown",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			mg01, _ := NewMg(tc.mgPath)
+			pod01 := mg01.Namespaces[tc.namespaceName].Pods[tc.podName]
+
+			assert.Equal(t, tc.expectedReady, pod01.GetOcOutput().Ready)
+			assert.Equal(t, tc.expectedRestarts, pod01.GetOcOutput().Restarts)
+			assert.Equal(t, tc.expectedStatus, pod01.GetOcOutput().Status)
+		})
+	}
+}

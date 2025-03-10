@@ -1,6 +1,7 @@
 package mgparser
 
 import (
+	"fmt"
 	"strings"
 
 	v1 "k8s.io/api/core/v1"
@@ -45,4 +46,45 @@ func (p *Pod) GetContainersAlphabetical() []string {
 
 func (p *Pod) GetInitContainersAlphabetical() []string {
 	return getAlphabeticalKeys(p.InitContainers)
+}
+
+// The pod info as returned by kubectl/oc
+// TODO: add `Age`
+type OcOutput struct {
+	Ready, Status string
+	Restarts      int
+}
+
+func (p *Pod) GetOcOutput() OcOutput {
+	var containersReady, totalContainers, containerRestarts int
+	var containerNotReadyReason string
+
+	for _, containerStatus := range p.Status.ContainerStatuses {
+		if containerStatus.Ready {
+			containersReady++
+		} else {
+			if ok := containerStatus.State.Waiting; ok != nil {
+				containerNotReadyReason = ok.Reason
+			}
+			if ok := containerStatus.State.Terminated; ok != nil {
+				containerNotReadyReason = ok.Reason
+			}
+		}
+
+		containerRestarts += int(containerStatus.RestartCount)
+		totalContainers++
+	}
+
+	var actualStatus string
+	if containerNotReadyReason == "" {
+		actualStatus = string(p.Status.Phase)
+	} else {
+		actualStatus = containerNotReadyReason
+	}
+
+	return OcOutput{
+		Ready:    fmt.Sprintf("%v/%v", containersReady, totalContainers),
+		Restarts: containerRestarts,
+		Status:   actualStatus,
+	}
 }
