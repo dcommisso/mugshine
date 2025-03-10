@@ -5,6 +5,12 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+func getBaseDelegate() list.DefaultDelegate {
+	baseDelegate := list.NewDefaultDelegate()
+	baseDelegate.ShowDescription = false
+	return baseDelegate
+}
+
 func getNextDelegate() list.DefaultDelegate {
 	nextDelegate := list.NewDefaultDelegate()
 
@@ -12,6 +18,7 @@ func getNextDelegate() list.DefaultDelegate {
 	nextDelegate.Styles.SelectedTitle = nextDelegate.Styles.NormalTitle
 	nextDelegate.Styles.SelectedDesc = nextDelegate.Styles.NormalDesc
 
+	nextDelegate.ShowDescription = false
 	return nextDelegate
 }
 
@@ -20,7 +27,7 @@ func (p *panel) getDelegate() list.DefaultDelegate {
 	case PanelStatusNext:
 		return getNextDelegate()
 	default:
-		return list.NewDefaultDelegate()
+		return getBaseDelegate()
 	}
 }
 
