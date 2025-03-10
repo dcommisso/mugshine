@@ -1,6 +1,12 @@
 package main
 
-import "github.com/dcommisso/img/internal/mgparser"
+import (
+	"slices"
+	"strconv"
+
+	"github.com/charmbracelet/lipgloss"
+	"github.com/dcommisso/img/internal/mgparser"
+)
 
 /*
  * This is the section with the pod manifests and logs
@@ -85,9 +91,21 @@ func (a aeNamespace) IsFailed() bool {
 
 func (a aeNamespace) Selected() []ActionableElement {
 	podsToReturn := []ActionableElement{}
+
+	// calculate the max width for name and status pod fields
+	var nameLenghts, statusLenghts []int
+	for _, podName := range a.namespace.GetPodsAlphabetical() {
+		nameLenghts = append(nameLenghts, len(podName))
+		statusLenghts = append(statusLenghts, len(a.namespace.Pods[podName].GetOcOutput().Status))
+	}
+
 	for _, podName := range a.namespace.GetPodsAlphabetical() {
 		podsToReturn = append(podsToReturn, aePod{
-			pod: a.namespace.Pods[podName],
+			pod:            a.namespace.Pods[podName],
+			nameLenght:     slices.Max(nameLenghts),
+			readyLenght:    len("READY"),
+			statusLenght:   slices.Max(statusLenghts),
+			restartsLenght: len("RESTARTS"),
 		})
 	}
 	return podsToReturn
@@ -99,12 +117,21 @@ func (a aeNamespace) Pressed() (fileToOpen string) {
 
 /* aePod */
 type aePod struct {
-	pod *mgparser.Pod
+	pod                                                   *mgparser.Pod
+	nameLenght, readyLenght, statusLenght, restartsLenght int
 }
 
 func (a aePod) Init(mg *mgparser.Mg) {}
 
-func (a aePod) Title() string       { return a.pod.GetName() }
+func (a aePod) Title() string {
+	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
+
+	return lipgloss.JoinHorizontal(lipgloss.Top,
+		baseStyle.Width(a.nameLenght).Render(a.pod.GetName()),
+		baseStyle.Width(a.readyLenght).Render(a.pod.GetOcOutput().Ready),
+		baseStyle.Width(a.statusLenght).Render(a.pod.GetOcOutput().Status),
+		baseStyle.Width(a.restartsLenght).Render(strconv.Itoa(a.pod.GetOcOutput().Restarts)))
+}
 func (a aePod) Description() string { return a.pod.GetName() }
 func (a aePod) FilterValue() string { return a.pod.GetName() }
 func (a aePod) GetWidthFunc() func(windowSize int) int {
