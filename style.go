@@ -5,6 +5,13 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+/* Change here the colors */
+var (
+	colorSelectedItem = lipgloss.Color("#35A7FF")
+	colorFocusBorder  = lipgloss.Color("#E4B363")
+	colorHeader       = lipgloss.Color("#048BA8")
+)
+
 /* Change here the style of elements in panels */
 func getItemStyles() list.DefaultItemStyles {
 	elementStyle := list.NewDefaultItemStyles()
@@ -12,8 +19,8 @@ func getItemStyles() list.DefaultItemStyles {
 	/* SelectedTitle style */
 	elementStyle.SelectedTitle = lipgloss.NewStyle().
 		Border(lipgloss.NormalBorder(), false, false, false, true).
-		BorderForeground(lipgloss.Color("#35A7FF")).
-		Foreground(lipgloss.Color("#35A7FF")).
+		BorderForeground(colorSelectedItem).
+		Foreground(colorSelectedItem).
 		Padding(0, 0, 0, 1)
 
 	return elementStyle
@@ -23,11 +30,11 @@ func getItemStyles() list.DefaultItemStyles {
 func getFocusedStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color("#6bf178"))
+		BorderForeground(colorFocusBorder)
 }
 
 /* Change here the style of list header */
 func getListTitleStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
-		Background(lipgloss.Color("#048ba8"))
+		Background(colorHeader)
 }
