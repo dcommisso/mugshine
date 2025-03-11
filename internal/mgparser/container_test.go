@@ -55,3 +55,61 @@ func TestGetLogsFilename(t *testing.T) {
 		})
 	}
 }
+
+func TestContainerGetOcOutput(t *testing.T) {
+	const (
+		mgPath      = "./testdata/mgs/validMg"
+		inspectPath = "./testdata/mgs/validInspect"
+	)
+	cases := map[string]struct {
+		mgPath           string
+		namespaceName    string
+		podName          string
+		containerName    string
+		expectedRestarts int
+		expectedStatus   string
+	}{
+		"multus-2fxcb": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "multus-btg47",
+			containerName:    "kube-multus",
+			expectedRestarts: 1,
+			expectedStatus:   "Running",
+		},
+		"multus-admission-controller-75968f7c47-554fb": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "multus-admission-controller-75968f7c47-554fb",
+			containerName:    "kube-rbac-proxy",
+			expectedRestarts: 7,
+			expectedStatus:   "Running",
+		},
+		"multus-admission-controller-75968f7c47-": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "multus-admission-controller-75968f7c47-554fb",
+			containerName:    "multus-admission-controller",
+			expectedRestarts: 5,
+			expectedStatus:   "Running",
+		},
+		"network-metrics-daemon-l5lr4": {
+			mgPath:           mgPath,
+			namespaceName:    "openshift-multus",
+			podName:          "network-metrics-daemon-l5lr4",
+			containerName:    "kube-rbac-proxy",
+			expectedRestarts: 0,
+			expectedStatus:   "ContainerStatusUnknown",
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			mg01, _ := NewMg(tc.mgPath)
+			container01 := mg01.Namespaces[tc.namespaceName].Pods[tc.podName].Containers[tc.containerName]
+
+			assert.Equal(t, tc.expectedRestarts, container01.GetOcOutput().Restarts)
+			assert.Equal(t, tc.expectedStatus, container01.GetOcOutput().Status)
+		})
+	}
+}
