@@ -7773,7 +7773,7 @@ items:
       lastState: {}
       name: kube-rbac-proxy
       ready: true
-      restartCount: 0
+      restartCount: 7
       started: true
       state:
         running:
@@ -7784,7 +7784,7 @@ items:
       lastState: {}
       name: multus-admission-controller
       ready: true
-      restartCount: 0
+      restartCount: 5
       started: true
       state:
         running:

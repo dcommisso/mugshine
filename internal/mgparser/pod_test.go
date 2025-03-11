@@ -204,7 +204,7 @@ func TestGetOcOutput(t *testing.T) {
 			namespaceName:    "openshift-multus",
 			podName:          "multus-admission-controller-75968f7c47-554fb",
 			expectedReady:    "2/2",
-			expectedRestarts: 0,
+			expectedRestarts: 12,
 			expectedStatus:   "Running",
 		},
 		"network-metrics-daemon-l5lr4": {
