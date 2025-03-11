@@ -53,15 +53,17 @@ func (p *Pod) GetOcOutput() OcOutput {
 	var containerNotReadyReason string
 
 	for _, containerStatus := range p.Status.ContainerStatuses {
-		if containerStatus.Ready {
-			containersReady++
-		} else {
+		// check on "is not ready" must happens first, because a Completed container
+		// has the Teminated state but it's also in Ready status
+		if !containerStatus.Ready {
 			if ok := containerStatus.State.Waiting; ok != nil {
 				containerNotReadyReason = ok.Reason
 			}
 			if ok := containerStatus.State.Terminated; ok != nil {
 				containerNotReadyReason = ok.Reason
 			}
+		} else if containerStatus.Ready {
+			containersReady++
 		}
 
 		containerRestarts += int(containerStatus.RestartCount)
