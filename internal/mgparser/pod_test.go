@@ -178,7 +178,7 @@ func TestGetContainersAlphabetical(t *testing.T) {
 }
 
 // TODO: test more statuses to test cases
-func TestGetOcOutput(t *testing.T) {
+func TestPodGetOcOutput(t *testing.T) {
 	const (
 		mgPath      = "./testdata/mgs/validMg"
 		inspectPath = "./testdata/mgs/validInspect"
