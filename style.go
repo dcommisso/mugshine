@@ -19,18 +19,9 @@ func getItemStyles() list.DefaultItemStyles {
 	return elementStyle
 }
 
-func (p *panel) getStyle() lipgloss.Style {
-	var (
-		focused = lipgloss.NewStyle().
-			Border(lipgloss.RoundedBorder()).
-			BorderForeground(lipgloss.Color("#6bf178"))
-	)
-
-	switch p.status {
-	case PanelStatusFocused:
-		return focused
-	default:
-		return lipgloss.NewStyle().
-			Border(lipgloss.HiddenBorder())
-	}
+/* Change here the style of focused border */
+func getFocusedStyle() lipgloss.Style {
+	return lipgloss.NewStyle().
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("#6bf178"))
 }

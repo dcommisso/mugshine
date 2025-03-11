@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type PanelStatus int
@@ -37,6 +38,13 @@ func (p *panel) getDelegate() list.DefaultDelegate {
 	}
 
 	return baseDelegate
+}
+
+func (p *panel) getStyle() lipgloss.Style {
+	if p.status == PanelStatusFocused {
+		return getFocusedStyle()
+	}
+	return lipgloss.NewStyle().Border(lipgloss.HiddenBorder())
 }
 
 func (p panel) Init() tea.Cmd {
