@@ -161,19 +161,39 @@ func (a aePod) IsFailed() bool {
 func (a aePod) Selected() []ActionableElement {
 	containersToReturn := []ActionableElement{}
 
+	// Calculate the max width for name and status fields for containers and
+	// initContainers
+	var nameLenghts, statusLenghts []int
+	for _, containerName := range a.pod.GetContainersAlphabetical() {
+		nameLenghts = append(nameLenghts, len(containerName))
+		statusLenghts = append(statusLenghts, len(a.pod.Containers[containerName].GetOcOutput().Status))
+	}
+	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
+		nameLenghts = append(nameLenghts, len(containerName))
+		statusLenghts = append(statusLenghts, len(a.pod.InitContainers[containerName].GetOcOutput().Status))
+	}
+
 	// Add containers
 	for _, containerName := range a.pod.GetContainersAlphabetical() {
 		containersToReturn = append(containersToReturn, aeContainer{
-			container: a.pod.Containers[containerName],
-			isInit:    false,
+			container:      a.pod.Containers[containerName],
+			isInit:         false,
+			nameLenght:     slices.Max(nameLenghts),
+			statusLenght:   slices.Max(statusLenghts),
+			restartsLenght: len("RESTARTS"),
+			typeLenght:     len("TYPE"),
 		})
 	}
 
 	// Add initContainers
 	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
 		containersToReturn = append(containersToReturn, aeContainer{
-			container: a.pod.InitContainers[containerName],
-			isInit:    true,
+			container:      a.pod.InitContainers[containerName],
+			isInit:         true,
+			nameLenght:     slices.Max(nameLenghts),
+			statusLenght:   slices.Max(statusLenghts),
+			restartsLenght: len("RESTARTS"),
+			typeLenght:     len("TYPE"),
 		})
 	}
 
@@ -186,18 +206,36 @@ func (a aePod) Pressed() (fileToOpen string) {
 
 /* aeContainer */
 type aeContainer struct {
-	container *mgparser.Container
-	isInit    bool
+	container                                            *mgparser.Container
+	isInit                                               bool
+	nameLenght, statusLenght, restartsLenght, typeLenght int
 }
 
 func (a aeContainer) Init(mg *mgparser.Mg) {}
-func (a aeContainer) Header() string       { return "" }
+func (a aeContainer) Header() string {
+	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
+
+	return lipgloss.JoinHorizontal(lipgloss.Top,
+		baseStyle.Width(a.nameLenght).Render("NAME"),
+		baseStyle.Width(a.statusLenght).Render("STATUS"),
+		baseStyle.Width(a.restartsLenght).Render("RESTARTS"),
+		baseStyle.Width(a.typeLenght).Render("TYPE"),
+	)
+}
 func (a aeContainer) Title() string {
 	initHeader := ""
 	if a.isInit {
-		initHeader = "[INIT] "
+		initHeader = "Init"
 	}
-	return initHeader + a.container.Name
+
+	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
+
+	return lipgloss.JoinHorizontal(lipgloss.Top,
+		baseStyle.Width(a.nameLenght).Render(a.container.Name),
+		baseStyle.Width(a.statusLenght).Render(a.container.GetOcOutput().Status),
+		baseStyle.Width(a.restartsLenght).Render(strconv.Itoa(a.container.GetOcOutput().Restarts)),
+		baseStyle.Width(a.typeLenght).Render(initHeader),
+	)
 }
 
 func (a aeContainer) Description() string { return "" }
