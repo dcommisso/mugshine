@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+// The pod info as returned by kubectl/oc.
+// It's also used for containers, even if
+// kubectl/oc doesn't provide info about containers.
+// TODO: add `Age`
+type OcOutput struct {
+	Ready, Status string
+	Restarts      int
+}
+
 type Mg struct {
 	Timestamp struct {
 		Start string

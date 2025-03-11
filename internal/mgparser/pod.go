@@ -48,13 +48,6 @@ func (p *Pod) GetInitContainersAlphabetical() []string {
 	return getAlphabeticalKeys(p.InitContainers)
 }
 
-// The pod info as returned by kubectl/oc
-// TODO: add `Age`
-type OcOutput struct {
-	Ready, Status string
-	Restarts      int
-}
-
 func (p *Pod) GetOcOutput() OcOutput {
 	var containersReady, totalContainers, containerRestarts int
 	var containerNotReadyReason string
