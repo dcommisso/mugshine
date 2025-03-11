@@ -31,8 +31,7 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	model.KeyMap.PrevPage.SetKeys("pgup")
 
 	// header section
-	model.Styles.Title = lipgloss.NewStyle().
-		Background(lipgloss.Color("#048ba8"))
+	model.Styles.Title = getListTitleStyle()
 	if header := actElements[0].Header(); header != "" {
 		model.Title = header
 	}

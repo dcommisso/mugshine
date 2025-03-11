@@ -25,3 +25,9 @@ func getFocusedStyle() lipgloss.Style {
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("#6bf178"))
 }
+
+/* Change here the style of list header */
+func getListTitleStyle() lipgloss.Style {
+	return lipgloss.NewStyle().
+		Background(lipgloss.Color("#048ba8"))
+}
