@@ -11,6 +11,9 @@ type ActionableElement interface {
 	// must-gather.
 	Init(mg *mgparser.Mg)
 
+	// Header return the header with the field names to print just one time
+	Header() string
+
 	// Returns the function for calculate width of the panel to create
 	GetWidthFunc() func(windowSize int) int
 

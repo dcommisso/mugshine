@@ -30,6 +30,13 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	model.KeyMap.NextPage.SetKeys("pgdown")
 	model.KeyMap.PrevPage.SetKeys("pgup")
 
+	// header section
+	model.Styles.Title = lipgloss.NewStyle().
+		Background(lipgloss.Color("#048ba8"))
+	if header := actElements[0].Header(); header != "" {
+		model.Title = header
+	}
+
 	m.panels[index] = panel{
 		list:       model,
 		widthFunc:  widthFunc,

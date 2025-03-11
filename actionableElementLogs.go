@@ -33,7 +33,7 @@ type aeLogs struct {
 func (a *aeLogs) Init(mg *mgparser.Mg) {
 	a.mg = mg
 }
-
+func (a aeLogs) Header() string      { return "" }
 func (a aeLogs) Title() string       { return aeLogsSectionName }
 func (a aeLogs) Description() string { return "" }
 func (a aeLogs) FilterValue() string { return "" }
@@ -71,10 +71,10 @@ type aeNamespace struct {
 }
 
 func (a aeNamespace) Init(mg *mgparser.Mg) {}
-
-func (a aeNamespace) Title() string       { return a.namespace.Name }
-func (a aeNamespace) Description() string { return "" }
-func (a aeNamespace) FilterValue() string { return a.namespace.Name }
+func (a aeNamespace) Header() string       { return "" }
+func (a aeNamespace) Title() string        { return a.namespace.Name }
+func (a aeNamespace) Description() string  { return "" }
+func (a aeNamespace) FilterValue() string  { return a.namespace.Name }
 func (a aeNamespace) GetWidthFunc() func(windowSize int) int {
 	return func(windowSize int) int {
 		return 50
@@ -122,6 +122,15 @@ type aePod struct {
 }
 
 func (a aePod) Init(mg *mgparser.Mg) {}
+func (a aePod) Header() string {
+	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
+
+	return lipgloss.JoinHorizontal(lipgloss.Top,
+		baseStyle.Width(a.nameLenght).Render("NAME"),
+		baseStyle.Width(a.readyLenght).Render("READY"),
+		baseStyle.Width(a.statusLenght).Render("STATUS"),
+		baseStyle.Width(a.restartsLenght).Render("RESTARTS"))
+}
 
 func (a aePod) Title() string {
 	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
@@ -182,7 +191,7 @@ type aeContainer struct {
 }
 
 func (a aeContainer) Init(mg *mgparser.Mg) {}
-
+func (a aeContainer) Header() string       { return "" }
 func (a aeContainer) Title() string {
 	initHeader := ""
 	if a.isInit {
