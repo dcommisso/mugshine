@@ -26,6 +26,18 @@ func (p *panel) SetStatus(status PanelStatus) {
 	p.list.SetDelegate(p.getDelegate())
 }
 
+func (p *panel) getDelegate() list.DefaultDelegate {
+	var baseDelegate = list.NewDefaultDelegate()
+	baseDelegate.ShowDescription = false
+
+	// avoid highlighting elements in next panel
+	if p.status == PanelStatusNext {
+		baseDelegate.Styles.SelectedTitle = baseDelegate.Styles.NormalTitle
+	}
+
+	return baseDelegate
+}
+
 func (p panel) Init() tea.Cmd {
 	return nil
 }

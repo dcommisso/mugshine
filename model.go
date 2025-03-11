@@ -23,7 +23,7 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	heightFunc := actElements[0].GetHeightFunc()
 	model := list.New(items, list.NewDefaultDelegate(), widthFunc(m.windowWidth), heightFunc(m.windowHeight))
 
-	//disable help
+	// disable help
 	model.SetShowHelp(false)
 
 	// remap left/right to pagedown/pageup to avoid overlapping to navigation
