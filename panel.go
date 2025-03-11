@@ -29,6 +29,7 @@ func (p *panel) SetStatus(status PanelStatus) {
 func (p *panel) getDelegate() list.DefaultDelegate {
 	var baseDelegate = list.NewDefaultDelegate()
 	baseDelegate.ShowDescription = false
+	baseDelegate.Styles = getItemStyles()
 
 	// avoid highlighting elements in next panel
 	if p.status == PanelStatusNext {
