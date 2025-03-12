@@ -54,6 +54,13 @@ func (m *model) UpdateNextPanel() {
 	}
 
 	selectedItem := m.panels[m.focused].list.SelectedItem()
+
+	// return if selectedItem is nil, otherwise it crashes when filtered with
+	// unmatching strings
+	if selectedItem == nil {
+		return
+	}
+
 	itemsInNextPanel := selectedItem.(ActionableElement).Selected()
 
 	// Add a new panel only if there are elements to show, otherwise delete it.
