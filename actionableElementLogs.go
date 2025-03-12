@@ -155,6 +155,9 @@ func (a aePod) GetHeightFunc() func(windowSize int) int {
 	}
 }
 func (a aePod) IsFailed() bool {
+	if a.pod.GetOcOutput().Status != "Running" && a.pod.GetOcOutput().Status != "Completed" {
+		return true
+	}
 	return false
 }
 
@@ -251,7 +254,12 @@ func (a aeContainer) GetHeightFunc() func(windowSize int) int {
 		return windowSize
 	}
 }
-func (a aeContainer) IsFailed() bool                { return false }
+func (a aeContainer) IsFailed() bool {
+	if a.container.GetOcOutput().Status != "Running" && a.container.GetOcOutput().Status != "Completed" {
+		return true
+	}
+	return false
+}
 func (a aeContainer) Selected() []ActionableElement { return nil }
 func (a aeContainer) Pressed() (fileToOpen string) {
 	return a.container.GetLogsFilename()
