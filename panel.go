@@ -23,21 +23,21 @@ type panel struct {
 }
 
 func (p *panel) SetStatus(status PanelStatus) {
+	// set the new status
 	p.status = status
-	p.list.SetDelegate(p.getDelegate())
-}
 
-func (p *panel) getDelegate() list.DefaultDelegate {
-	var baseDelegate = list.NewDefaultDelegate()
-	baseDelegate.ShowDescription = false
-	baseDelegate.Styles = getItemStyles()
-
-	// avoid highlighting elements in next panel
-	if p.status == PanelStatusNext {
-		baseDelegate.Styles.SelectedTitle = baseDelegate.Styles.NormalTitle
+	// The render of the elements should happens in delegate but from there it's
+	// not possible/easy (without doing ugly things) to check the panel status
+	d := NewMgDelegate()
+	if status == PanelStatusNext {
+		// avoid highlighting elements in next panel
+		d.Styles.SelectedTitle = d.Styles.NormalTitle
+		d.Styles.FailedSelectedTitle = d.Styles.FailedTitle
 	}
 
-	return baseDelegate
+	// the new delegate must be set in any status, otherwise when the panel
+	// becomes focused again, it retains the previous style
+	p.list.SetDelegate(d)
 }
 
 func (p *panel) getStyle() lipgloss.Style {

@@ -21,7 +21,7 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
 	widthFunc := actElements[0].GetWidthFunc()
 	heightFunc := actElements[0].GetHeightFunc()
-	model := list.New(items, list.NewDefaultDelegate(), widthFunc(m.windowWidth), heightFunc(m.windowHeight))
+	model := list.New(items, NewMgDelegate(), widthFunc(m.windowWidth), heightFunc(m.windowHeight))
 
 	// disable help
 	model.SetShowHelp(false)
