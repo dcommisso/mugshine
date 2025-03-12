@@ -10,6 +10,7 @@ var (
 	colorSelectedItem = lipgloss.Color("#35A7FF")
 	colorFocusBorder  = lipgloss.Color("#E4B363")
 	colorHeader       = lipgloss.Color("#048BA8")
+	colorFailed       = lipgloss.Color("#E84855")
 )
 
 /* Change here the style of elements in panels */
