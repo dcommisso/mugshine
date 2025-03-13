@@ -35,7 +35,6 @@ func (a *aeLogs) Init(mg *mgparser.Mg) {
 }
 func (a aeLogs) Header() string      { return "OCP RESOURCES" }
 func (a aeLogs) Title() string       { return aeLogsSectionName }
-func (a aeLogs) Description() string { return "" }
 func (a aeLogs) FilterValue() string { return "" }
 func (a aeLogs) GetWidthFunc() func(windowSize int) int {
 	return func(windowSize int) int {
@@ -73,7 +72,6 @@ type aeNamespace struct {
 func (a aeNamespace) Init(mg *mgparser.Mg) {}
 func (a aeNamespace) Header() string       { return "NAMESPACES" }
 func (a aeNamespace) Title() string        { return a.namespace.Name }
-func (a aeNamespace) Description() string  { return "" }
 func (a aeNamespace) FilterValue() string  { return a.namespace.Name }
 func (a aeNamespace) GetWidthFunc() func(windowSize int) int {
 	return func(windowSize int) int {
@@ -141,7 +139,6 @@ func (a aePod) Title() string {
 		baseStyle.Width(a.statusLenght).Render(a.pod.GetOcOutput().Status),
 		baseStyle.Width(a.restartsLenght).Render(strconv.Itoa(a.pod.GetOcOutput().Restarts)))
 }
-func (a aePod) Description() string { return a.pod.GetName() }
 func (a aePod) FilterValue() string { return a.pod.GetName() }
 func (a aePod) GetWidthFunc() func(windowSize int) int {
 	return func(windowSize int) int {
@@ -241,7 +238,6 @@ func (a aeContainer) Title() string {
 	)
 }
 
-func (a aeContainer) Description() string { return "" }
 func (a aeContainer) FilterValue() string { return a.container.Name }
 func (a aeContainer) GetWidthFunc() func(windowSize int) int {
 	return func(windowSize int) int {

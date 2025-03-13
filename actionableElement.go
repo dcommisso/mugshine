@@ -1,12 +1,11 @@
 package main
 
 import (
-	"github.com/charmbracelet/bubbles/list"
 	"github.com/dcommisso/img/internal/mgparser"
 )
 
 type ActionableElement interface {
-	list.DefaultItem
+	MgDelegateItem
 	// Init is called to initialize the ActionableElement with the provided
 	// must-gather.
 	Init(mg *mgparser.Mg)
