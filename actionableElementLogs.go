@@ -101,19 +101,22 @@ func (a aeNamespace) Selected() []ActionableElement {
 	podsToReturn := []ActionableElement{}
 
 	// calculate the max width for name and status pod fields
-	var nameLenghts, statusLenghts []int
+	var nameLengths, statusLengths []int
 	for _, podName := range a.namespace.GetPodsAlphabetical() {
-		nameLenghts = append(nameLenghts, len(podName))
-		statusLenghts = append(statusLenghts, len(a.namespace.Pods[podName].GetOcOutput().Status))
+		nameLengths = append(nameLengths, len(podName))
+		statusLengths = append(statusLengths, len(a.namespace.Pods[podName].GetOcOutput().Status))
 	}
 
 	for _, podName := range a.namespace.GetPodsAlphabetical() {
+		podLengths := map[string]int{
+			"name":     slices.Max(nameLengths),
+			"ready":    len("READY"),
+			"status":   slices.Max(statusLengths),
+			"restarts": len("RESTARTS"),
+		}
 		podsToReturn = append(podsToReturn, aePod{
-			pod:            a.namespace.Pods[podName],
-			nameLenght:     slices.Max(nameLenghts),
-			readyLenght:    len("READY"),
-			statusLenght:   slices.Max(statusLenghts),
-			restartsLenght: len("RESTARTS"),
+			pod:     a.namespace.Pods[podName],
+			lengths: podLengths,
 		})
 	}
 	return podsToReturn
@@ -125,8 +128,8 @@ func (a aeNamespace) Pressed() (fileToOpen string) {
 
 /* aePod */
 type aePod struct {
-	pod                                                   *mgparser.Pod
-	nameLenght, readyLenght, statusLenght, restartsLenght int
+	pod     *mgparser.Pod
+	lengths map[string]int
 }
 
 func (a aePod) Init(mg *mgparser.Mg) {}
@@ -134,20 +137,20 @@ func (a aePod) Header() string {
 	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
 
 	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.nameLenght).Render("NAME"),
-		baseStyle.Width(a.readyLenght).Render("READY"),
-		baseStyle.Width(a.statusLenght).Render("STATUS"),
-		baseStyle.Width(a.restartsLenght).Render("RESTARTS"))
+		baseStyle.Width(a.lengths["name"]).Render("NAME"),
+		baseStyle.Width(a.lengths["ready"]).Render("READY"),
+		baseStyle.Width(a.lengths["status"]).Render("STATUS"),
+		baseStyle.Width(a.lengths["restarts"]).Render("RESTARTS"))
 }
 
 func (a aePod) Title() string {
 	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
 
 	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.nameLenght).Render(a.pod.GetName()),
-		baseStyle.Width(a.readyLenght).Render(a.pod.GetOcOutput().Ready),
-		baseStyle.Width(a.statusLenght).Render(a.pod.GetOcOutput().Status),
-		baseStyle.Width(a.restartsLenght).Render(strconv.Itoa(a.pod.GetOcOutput().Restarts)))
+		baseStyle.Width(a.lengths["name"]).Render(a.pod.GetName()),
+		baseStyle.Width(a.lengths["ready"]).Render(a.pod.GetOcOutput().Ready),
+		baseStyle.Width(a.lengths["status"]).Render(a.pod.GetOcOutput().Status),
+		baseStyle.Width(a.lengths["restarts"]).Render(strconv.Itoa(a.pod.GetOcOutput().Restarts)))
 }
 func (a aePod) FilterValue() string { return a.pod.GetName() }
 func (a aePod) GetWidthFunc() func(windowSize int) int {
@@ -173,37 +176,43 @@ func (a aePod) Selected() []ActionableElement {
 
 	// Calculate the max width for name and status fields for containers and
 	// initContainers
-	var nameLenghts, statusLenghts []int
+	var nameLengths, statusLengths []int
 	for _, containerName := range a.pod.GetContainersAlphabetical() {
-		nameLenghts = append(nameLenghts, len(containerName))
-		statusLenghts = append(statusLenghts, len(a.pod.Containers[containerName].GetOcOutput().Status))
+		nameLengths = append(nameLengths, len(containerName))
+		statusLengths = append(statusLengths, len(a.pod.Containers[containerName].GetOcOutput().Status))
 	}
 	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
-		nameLenghts = append(nameLenghts, len(containerName))
-		statusLenghts = append(statusLenghts, len(a.pod.InitContainers[containerName].GetOcOutput().Status))
+		nameLengths = append(nameLengths, len(containerName))
+		statusLengths = append(statusLengths, len(a.pod.InitContainers[containerName].GetOcOutput().Status))
 	}
 
 	// Add containers
 	for _, containerName := range a.pod.GetContainersAlphabetical() {
+		containerLengths := map[string]int{
+			"name":     slices.Max(nameLengths),
+			"status":   slices.Max(statusLengths),
+			"restarts": len("RESTARTS"),
+			"type":     len("TYPE"),
+		}
 		containersToReturn = append(containersToReturn, aeContainer{
-			container:      a.pod.Containers[containerName],
-			isInit:         false,
-			nameLenght:     slices.Max(nameLenghts),
-			statusLenght:   slices.Max(statusLenghts),
-			restartsLenght: len("RESTARTS"),
-			typeLenght:     len("TYPE"),
+			container: a.pod.Containers[containerName],
+			isInit:    false,
+			lengths:   containerLengths,
 		})
 	}
 
 	// Add initContainers
 	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
+		containerLengths := map[string]int{
+			"name":     slices.Max(nameLengths),
+			"status":   slices.Max(statusLengths),
+			"restarts": len("RESTARTS"),
+			"type":     len("TYPE"),
+		}
 		containersToReturn = append(containersToReturn, aeContainer{
-			container:      a.pod.InitContainers[containerName],
-			isInit:         true,
-			nameLenght:     slices.Max(nameLenghts),
-			statusLenght:   slices.Max(statusLenghts),
-			restartsLenght: len("RESTARTS"),
-			typeLenght:     len("TYPE"),
+			container: a.pod.InitContainers[containerName],
+			isInit:    true,
+			lengths:   containerLengths,
 		})
 	}
 
@@ -216,9 +225,9 @@ func (a aePod) Pressed() (fileToOpen string) {
 
 /* aeContainer */
 type aeContainer struct {
-	container                                            *mgparser.Container
-	isInit                                               bool
-	nameLenght, statusLenght, restartsLenght, typeLenght int
+	container *mgparser.Container
+	isInit    bool
+	lengths   map[string]int
 }
 
 func (a aeContainer) Init(mg *mgparser.Mg) {}
@@ -226,10 +235,10 @@ func (a aeContainer) Header() string {
 	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
 
 	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.nameLenght).Render("NAME"),
-		baseStyle.Width(a.statusLenght).Render("STATUS"),
-		baseStyle.Width(a.restartsLenght).Render("RESTARTS"),
-		baseStyle.Width(a.typeLenght).Render("TYPE"),
+		baseStyle.Width(a.lengths["name"]).Render("NAME"),
+		baseStyle.Width(a.lengths["status"]).Render("STATUS"),
+		baseStyle.Width(a.lengths["restarts"]).Render("RESTARTS"),
+		baseStyle.Width(a.lengths["type"]).Render("TYPE"),
 	)
 }
 func (a aeContainer) Title() string {
@@ -241,10 +250,10 @@ func (a aeContainer) Title() string {
 	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
 
 	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.nameLenght).Render(a.container.Name),
-		baseStyle.Width(a.statusLenght).Render(a.container.GetOcOutput().Status),
-		baseStyle.Width(a.restartsLenght).Render(strconv.Itoa(a.container.GetOcOutput().Restarts)),
-		baseStyle.Width(a.typeLenght).Render(initHeader),
+		baseStyle.Width(a.lengths["name"]).Render(a.container.Name),
+		baseStyle.Width(a.lengths["status"]).Render(a.container.GetOcOutput().Status),
+		baseStyle.Width(a.lengths["restarts"]).Render(strconv.Itoa(a.container.GetOcOutput().Restarts)),
+		baseStyle.Width(a.lengths["init"]).Render(initHeader),
 	)
 }
 
