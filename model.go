@@ -19,9 +19,7 @@ type model struct {
 
 func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
-	widthFunc := actElements[0].GetWidthFunc()
-	heightFunc := actElements[0].GetHeightFunc()
-	model := list.New(items, NewMgDelegate(), widthFunc(m.windowWidth), heightFunc(m.windowHeight))
+	model := list.New(items, NewMgDelegate(), 10000, 40)
 
 	// disable help
 	model.SetShowHelp(false)
@@ -37,10 +35,8 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	}
 
 	m.panels[index] = panel{
-		list:       model,
-		widthFunc:  widthFunc,
-		heightFunc: heightFunc,
-		active:     true,
+		list:   model,
+		active: true,
 	}
 }
 

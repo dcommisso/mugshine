@@ -36,16 +36,6 @@ func (a *aeLogs) Init(mg *mgparser.Mg) {
 func (a aeLogs) Header() string      { return "OCP RESOURCES" }
 func (a aeLogs) Title() string       { return aeLogsSectionName }
 func (a aeLogs) FilterValue() string { return "" }
-func (a aeLogs) GetWidthFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		return 20
-	}
-}
-func (a aeLogs) GetHeightFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		return windowSize
-	}
-}
 func (a aeLogs) IsFailed() bool {
 	for _, ns := range a.Selected() {
 		if ns.IsFailed() {
@@ -78,16 +68,6 @@ func (a aeNamespace) Init(mg *mgparser.Mg) {}
 func (a aeNamespace) Header() string       { return "NAMESPACES" }
 func (a aeNamespace) Title() string        { return a.namespace.Name }
 func (a aeNamespace) FilterValue() string  { return a.namespace.Name }
-func (a aeNamespace) GetWidthFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		return 50
-	}
-}
-func (a aeNamespace) GetHeightFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		return windowSize
-	}
-}
 func (a aeNamespace) IsFailed() bool {
 	for _, pod := range a.Selected() {
 		if pod.IsFailed() {
@@ -153,17 +133,6 @@ func (a aePod) Title() string {
 		baseStyle.Width(a.lengths["restarts"]).Render(strconv.Itoa(a.pod.GetOcOutput().Restarts)))
 }
 func (a aePod) FilterValue() string { return a.pod.GetName() }
-func (a aePod) GetWidthFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		// return windowSize / (1 / 0.5)
-		return 60
-	}
-}
-func (a aePod) GetHeightFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		return windowSize
-	}
-}
 func (a aePod) IsFailed() bool {
 	if a.pod.GetOcOutput().Status != "Running" && a.pod.GetOcOutput().Status != "Completed" {
 		return true
@@ -258,17 +227,6 @@ func (a aeContainer) Title() string {
 }
 
 func (a aeContainer) FilterValue() string { return a.container.Name }
-func (a aeContainer) GetWidthFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		//return windowSize / (1 / 0.2)
-		return 60
-	}
-}
-func (a aeContainer) GetHeightFunc() func(windowSize int) int {
-	return func(windowSize int) int {
-		return windowSize
-	}
-}
 func (a aeContainer) IsFailed() bool {
 	if a.container.GetOcOutput().Status != "Running" && a.container.GetOcOutput().Status != "Completed" {
 		return true

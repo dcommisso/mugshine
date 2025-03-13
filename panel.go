@@ -15,11 +15,9 @@ const (
 )
 
 type panel struct {
-	list       list.Model
-	widthFunc  func(windowSize int) int
-	heightFunc func(windowSize int) int
-	active     bool
-	status     PanelStatus
+	list   list.Model
+	active bool
+	status PanelStatus
 }
 
 func (p *panel) SetStatus(status PanelStatus) {
@@ -69,6 +67,6 @@ func (p panel) View() string {
 }
 
 func (p *panel) setSize(windowWidth, windowHeight int) {
-	p.list.SetWidth(p.widthFunc(windowWidth))
-	p.list.SetHeight(p.heightFunc(windowHeight))
+	p.list.SetWidth(windowWidth)
+	p.list.SetHeight(windowHeight)
 }
