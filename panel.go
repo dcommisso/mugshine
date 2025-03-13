@@ -70,3 +70,8 @@ func (p *panel) setSize(newWidth, newHeight int) {
 	p.list.SetWidth(newWidth)
 	p.list.SetHeight(newHeight)
 }
+
+// GetWantedWidth returns the width required by the panel for a full output
+func (p *panel) GetWantedWidth() int {
+	return lipgloss.Width(p.View())
+}
