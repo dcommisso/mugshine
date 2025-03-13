@@ -66,7 +66,7 @@ func (p panel) View() string {
 	return p.getStyle().Render(p.list.View())
 }
 
-func (p *panel) setSize(windowWidth, windowHeight int) {
-	p.list.SetWidth(windowWidth)
-	p.list.SetHeight(windowHeight)
+func (p *panel) setSize(newWidth, newHeight int) {
+	p.list.SetWidth(newWidth)
+	p.list.SetHeight(newHeight)
 }
