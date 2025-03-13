@@ -47,6 +47,11 @@ func (a aeLogs) GetHeightFunc() func(windowSize int) int {
 	}
 }
 func (a aeLogs) IsFailed() bool {
+	for _, ns := range a.Selected() {
+		if ns.IsFailed() {
+			return true
+		}
+	}
 	return false
 }
 
@@ -84,6 +89,11 @@ func (a aeNamespace) GetHeightFunc() func(windowSize int) int {
 	}
 }
 func (a aeNamespace) IsFailed() bool {
+	for _, pod := range a.Selected() {
+		if pod.IsFailed() {
+			return true
+		}
+	}
 	return false
 }
 
