@@ -53,6 +53,12 @@ func (m *model) UpdateNextPanel() {
 		return
 	}
 
+	// delete the next-next panel
+	nextNextPanelIndex := m.focused + 2
+	if nextNextPanelIndex < len(m.panels) {
+		m.deletePanel(nextNextPanelIndex)
+	}
+
 	selectedItem := m.panels[m.focused].list.SelectedItem()
 
 	// return if selectedItem is nil, otherwise it crashes when filtered with
@@ -109,10 +115,6 @@ func (m *model) DecreaseFocused() {
 
 	m.focused--
 	m.panels[m.focused].SetStatus(PanelStatusFocused)
-	panelToDelete := m.focused + 2
-	if panelToDelete < len(m.panels) {
-		m.deletePanel(panelToDelete)
-	}
 }
 
 func (m model) Init() tea.Cmd {
