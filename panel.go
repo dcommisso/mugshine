@@ -67,7 +67,15 @@ func (p panel) View() string {
 }
 
 func (p *panel) setSize(newWidth, newHeight int) {
+	p.setWidth(newWidth)
+	p.setHeight(newHeight)
+}
+
+func (p *panel) setWidth(newWidth int) {
 	p.list.SetWidth(newWidth)
+}
+
+func (p *panel) setHeight(newHeight int) {
 	p.list.SetHeight(newHeight)
 }
 
