@@ -19,7 +19,7 @@ type model struct {
 
 func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
-	model := list.New(items, NewMgDelegate(), 10000, 40)
+	model := list.New(items, NewMgDelegate(), 0, 40)
 
 	// disable help
 	model.SetShowHelp(false)
@@ -38,6 +38,8 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 		list:   model,
 		active: true,
 	}
+
+	m.dynamicResizeAllPanelsWidth()
 }
 
 // UpdatePanelsAfterMoving creates/updates/deletes the panels based on the item
@@ -119,18 +121,54 @@ func (m model) Init() tea.Cmd {
 	return nil
 }
 
+func (m *model) dynamicResizeAllPanelsWidth() {
+	// calculate width. The algoritm prioritizes the panels in this order:
+	// 1. focused panel
+	// 2. next panel
+	// 3. focused -1 panel
+	// 4. focused -2 panel
+
+	const resizeDivisor = 2
+
+	availableWidth := m.windowWidth
+
+	var panelsInPrioOrder []*panel
+
+	// the first one is the focused
+	panelsInPrioOrder = append(panelsInPrioOrder, &m.panels[m.focused])
+
+	// add next panels, if it exists
+	if m.focused+1 < len(m.panels) && m.panels[m.focused+1].active {
+		panelsInPrioOrder = append(panelsInPrioOrder, &m.panels[m.focused+1])
+	}
+
+	// add the previous panels in reverse order
+	for i := m.focused - 1; i >= 0; i-- {
+		panelsInPrioOrder = append(panelsInPrioOrder, &m.panels[i])
+	}
+
+	// try to give each panels the wanted size
+	for _, panel := range panelsInPrioOrder {
+		wanted := panel.GetWantedWidth()
+		var given int
+		if wanted < availableWidth {
+			given = wanted
+		} else {
+			given = wanted / resizeDivisor
+		}
+		panel.setWidth(given)
+		availableWidth -= given
+	}
+}
+
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
-	var cmds []tea.Cmd
 
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.setSize(msg.Width, msg.Height)
-		for i, p := range m.GetActivePanels() {
-			m.panels[i], cmd = p.Update(msg)
-			cmds = append(cmds, cmd)
-		}
-		return m, tea.Batch(cmds...)
+		m.dynamicResizeAllPanelsWidth()
+		return m, nil
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c":

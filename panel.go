@@ -36,7 +36,7 @@ func (p panel) Update(msg tea.Msg) (panel, tea.Cmd) {
 	var cmd tea.Cmd
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
-		p.setSize(msg.Width, msg.Height)
+		p.setSize(msg.Width, msg.Height-5)
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "enter":
