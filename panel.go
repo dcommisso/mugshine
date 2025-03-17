@@ -47,11 +47,7 @@ func (p *panel) getStyle() lipgloss.Style {
 	return lipgloss.NewStyle().Border(lipgloss.HiddenBorder())
 }
 
-func (p panel) Init() tea.Cmd {
-	return nil
-}
-
-func (p panel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (p panel) Update(msg tea.Msg) (panel, tea.Cmd) {
 	var cmd tea.Cmd
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:

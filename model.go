@@ -128,8 +128,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.setSize(msg.Width, msg.Height)
 		for i, p := range m.GetActivePanels() {
-			res, cmd := p.Update(msg)
-			m.panels[i] = res.(panel)
+			m.panels[i], cmd = p.Update(msg)
 			cmds = append(cmds, cmd)
 		}
 		return m, tea.Batch(cmds...)
@@ -146,9 +145,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	// send the msg to the focused panel. This must be done before getting the
 	// selected item in UpdateNextPanel function.
-	var res tea.Model
-	res, cmd = m.panels[m.focused].Update(msg)
-	m.panels[m.focused] = res.(panel)
+	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
 
 	m.UpdateNextPanel()
 
