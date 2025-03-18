@@ -44,10 +44,16 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 	}
 }
 
-// updateNextPanel creates/updates/deletes the next panel based on the item
+// UpdatePanelsAfterMoving creates/updates/deletes the panels based on the item
 // selected in focused panel
-func (m *model) UpdateNextPanel() {
-	// do nothing if we are at last panel
+func (m *model) UpdatePanelsAfterMoving() {
+	// update the status of the panels
+	m.panels[m.focused].status = PanelStatusFocused
+	if m.focused-1 >= 0 {
+		m.panels[m.focused-1].status = PanelStatusPrevious
+	}
+
+	// do nothing else if we are at last panel
 	lastPanelIndex := len(m.panels) - 1
 	if m.focused == lastPanelIndex {
 		return
@@ -102,10 +108,7 @@ func (m *model) IncreaseFocused() {
 	if m.focused == len(m.panels)-1 || !m.panels[m.focused+1].active {
 		return
 	}
-
-	m.panels[m.focused].SetStatus(PanelStatusPrevious)
 	m.focused++
-	m.panels[m.focused].SetStatus(PanelStatusFocused)
 }
 
 func (m *model) DecreaseFocused() {
@@ -114,7 +117,6 @@ func (m *model) DecreaseFocused() {
 	}
 
 	m.focused--
-	m.panels[m.focused].SetStatus(PanelStatusFocused)
 }
 
 func (m model) Init() tea.Cmd {
@@ -124,6 +126,7 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 	var cmds []tea.Cmd
+
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.setSize(msg.Width, msg.Height)
@@ -143,11 +146,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	}
 
-	// send the msg to the focused panel. This must be done before getting the
-	// selected item in UpdateNextPanel function.
 	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
-
-	m.UpdateNextPanel()
+	m.UpdatePanelsAfterMoving()
 
 	return m, cmd
 }
