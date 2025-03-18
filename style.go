@@ -12,7 +12,7 @@ var (
 	colorFailed       = lipgloss.Color("#E84855")
 )
 
-/* Change here the style of focused border */
+/* Change here the style of focused panel */
 func getFocusedStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
