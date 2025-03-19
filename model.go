@@ -38,8 +38,6 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 		list:   model,
 		active: true,
 	}
-
-	m.dynamicResizeAllPanelsWidth()
 }
 
 // UpdatePanelsAfterMoving creates/updates/deletes the panels based on the item
@@ -121,16 +119,28 @@ func (m model) Init() tea.Cmd {
 	return nil
 }
 
+// dynamicResizeAllPanelsWidth resizes each panel based on its status. The
+// algorithm prioritizes the panels in this order:
+//
+// 1. focused panel
+// 2. next panel
+// 3. focused -1 panel
+// 4. focused -2 panel
+//
+// Here's how the algorithm works: if the space wanted by a panel is
+// available, then it gets it. If not, it will receive a `resizeDivisor`
+// fraction of the available space. In this way the granted space will be
+// less and less as the priority of the panel goes down. Since a panel has a
+// minimum space occupied regardless the allowed width, there is the risk
+// that the total sum of the panels will exceeds the available width, at the
+// expense of the last and prioritized panels, that's why a
+// `unresevedWidthPercentage` percentage is not allocated.
 func (m *model) dynamicResizeAllPanelsWidth() {
-	// calculate width. The algoritm prioritizes the panels in this order:
-	// 1. focused panel
-	// 2. next panel
-	// 3. focused -1 panel
-	// 4. focused -2 panel
-
-	const resizeDivisor = 2
-
-	availableWidth := m.windowWidth
+	const (
+		resizeDivisor            = 2
+		unresevedWidthPercentage = 0.08
+	)
+	availableWidth := m.windowWidth - int(float64(m.windowWidth)*unresevedWidthPercentage)
 
 	var panelsInPrioOrder []*panel
 
@@ -147,15 +157,17 @@ func (m *model) dynamicResizeAllPanelsWidth() {
 		panelsInPrioOrder = append(panelsInPrioOrder, &m.panels[i])
 	}
 
-	// try to give each panels the wanted size
+	// give each panel the wanted width or a fraction of the available width
 	for _, panel := range panelsInPrioOrder {
 		wanted := panel.GetWantedWidth()
 		var given int
+
 		if wanted < availableWidth {
 			given = wanted
 		} else {
-			given = wanted / resizeDivisor
+			given = availableWidth / resizeDivisor
 		}
+
 		panel.setWidth(given)
 		availableWidth -= given
 	}
@@ -182,6 +194,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
 	m.UpdatePanelsAfterMoving()
+	m.dynamicResizeAllPanelsWidth()
 
 	return m, cmd
 }
