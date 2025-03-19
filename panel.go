@@ -23,6 +23,19 @@ type panel struct {
 func (p *panel) SetStatus(status PanelStatus) {
 	// set the new status
 	p.status = status
+
+	// The render of the elements should happens in delegate but from there it's
+	// not possible/easy (without doing ugly things) to check the panel status
+	d := NewMgDelegate()
+	if status == PanelStatusNext {
+		// avoid highlighting elements in next panel
+		d.Styles.SelectedTitle = d.Styles.NormalTitle
+		d.Styles.FailedSelectedTitle = d.Styles.FailedTitle
+	}
+
+	// the new delegate must be set in any status, otherwise when the panel
+	// becomes focused again, it retains the previous style
+	p.list.SetDelegate(d)
 }
 
 func (p *panel) getStyle() lipgloss.Style {
@@ -51,18 +64,6 @@ func (p panel) Update(msg tea.Msg) (panel, tea.Cmd) {
 }
 
 func (p panel) View() string {
-	// This is to avoid highlighting elements in next panel. Render of the
-	// elements should controlled in delegate but from there it's not
-	// possible/easy (without doing ugly things) to check the panel status
-	d := NewMgDelegate()
-	if p.status == PanelStatusNext {
-		d.Styles.SelectedTitle = d.Styles.NormalTitle
-		d.Styles.FailedSelectedTitle = d.Styles.FailedTitle
-	}
-	// the new delegate must be set in any status, otherwise when the panel
-	// becomes focused again, it retains the previous style
-	p.list.SetDelegate(d)
-
 	return p.getStyle().Render(p.list.View())
 }
 
