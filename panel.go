@@ -81,5 +81,13 @@ func (p *panel) setHeight(newHeight int) {
 
 // GetWantedWidth returns the width required by the panel for a full output
 func (p *panel) GetWantedWidth() int {
-	return lipgloss.Width(p.View())
+	// Since the list.View() output is limited by the width of the list, here we
+	// create a fake panel with arbitrarily large width, in order to run a
+	// View() and find out the maximum width needed by the panel. Yes, it's ugly.
+	fakePanel := panel{
+		list:   list.New(p.list.Items(), NewMgDelegate(), 1000, 0),
+		status: p.status,
+	}
+
+	return lipgloss.Width(fakePanel.View())
 }
