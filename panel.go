@@ -89,5 +89,11 @@ func (p *panel) GetWantedWidth() int {
 		status: p.status,
 	}
 
+	// Set header. This is important to calculate width based on header.
+	fakePanel.list.Styles.Title = getListTitleStyle()
+	if header := fakePanel.list.Items()[0].(ActionableElement).Header(); header != "" {
+		fakePanel.list.Title = header
+	}
+
 	return lipgloss.Width(fakePanel.View())
 }
