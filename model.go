@@ -44,9 +44,9 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 // selected in focused panel
 func (m *model) UpdatePanelsAfterMoving() {
 	// update the status of the panels
-	m.panels[m.focused].status = PanelStatusFocused
+	m.panels[m.focused].SetStatus(PanelStatusFocused)
 	if m.focused-1 >= 0 {
-		m.panels[m.focused-1].status = PanelStatusPrevious
+		m.panels[m.focused-1].SetStatus(PanelStatusPrevious)
 	}
 
 	// do nothing else if we are at last panel
