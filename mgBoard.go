@@ -10,14 +10,14 @@ const (
 	maxNumberOfPanels = 4
 )
 
-type model struct {
+type mgBoard struct {
 	panels       [maxNumberOfPanels]panel
 	focused      int
 	windowWidth  int
 	windowHeight int
 }
 
-func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
+func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
 	model := list.New(items, NewMgDelegate(), 0, 40)
 
@@ -42,7 +42,7 @@ func (m *model) AddNewPanel(index int, actElements []ActionableElement) {
 
 // UpdatePanelsAfterMoving creates/updates/deletes the panels based on the item
 // selected in focused panel
-func (m *model) UpdatePanelsAfterMoving() {
+func (m *mgBoard) UpdatePanelsAfterMoving() {
 	// update the status of the panels
 	m.panels[m.focused].SetStatus(PanelStatusFocused)
 	if m.focused-1 >= 0 {
@@ -80,16 +80,16 @@ func (m *model) UpdatePanelsAfterMoving() {
 	}
 }
 
-func (m *model) deletePanel(index int) {
+func (m *mgBoard) deletePanel(index int) {
 	m.panels[index].active = false
 }
 
-func (m *model) setSize(width, height int) {
+func (m *mgBoard) setSize(width, height int) {
 	m.windowWidth = width
 	m.windowHeight = height
 }
 
-func (m *model) GetActivePanels() []panel {
+func (m *mgBoard) GetActivePanels() []panel {
 	var activePanels []panel
 	for _, panel := range m.panels {
 		if panel.active {
@@ -99,7 +99,7 @@ func (m *model) GetActivePanels() []panel {
 	return activePanels
 }
 
-func (m *model) IncreaseFocused() {
+func (m *mgBoard) IncreaseFocused() {
 	// Do nothing if we're on the last panel or if the next panel is empty
 	if m.focused == len(m.panels)-1 || !m.panels[m.focused+1].active {
 		return
@@ -107,7 +107,7 @@ func (m *model) IncreaseFocused() {
 	m.focused++
 }
 
-func (m *model) DecreaseFocused() {
+func (m *mgBoard) DecreaseFocused() {
 	if m.focused == 0 {
 		return
 	}
@@ -115,7 +115,7 @@ func (m *model) DecreaseFocused() {
 	m.focused--
 }
 
-func (m model) Init() tea.Cmd {
+func (m mgBoard) Init() tea.Cmd {
 	return nil
 }
 
@@ -135,7 +135,7 @@ func (m model) Init() tea.Cmd {
 // that the total sum of the panels will exceeds the available width, at the
 // expense of the last and prioritized panels, that's why a
 // `unresevedWidthPercentage` percentage is not allocated.
-func (m *model) dynamicResizeAllPanelsWidth() {
+func (m *mgBoard) dynamicResizeAllPanelsWidth() {
 	const (
 		resizeDivisor            = 2
 		unresevedWidthPercentage = 0.08
@@ -173,7 +173,7 @@ func (m *model) dynamicResizeAllPanelsWidth() {
 	}
 }
 
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m mgBoard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 
 	switch msg := msg.(type) {
@@ -199,7 +199,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
-func (m model) View() string {
+func (m mgBoard) View() string {
 	activePanels := []string{}
 	for _, panel := range m.GetActivePanels() {
 		activePanels = append(activePanels, panel.View())

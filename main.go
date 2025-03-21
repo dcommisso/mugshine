@@ -25,7 +25,7 @@ func main() {
 	for _, elem := range ocpResources {
 		elem.Init(mgToLoad)
 	}
-	m := model{}
+	m := mgBoard{}
 	m.AddNewPanel(0, ocpResources)
 
 	m.UpdatePanelsAfterMoving()
