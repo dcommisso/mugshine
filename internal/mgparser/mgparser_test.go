@@ -10,14 +10,14 @@ import (
 func TestNewMg(t *testing.T) {
 	cases := map[string]struct {
 		directory      string
-		namespacesPath string
+		mgBasePath     string
 		namespaceNames []string
 		podNames       map[string][]string
 		expectedError  string
 	}{
 		"valid mg": {
-			directory:      "./testdata/mgs/validMg",
-			namespacesPath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/namespaces",
+			directory:  "./testdata/mgs/validMg",
+			mgBasePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
 			namespaceNames: []string{
 				"openshift-multus",
 				"openshift-nfs-storage",
@@ -60,8 +60,8 @@ func TestNewMg(t *testing.T) {
 			},
 		},
 		"valid inspect": {
-			directory:      "./testdata/mgs/validInspect",
-			namespacesPath: "./testdata/mgs/validInspect/namespaces",
+			directory:  "./testdata/mgs/validInspect",
+			mgBasePath: "./testdata/mgs/validInspect",
 			namespaceNames: []string{
 				"stackrox",
 			},
@@ -76,8 +76,8 @@ func TestNewMg(t *testing.T) {
 			},
 		},
 		"valid mg with trailing slash": {
-			directory:      "./testdata/mgs/validMg/",
-			namespacesPath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/namespaces",
+			directory:  "./testdata/mgs/validMg/",
+			mgBasePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
 			namespaceNames: []string{
 				"openshift-multus",
 				"openshift-nfs-storage",
@@ -120,8 +120,8 @@ func TestNewMg(t *testing.T) {
 			},
 		},
 		"valid inspect with trailing slash": {
-			directory:      "./testdata/mgs/validInspect/",
-			namespacesPath: "./testdata/mgs/validInspect/namespaces",
+			directory:  "./testdata/mgs/validInspect/",
+			mgBasePath: "./testdata/mgs/validInspect",
 			namespaceNames: []string{
 				"stackrox",
 			},
@@ -178,7 +178,7 @@ func TestNewMg(t *testing.T) {
 				return
 			}
 
-			assert.Equal(t, tc.namespacesPath, mg.NamespacesPath)
+			assert.Equal(t, tc.mgBasePath, mg.basePath)
 
 			// get the namespace names and sort them for comparison
 			namespaceNames := make([]string, len(mg.Namespaces))

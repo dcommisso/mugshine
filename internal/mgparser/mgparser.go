@@ -20,8 +20,8 @@ type Mg struct {
 		Start string
 		End   string
 	}
-	NamespacesPath string
-	Namespaces     map[string]*Namespace
+	basePath   string
+	Namespaces map[string]*Namespace
 }
 
 // NewMg return an instance of Mg.
@@ -40,36 +40,41 @@ func NewMg(directory string) (*Mg, error) {
 		return nil, err
 	}
 
+	const (
+		namespaceDir = "namespaces"
+	)
+
 	dirNumber := 0
-	timestampFile := false
-	namespaceDir := false
-	namespacePath := ""
+	timestampFileFound := false
+	namespaceDirFound := false
+	mgBasePath := ""
 
 	for _, file := range files {
 		if file.Name() == "timestamp" && !file.IsDir() {
-			timestampFile = true
+			timestampFileFound = true
 		}
 
 		if file.IsDir() {
 			dirNumber++
 			if file.Name() == "namespaces" {
 				// inspect case
-				namespaceDir = true
-				namespacePath = strings.TrimSuffix(directory, "/") + "/namespaces"
+				namespaceDirFound = true
+				mgBasePath = strings.TrimSuffix(directory, "/")
 			} else if directoryContains(directory+"/"+file.Name(), "namespaces") {
 				// must-gather case
-				namespaceDir = true
-				namespacePath = strings.TrimSuffix(directory, "/") + "/" + file.Name() + "/namespaces"
+				namespaceDirFound = true
+				mgBasePath = strings.TrimSuffix(directory, "/") + "/" + file.Name()
 			}
 		}
 	}
 
-	if !timestampFile || !namespaceDir || dirNumber != 1 {
+	if !timestampFileFound || !namespaceDirFound || dirNumber != 1 {
 		return nil, errors.New("bad must-gather format")
 	}
 
 	// create namespaces
 	namespacesToReturn := map[string]*Namespace{}
+	namespacePath := mgBasePath + "/" + namespaceDir
 	files, _ = os.ReadDir(namespacePath)
 	for _, file := range files {
 		if file.IsDir() {
@@ -78,8 +83,8 @@ func NewMg(directory string) (*Mg, error) {
 	}
 
 	return &Mg{
-		NamespacesPath: namespacePath,
-		Namespaces:     namespacesToReturn,
+		basePath:   mgBasePath,
+		Namespaces: namespacesToReturn,
 	}, nil
 }
 
