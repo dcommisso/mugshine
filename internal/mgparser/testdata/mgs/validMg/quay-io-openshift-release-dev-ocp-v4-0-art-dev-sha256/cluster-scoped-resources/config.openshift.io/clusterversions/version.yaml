@@ -1,0 +1,338 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterVersion
+metadata:
+  creationTimestamp: "2025-03-17T13:48:39Z"
+  generation: 2
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:channel: {}
+        f:clusterID: {}
+    manager: cluster-bootstrap
+    operation: Update
+    time: "2025-03-17T13:48:39Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:availableUpdates: {}
+        f:capabilities:
+          .: {}
+          f:enabledCapabilities: {}
+          f:knownCapabilities: {}
+        f:conditionalUpdates: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Failing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"ImplicitlyEnabledCapabilities"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"ReleaseAccepted"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"RetrievedUpdates"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+        f:desired:
+          .: {}
+          f:channels:
+            .: {}
+            v:"candidate-4.17": {}
+            v:"candidate-4.18": {}
+            v:"fast-4.17": {}
+            v:"fast-4.18": {}
+            v:"stable-4.17": {}
+          f:image: {}
+          f:url: {}
+          f:version: {}
+        f:history: {}
+        f:observedGeneration: {}
+        f:versionHash: {}
+    manager: cluster-version-operator
+    operation: Update
+    subresource: status
+    time: "2025-03-20T07:39:00Z"
+  name: version
+  resourceVersion: "1246853"
+  uid: asdf1234-1234-asdf-as12-asdf1234ghjk
+spec:
+  channel: stable-4.17
+  clusterID: asdfgh56-1234-asdf-12as-5655443fgrt6a
+status:
+  availableUpdates:
+  - channels:
+    - candidate-4.17
+    - candidate-4.18
+    - fast-4.17
+    - fast-4.18
+    - stable-4.17
+    image: quay.io/openshift-release-dev/ocp-release
+    url: https://access.redhat.com/errata/RHSA
+    version: 4.17.20
+  - channels:
+    - candidate-4.17
+    - candidate-4.18
+    - fast-4.17
+    - fast-4.18
+    - stable-4.17
+    image: quay.io/openshift-release-dev/ocp-release
+    url: https://access.redhat.com/errata/RHSA
+    version: 4.17.19
+  - channels:
+    - candidate-4.17
+    - candidate-4.18
+    - fast-4.17
+    - fast-4.18
+    - stable-4.17
+    image: quay.io/openshift-release-dev/ocp-release
+    url: https://access.redhat.com/errata/RHSA
+    version: 4.17.18
+  - channels:
+    - candidate-4.17
+    - candidate-4.18
+    - fast-4.17
+    - fast-4.18
+    - stable-4.17
+    image: quay.io/openshift-release-dev/ocp-release
+    url: https://access.redhat.com/errata/RHSA
+    version: 4.17.17
+  - channels:
+    - candidate-4.17
+    - candidate-4.18
+    - fast-4.17
+    - fast-4.18
+    - stable-4.17
+    image: quay.io/openshift-release-dev/ocp-release
+    url: https://access.redhat.com/errata/RHSA
+    version: 4.17.16
+  capabilities:
+    enabledCapabilities:
+    - Build
+    - CSISnapshot
+    - CloudControllerManager
+    - CloudCredential
+    - Console
+    - DeploymentConfig
+    - ImageRegistry
+    - Ingress
+    - Insights
+    - MachineAPI
+    - NodeTuning
+    - OperatorLifecycleManager
+    - Storage
+    - baremetal
+    - marketplace
+    - openshift-samples
+    knownCapabilities:
+    - Build
+    - CSISnapshot
+    - CloudControllerManager
+    - CloudCredential
+    - Console
+    - DeploymentConfig
+    - ImageRegistry
+    - Ingress
+    - Insights
+    - MachineAPI
+    - NodeTuning
+    - OperatorLifecycleManager
+    - Storage
+    - baremetal
+    - marketplace
+    - openshift-samples
+  conditionalUpdates:
+  - conditions:
+    - lastTransitionTime: "2025-03-17T15:14:47Z"
+      message: The update is recommended, because none of the conditional update risks
+        apply to this cluster.
+      reason: NotExposedToRisks
+      status: "True"
+      type: Recommended
+    release:
+      channels:
+      - candidate-4.17
+      - candidate-4.18
+      - fast-4.17
+      - fast-4.18
+      - stable-4.17
+      image: quay.io/openshift-release-dev/ocp-release
+      url: https://access.redhat.com/errata/RHSA
+      version: 4.17.19
+    risks:
+    - matchingRules:
+      - promql:
+          promql: |
+            group by (_id, invoker) (cluster_installer{_id="",invoker="hypershift"})
+            or
+            0 * group by (_id, invoker) (cluster_installer{_id=""})
+        type: PromQL
+      message: 'The Hosted Cluster is properly deployed but still incorrectly shows
+        the condition: HostedCluster is deploying, upgrading, or reconfiguring, which
+        is blocking the cluster deployment completion.'
+      name: HostedClusterIsProgressingStuckCondition
+      url: https://issues.redhat.com/browse/CNTRLPLANE-256
+  - conditions:
+    - lastTransitionTime: "2025-03-17T15:14:47Z"
+      message: The update is recommended, because none of the conditional update risks
+        apply to this cluster.
+      reason: NotExposedToRisks
+      status: "True"
+      type: Recommended
+    release:
+      channels:
+      - candidate-4.17
+      - candidate-4.18
+      - fast-4.17
+      - fast-4.18
+      - stable-4.17
+      image: quay.io/openshift-release-dev/ocp-release
+      url: https://access.redhat.com/errata/RHSA
+      version: 4.17.18
+    risks:
+    - matchingRules:
+      - promql:
+          promql: |
+            group by (_id, invoker) (cluster_installer{_id="",invoker="hypershift"})
+            or
+            0 * group by (_id, invoker) (cluster_installer{_id=""})
+        type: PromQL
+      message: 'The Hosted Cluster is properly deployed but still incorrectly shows
+        the condition: HostedCluster is deploying, upgrading, or reconfiguring, which
+        is blocking the cluster deployment completion.'
+      name: HostedClusterIsProgressingStuckCondition
+      url: https://issues.redhat.com/browse/CNTRLPLANE-256
+  - conditions:
+    - lastTransitionTime: "2025-03-17T15:14:47Z"
+      message: The update is recommended, because none of the conditional update risks
+        apply to this cluster.
+      reason: NotExposedToRisks
+      status: "True"
+      type: Recommended
+    release:
+      channels:
+      - candidate-4.17
+      - candidate-4.18
+      - fast-4.17
+      - fast-4.18
+      - stable-4.17
+      image: quay.io/openshift-release-dev/ocp-release
+      url: https://access.redhat.com/errata/RHSA
+      version: 4.17.17
+    risks:
+    - matchingRules:
+      - promql:
+          promql: |
+            group by (_id, invoker) (cluster_installer{_id="",invoker="hypershift"})
+            or
+            0 * group by (_id, invoker) (cluster_installer{_id=""})
+        type: PromQL
+      message: 'The Hosted Cluster is properly deployed but still incorrectly shows
+        the condition: HostedCluster is deploying, upgrading, or reconfiguring, which
+        is blocking the cluster deployment completion.'
+      name: HostedClusterIsProgressingStuckCondition
+      url: https://issues.redhat.com/browse/CNTRLPLANE-256
+  - conditions:
+    - lastTransitionTime: "2025-03-17T15:14:47Z"
+      message: The update is recommended, because none of the conditional update risks
+        apply to this cluster.
+      reason: NotExposedToRisks
+      status: "True"
+      type: Recommended
+    release:
+      channels:
+      - candidate-4.17
+      - candidate-4.18
+      - fast-4.17
+      - fast-4.18
+      - stable-4.17
+      image: quay.io/openshift-release-dev/ocp-release
+      url: https://access.redhat.com/errata/RHSA
+      version: 4.17.16
+    risks:
+    - matchingRules:
+      - promql:
+          promql: |
+            group by (_id, invoker) (cluster_installer{_id="",invoker="hypershift"})
+            or
+            0 * group by (_id, invoker) (cluster_installer{_id=""})
+        type: PromQL
+      message: 'The Hosted Cluster is properly deployed but still incorrectly shows
+        the condition: HostedCluster is deploying, upgrading, or reconfiguring, which
+        is blocking the cluster deployment completion.'
+      name: HostedClusterIsProgressingStuckCondition
+      url: https://issues.redhat.com/browse/CNTRLPLANE-256
+  conditions:
+  - lastTransitionTime: "2025-03-17T13:49:04Z"
+    status: "True"
+    type: RetrievedUpdates
+  - lastTransitionTime: "2025-03-17T13:49:04Z"
+    message: Capabilities match configured spec
+    reason: AsExpected
+    status: "False"
+    type: ImplicitlyEnabledCapabilities
+  - lastTransitionTime: "2025-03-17T13:49:04Z"
+    message: Payload loaded version="4.17.15" image="quay.io/openshift-release-dev/ocp-release
+      architecture="amd64"
+    reason: PayloadLoaded
+    status: "True"
+    type: ReleaseAccepted
+  - lastTransitionTime: "2025-03-17T14:29:39Z"
+    message: Done applying 4.17.15
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-03-17T14:29:39Z"
+    status: "False"
+    type: Failing
+  - lastTransitionTime: "2025-03-17T14:29:39Z"
+    message: Cluster version is 4.17.15
+    status: "False"
+    type: Progressing
+  desired:
+    channels:
+    - candidate-4.17
+    - candidate-4.18
+    - fast-4.17
+    - fast-4.18
+    - stable-4.17
+    image: quay.io/openshift-release-dev/ocp-release
+    url: https://access.redhat.com/errata/RHSA
+    version: 4.17.15
+  history:
+  - completionTime: "2025-03-17T14:29:39Z"
+    image: quay.io/openshift-release-dev/ocp-release
+    startedTime: "2025-03-17T13:49:04Z"
+    state: Completed
+    verified: false
+    version: 4.17.15
+  observedGeneration: 2
+  versionHash: 1234asdf0=

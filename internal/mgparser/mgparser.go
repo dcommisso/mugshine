@@ -24,6 +24,7 @@ type Mg struct {
 	basePath       string
 	Namespaces     map[string]*Namespace
 	infrastructure *configv1.Infrastructure
+	clusterVersion *configv1.ClusterVersion
 }
 
 // NewMg return an instance of Mg.
@@ -45,6 +46,7 @@ func NewMg(directory string) (*Mg, error) {
 	const (
 		namespaceDir            = "namespaces"
 		infrastructuresFilePath = "cluster-scoped-resources/config.openshift.io/infrastructures.yaml"
+		clusterVersionPath      = "cluster-scoped-resources/config.openshift.io/clusterversions/version.yaml"
 	)
 
 	dirNumber := 0
@@ -96,10 +98,22 @@ func NewMg(directory string) (*Mg, error) {
 		infrastructure = &infralist.Items[0]
 	}
 
+	// parse clusterVersion, if present
+	clusterVersionFile := mgBasePath + "/" + clusterVersionPath
+	var clusterVersion *configv1.ClusterVersion
+	if _, err := os.Stat(clusterVersionFile); err == nil {
+		cv, err := parseClusterVersion(clusterVersionFile)
+		if err != nil {
+			return nil, err
+		}
+		clusterVersion = &cv
+	}
+
 	return &Mg{
 		basePath:       mgBasePath,
 		Namespaces:     namespacesToReturn,
 		infrastructure: infrastructure,
+		clusterVersion: clusterVersion,
 	}, nil
 }
 
