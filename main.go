@@ -5,32 +5,18 @@ import (
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/dcommisso/img/internal/mgparser"
 )
 
 func main() {
 	mgPathToLoad := "./internal/mgparser/testdata/mgs/validMg"
-	mgToLoad, err := mgparser.NewMg(mgPathToLoad)
+
+	mgBoard, err := NewMgBoard(mgPathToLoad)
 	if err != nil {
-		fmt.Println("Error loading mg:", err)
+		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	ocpResources := []ActionableElement{
-		// a pointer is needed since aeLogs Init method has a pointer receiver
-		new(aeLogs),
-	}
-
-	// initialize the ActionableElement and add them to firstPanelItems
-	for _, elem := range ocpResources {
-		elem.Init(mgToLoad)
-	}
-	m := mgBoard{}
-	m.AddNewPanel(0, ocpResources)
-
-	m.UpdatePanelsAfterMoving()
-
-	p := tea.NewProgram(m, tea.WithAltScreen())
+	p := tea.NewProgram(mgBoard, tea.WithAltScreen())
 
 	if _, err := p.Run(); err != nil {
 		fmt.Println("Error running program:", err)

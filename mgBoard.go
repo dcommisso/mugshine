@@ -4,6 +4,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/dcommisso/img/internal/mgparser"
 )
 
 const (
@@ -15,6 +16,31 @@ type mgBoard struct {
 	focused      int
 	windowWidth  int
 	windowHeight int
+}
+
+func NewMgBoard(mustGatherPath string) (mgBoard, error) {
+	// load must-gather
+	mg, err := mgparser.NewMg(mustGatherPath)
+	if err != nil {
+		return mgBoard{}, nil
+	}
+
+	// TODO: check if the resources has elements to show, otherwise don't add it
+	ocpSupportedResources := []ActionableElement{
+		// a pointer is needed since aeLogs Init method has a pointer receiver
+		new(aeLogs),
+	}
+
+	newMgBoard := mgBoard{}
+
+	// initialize the ActionableElement with mg and add them to firstPanelItems
+	for _, elem := range ocpSupportedResources {
+		elem.Init(mg)
+	}
+	newMgBoard.AddNewPanel(0, ocpSupportedResources)
+	newMgBoard.UpdatePanelsAfterMoving()
+
+	return newMgBoard, nil
 }
 
 func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
