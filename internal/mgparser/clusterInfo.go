@@ -13,6 +13,13 @@ func (m *Mg) GetApiServerURL() string {
 	return m.infrastructure.Status.APIServerURL
 }
 
+func (m *Mg) GetPlatform() string {
+	if m.infrastructure == nil {
+		return ""
+	}
+	return string(m.infrastructure.Status.PlatformStatus.Type)
+}
+
 func parseInfrastructureList(filename string) (configv1.InfrastructureList, error) {
 	manifest, err := os.ReadFile(filename)
 	if err != nil {
