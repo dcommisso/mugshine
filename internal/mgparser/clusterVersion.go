@@ -27,3 +27,20 @@ func (m *Mg) GetClusterID() string {
 	}
 	return string(m.clusterVersion.Spec.ClusterID)
 }
+
+func (m *Mg) GetClusterVersion() string {
+	if m.clusterVersion == nil {
+		return ""
+	}
+
+	var clusterversion string
+	versionHistory := m.clusterVersion.Status.History
+	for _, version := range versionHistory {
+		if version.State == "Completed" {
+			clusterversion = version.Version
+			break
+		}
+	}
+
+	return string(clusterversion)
+}
