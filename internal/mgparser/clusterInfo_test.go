@@ -6,12 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	inspectDir = "./testdata/mgs/validInspect"
-	mgDir      = "./testdata/mgs/validMg"
-)
-
 func TestInfrastructure(t *testing.T) {
+	const (
+		inspectDir = "./testdata/mgs/validInspect"
+		mgDir      = "./testdata/mgs/validMg"
+	)
+
 	cases := map[string]struct {
 		mgpath       string
 		apiserverurl string
