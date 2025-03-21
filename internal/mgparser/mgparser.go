@@ -17,10 +17,7 @@ type OcOutput struct {
 }
 
 type Mg struct {
-	Timestamp struct {
-		Start string
-		End   string
-	}
+	timestamp      []string
 	basePath       string
 	Namespaces     map[string]*Namespace
 	infrastructure *configv1.Infrastructure
@@ -47,6 +44,7 @@ func NewMg(directory string) (*Mg, error) {
 		namespaceDir            = "namespaces"
 		infrastructuresFilePath = "cluster-scoped-resources/config.openshift.io/infrastructures.yaml"
 		clusterVersionPath      = "cluster-scoped-resources/config.openshift.io/clusterversions/version.yaml"
+		timestampPath           = "timestamp"
 	)
 
 	dirNumber := 0
@@ -87,6 +85,13 @@ func NewMg(directory string) (*Mg, error) {
 		}
 	}
 
+	// parse timestamp
+	timestampFile, err := os.ReadFile(mgBasePath + "/" + timestampPath)
+	if err != nil {
+		return nil, err
+	}
+	timestampStartEnd := strings.Split(string(timestampFile), "\n")
+
 	// parse Infrastructure, if present
 	infrastructureFile := mgBasePath + "/" + infrastructuresFilePath
 	var infrastructure *configv1.Infrastructure
@@ -111,6 +116,7 @@ func NewMg(directory string) (*Mg, error) {
 
 	return &Mg{
 		basePath:       mgBasePath,
+		timestamp:      timestampStartEnd,
 		Namespaces:     namespacesToReturn,
 		infrastructure: infrastructure,
 		clusterVersion: clusterVersion,
