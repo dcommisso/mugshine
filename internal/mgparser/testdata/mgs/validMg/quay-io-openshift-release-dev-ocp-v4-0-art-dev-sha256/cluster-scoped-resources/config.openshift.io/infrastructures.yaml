@@ -1,0 +1,66 @@
+---
+apiVersion: config.openshift.io/v1
+items:
+- apiVersion: config.openshift.io/v1
+  kind: Infrastructure
+  metadata:
+    creationTimestamp: "2025-03-17T13:48:33Z"
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          .: {}
+          f:cloudConfig:
+            .: {}
+            f:name: {}
+          f:platformSpec:
+            .: {}
+            f:type: {}
+      manager: cluster-bootstrap
+      operation: Update
+      time: "2025-03-17T13:48:33Z"
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:apiServerInternalURI: {}
+          f:apiServerURL: {}
+          f:controlPlaneTopology: {}
+          f:cpuPartitioning: {}
+          f:etcdDiscoveryDomain: {}
+          f:infrastructureName: {}
+          f:infrastructureTopology: {}
+          f:platform: {}
+          f:platformStatus:
+            .: {}
+            f:type: {}
+      manager: cluster-bootstrap
+      operation: Update
+      subresource: status
+      time: "2025-03-17T13:48:33Z"
+    name: cluster
+    resourceVersion: "467"
+    uid: 9838fe61-ef5a-43d7-9298-20aa54f17612
+  spec:
+    cloudConfig:
+      name: ""
+    platformSpec:
+      type: None
+  status:
+    apiServerInternalURI: https://api-int.clustername.domain.local:6443
+    apiServerURL: https://api.clustername.domain.local:6443
+    controlPlaneTopology: HighlyAvailable
+    cpuPartitioning: None
+    etcdDiscoveryDomain: ""
+    infrastructureName: clustername-fs9nt
+    infrastructureTopology: HighlyAvailable
+    platform: None
+    platformStatus:
+      type: VSphere
+kind: InfrastructureList
+metadata:
+  continue: ""
+  resourceVersion: "1449197"

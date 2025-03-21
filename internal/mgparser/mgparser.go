@@ -2,6 +2,7 @@ package mgparser
 
 import (
 	"errors"
+	configv1 "github.com/openshift/api/config/v1"
 	"os"
 	"strings"
 )
@@ -20,8 +21,9 @@ type Mg struct {
 		Start string
 		End   string
 	}
-	basePath   string
-	Namespaces map[string]*Namespace
+	basePath       string
+	Namespaces     map[string]*Namespace
+	infrastructure configv1.Infrastructure
 }
 
 // NewMg return an instance of Mg.
@@ -41,7 +43,8 @@ func NewMg(directory string) (*Mg, error) {
 	}
 
 	const (
-		namespaceDir = "namespaces"
+		namespaceDir            = "namespaces"
+		infrastructuresFilePath = "cluster-scoped-resources/config.openshift.io/infrastructures.yaml"
 	)
 
 	dirNumber := 0
@@ -82,9 +85,21 @@ func NewMg(directory string) (*Mg, error) {
 		}
 	}
 
+	// parse Infrastructure, if present
+	infrastructureFile := mgBasePath + "/" + infrastructuresFilePath
+	var infrastructure configv1.Infrastructure
+	if _, err := os.Stat(infrastructureFile); err == nil {
+		infralist, err := parseInfrastructureList(infrastructureFile)
+		if err != nil {
+			return nil, err
+		}
+		infrastructure = infralist.Items[0]
+	}
+
 	return &Mg{
-		basePath:   mgBasePath,
-		Namespaces: namespacesToReturn,
+		basePath:       mgBasePath,
+		Namespaces:     namespacesToReturn,
+		infrastructure: infrastructure,
 	}, nil
 }
 
