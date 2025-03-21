@@ -23,7 +23,7 @@ type Mg struct {
 	}
 	basePath       string
 	Namespaces     map[string]*Namespace
-	infrastructure configv1.Infrastructure
+	infrastructure *configv1.Infrastructure
 }
 
 // NewMg return an instance of Mg.
@@ -87,13 +87,13 @@ func NewMg(directory string) (*Mg, error) {
 
 	// parse Infrastructure, if present
 	infrastructureFile := mgBasePath + "/" + infrastructuresFilePath
-	var infrastructure configv1.Infrastructure
+	var infrastructure *configv1.Infrastructure
 	if _, err := os.Stat(infrastructureFile); err == nil {
 		infralist, err := parseInfrastructureList(infrastructureFile)
 		if err != nil {
 			return nil, err
 		}
-		infrastructure = infralist.Items[0]
+		infrastructure = &infralist.Items[0]
 	}
 
 	return &Mg{

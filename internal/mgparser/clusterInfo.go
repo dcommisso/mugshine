@@ -7,6 +7,9 @@ import (
 )
 
 func (m *Mg) GetApiServerURL() string {
+	if m.infrastructure == nil {
+		return ""
+	}
 	return m.infrastructure.Status.APIServerURL
 }
 
