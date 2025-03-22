@@ -1,10 +1,8 @@
 package main
 
 import (
-	"slices"
 	"strconv"
 
-	"github.com/charmbracelet/lipgloss"
 	"github.com/dcommisso/img/internal/mgparser"
 )
 
@@ -134,45 +132,46 @@ func (a aePod) IsFailed() bool {
 func (a aePod) Selected() []ActionableElement {
 	containersToReturn := []ActionableElement{}
 
-	// Calculate the max width for name and status fields for containers and
-	// initContainers
-	var nameLengths, statusLengths []int
-	for _, containerName := range a.pod.GetContainersAlphabetical() {
-		nameLengths = append(nameLengths, len(containerName))
-		statusLengths = append(statusLengths, len(a.pod.Containers[containerName].GetOcOutput().Status))
+	// create resourceFields and add header to it
+	resourceFields := map[string][]string{
+		"#HEADER#": []string{"NAME", "STATUS", "RESTARTS", "TYPE"},
 	}
-	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
-		nameLengths = append(nameLengths, len(containerName))
-		statusLengths = append(statusLengths, len(a.pod.InitContainers[containerName].GetOcOutput().Status))
-	}
-
-	// Add containers
+	// populate resourceFields with containers
 	for _, containerName := range a.pod.GetContainersAlphabetical() {
-		containerLengths := map[string]int{
-			"name":     slices.Max(nameLengths),
-			"status":   slices.Max(statusLengths),
-			"restarts": len("RESTARTS"),
-			"type":     len("TYPE"),
+		container := a.pod.Containers[containerName]
+		resourceFields[containerName] = []string{
+			container.Name,
+			container.GetOcOutput().Status,
+			strconv.Itoa(container.GetOcOutput().Restarts),
+			"", // type field is empty in regular container
 		}
+	}
+	// populate resourceFields with init containers
+	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
+		container := a.pod.InitContainers[containerName]
+		resourceFields[containerName] = []string{
+			container.Name,
+			container.GetOcOutput().Status,
+			strconv.Itoa(container.GetOcOutput().Restarts),
+			"init",
+		}
+	}
+	formattedFields := formatFieldsInLines(resourceFields)
+
+	// create containers
+	for _, containerName := range a.pod.GetContainersAlphabetical() {
 		containersToReturn = append(containersToReturn, aeContainer{
 			container: a.pod.Containers[containerName],
-			isInit:    false,
-			lengths:   containerLengths,
+			header:    formattedFields["#HEADER#"],
+			title:     formattedFields[containerName],
 		})
 	}
-
-	// Add initContainers
+	// create init containers
 	for _, containerName := range a.pod.GetInitContainersAlphabetical() {
-		containerLengths := map[string]int{
-			"name":     slices.Max(nameLengths),
-			"status":   slices.Max(statusLengths),
-			"restarts": len("RESTARTS"),
-			"type":     len("TYPE"),
-		}
 		containersToReturn = append(containersToReturn, aeContainer{
 			container: a.pod.InitContainers[containerName],
-			isInit:    true,
-			lengths:   containerLengths,
+			header:    formattedFields["#HEADER#"],
+			title:     formattedFields[containerName],
 		})
 	}
 
@@ -185,36 +184,16 @@ func (a aePod) Pressed() (fileToOpen string) {
 
 /* aeContainer */
 type aeContainer struct {
-	container *mgparser.Container
-	isInit    bool
-	lengths   map[string]int
+	container     *mgparser.Container
+	header, title string
 }
 
 func (a aeContainer) Init(mg *mgparser.Mg) {}
 func (a aeContainer) Header() string {
-	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
-
-	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.lengths["name"]).Render("NAME"),
-		baseStyle.Width(a.lengths["status"]).Render("STATUS"),
-		baseStyle.Width(a.lengths["restarts"]).Render("RESTARTS"),
-		baseStyle.Width(a.lengths["type"]).Render("TYPE"),
-	)
+	return a.header
 }
 func (a aeContainer) Title() string {
-	initHeader := ""
-	if a.isInit {
-		initHeader = "Init"
-	}
-
-	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
-
-	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.lengths["name"]).Render(a.container.Name),
-		baseStyle.Width(a.lengths["status"]).Render(a.container.GetOcOutput().Status),
-		baseStyle.Width(a.lengths["restarts"]).Render(strconv.Itoa(a.container.GetOcOutput().Restarts)),
-		baseStyle.Width(a.lengths["init"]).Render(initHeader),
-	)
+	return a.title
 }
 
 func (a aeContainer) FilterValue() string { return a.container.Name }
