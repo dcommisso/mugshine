@@ -53,9 +53,7 @@ func (a aeLogs) Selected() []ActionableElement {
 	return nsToReturn
 }
 
-func (a aeLogs) Pressed() (fileToOpen string) {
-	return ""
-}
+func (a aeLogs) Pressed() (fileToOpen string) { return "" }
 
 /* aeNamespace */
 type aeNamespace struct {
@@ -103,9 +101,7 @@ func (a aeNamespace) Selected() []ActionableElement {
 	return podsToReturn
 }
 
-func (a aeNamespace) Pressed() (fileToOpen string) {
-	return ""
-}
+func (a aeNamespace) Pressed() (fileToOpen string) { return "" }
 
 /* aePod */
 type aePod struct {
@@ -114,14 +110,9 @@ type aePod struct {
 }
 
 func (a aePod) Init(mg *mgparser.Mg) {}
-func (a aePod) Header() string {
-	return a.header
-}
-
-func (a aePod) Title() string {
-	return a.title
-}
-func (a aePod) FilterValue() string { return a.pod.GetName() }
+func (a aePod) Header() string       { return a.header }
+func (a aePod) Title() string        { return a.title }
+func (a aePod) FilterValue() string  { return a.pod.GetName() }
 func (a aePod) IsFailed() bool {
 	if a.pod.GetOcOutput().Status != "Running" && a.pod.GetOcOutput().Status != "Completed" {
 		return true
@@ -189,14 +180,9 @@ type aeContainer struct {
 }
 
 func (a aeContainer) Init(mg *mgparser.Mg) {}
-func (a aeContainer) Header() string {
-	return a.header
-}
-func (a aeContainer) Title() string {
-	return a.title
-}
-
-func (a aeContainer) FilterValue() string { return a.container.Name }
+func (a aeContainer) Header() string       { return a.header }
+func (a aeContainer) Title() string        { return a.title }
+func (a aeContainer) FilterValue() string  { return a.container.Name }
 func (a aeContainer) IsFailed() bool {
 	if a.container.GetOcOutput().Status != "Running" && a.container.GetOcOutput().Status != "Completed" {
 		return true
