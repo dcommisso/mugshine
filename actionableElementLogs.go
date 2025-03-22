@@ -80,25 +80,28 @@ func (a aeNamespace) IsFailed() bool {
 func (a aeNamespace) Selected() []ActionableElement {
 	podsToReturn := []ActionableElement{}
 
-	// calculate the max width for name and status pod fields
-	var nameLengths, statusLengths []int
-	for _, podName := range a.namespace.GetPodsAlphabetical() {
-		nameLengths = append(nameLengths, len(podName))
-		statusLengths = append(statusLengths, len(a.namespace.Pods[podName].GetOcOutput().Status))
+	resourceFields := map[string][]string{
+		"#HEADER#": []string{"NAME", "READY", "STATUS", "RESTARTS"},
 	}
+	for _, podName := range a.namespace.GetPodsAlphabetical() {
+		pod := a.namespace.Pods[podName]
+		resourceFields[podName] = []string{
+			pod.GetName(),
+			pod.GetOcOutput().Ready,
+			pod.GetOcOutput().Status,
+			strconv.Itoa(pod.GetOcOutput().Restarts),
+		}
+	}
+	formattedFields := formatFieldsInLines(resourceFields)
 
 	for _, podName := range a.namespace.GetPodsAlphabetical() {
-		podLengths := map[string]int{
-			"name":     slices.Max(nameLengths),
-			"ready":    len("READY"),
-			"status":   slices.Max(statusLengths),
-			"restarts": len("RESTARTS"),
-		}
 		podsToReturn = append(podsToReturn, aePod{
-			pod:     a.namespace.Pods[podName],
-			lengths: podLengths,
+			pod:    a.namespace.Pods[podName],
+			header: formattedFields["#HEADER#"],
+			title:  formattedFields[podName],
 		})
 	}
+
 	return podsToReturn
 }
 
@@ -108,29 +111,17 @@ func (a aeNamespace) Pressed() (fileToOpen string) {
 
 /* aePod */
 type aePod struct {
-	pod     *mgparser.Pod
-	lengths map[string]int
+	pod           *mgparser.Pod
+	title, header string
 }
 
 func (a aePod) Init(mg *mgparser.Mg) {}
 func (a aePod) Header() string {
-	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
-
-	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.lengths["name"]).Render("NAME"),
-		baseStyle.Width(a.lengths["ready"]).Render("READY"),
-		baseStyle.Width(a.lengths["status"]).Render("STATUS"),
-		baseStyle.Width(a.lengths["restarts"]).Render("RESTARTS"))
+	return a.header
 }
 
 func (a aePod) Title() string {
-	baseStyle := lipgloss.NewStyle().Align(lipgloss.Left).MarginRight(2)
-
-	return lipgloss.JoinHorizontal(lipgloss.Top,
-		baseStyle.Width(a.lengths["name"]).Render(a.pod.GetName()),
-		baseStyle.Width(a.lengths["ready"]).Render(a.pod.GetOcOutput().Ready),
-		baseStyle.Width(a.lengths["status"]).Render(a.pod.GetOcOutput().Status),
-		baseStyle.Width(a.lengths["restarts"]).Render(strconv.Itoa(a.pod.GetOcOutput().Restarts)))
+	return a.title
 }
 func (a aePod) FilterValue() string { return a.pod.GetName() }
 func (a aePod) IsFailed() bool {
