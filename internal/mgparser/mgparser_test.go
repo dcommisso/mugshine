@@ -14,10 +14,12 @@ func TestNewMg(t *testing.T) {
 		namespaceNames []string
 		podNames       map[string][]string
 		expectedError  string
+		expectedMgPath string
 	}{
 		"valid mg": {
-			directory:  "./testdata/mgs/validMg",
-			mgBasePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
+			directory:      "./testdata/mgs/validMg",
+			expectedMgPath: "./testdata/mgs/validMg",
+			mgBasePath:     "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
 			namespaceNames: []string{
 				"openshift-multus",
 				"openshift-nfs-storage",
@@ -60,8 +62,9 @@ func TestNewMg(t *testing.T) {
 			},
 		},
 		"valid inspect": {
-			directory:  "./testdata/mgs/validInspect",
-			mgBasePath: "./testdata/mgs/validInspect",
+			directory:      "./testdata/mgs/validInspect",
+			expectedMgPath: "./testdata/mgs/validInspect",
+			mgBasePath:     "./testdata/mgs/validInspect",
 			namespaceNames: []string{
 				"stackrox",
 			},
@@ -76,8 +79,9 @@ func TestNewMg(t *testing.T) {
 			},
 		},
 		"valid mg with trailing slash": {
-			directory:  "./testdata/mgs/validMg/",
-			mgBasePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
+			directory:      "./testdata/mgs/validMg/",
+			expectedMgPath: "./testdata/mgs/validMg",
+			mgBasePath:     "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
 			namespaceNames: []string{
 				"openshift-multus",
 				"openshift-nfs-storage",
@@ -120,8 +124,9 @@ func TestNewMg(t *testing.T) {
 			},
 		},
 		"valid inspect with trailing slash": {
-			directory:  "./testdata/mgs/validInspect/",
-			mgBasePath: "./testdata/mgs/validInspect",
+			directory:      "./testdata/mgs/validInspect/",
+			expectedMgPath: "./testdata/mgs/validInspect",
+			mgBasePath:     "./testdata/mgs/validInspect",
 			namespaceNames: []string{
 				"stackrox",
 			},
@@ -179,6 +184,7 @@ func TestNewMg(t *testing.T) {
 			}
 
 			assert.Equal(t, tc.mgBasePath, mg.basePath)
+			assert.Equal(t, tc.expectedMgPath, mg.GetMgPath())
 
 			// get the namespace names and sort them for comparison
 			namespaceNames := make([]string, len(mg.Namespaces))

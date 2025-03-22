@@ -17,8 +17,9 @@ type OcOutput struct {
 }
 
 type Mg struct {
-	timestamp      []string
+	mgPath         string
 	basePath       string
+	timestamp      []string
 	Namespaces     map[string]*Namespace
 	infrastructure *configv1.Infrastructure
 	clusterVersion *configv1.ClusterVersion
@@ -115,12 +116,17 @@ func NewMg(directory string) (*Mg, error) {
 	}
 
 	return &Mg{
+		mgPath:         strings.TrimSuffix(directory, "/"),
 		basePath:       mgBasePath,
 		timestamp:      timestampStartEnd,
 		Namespaces:     namespacesToReturn,
 		infrastructure: infrastructure,
 		clusterVersion: clusterVersion,
 	}, nil
+}
+
+func (m *Mg) GetMgPath() string {
+	return m.mgPath
 }
 
 func (m *Mg) GetNamespacesAlphabetical() []string {
