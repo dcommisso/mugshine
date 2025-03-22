@@ -15,11 +15,13 @@ func TestNewMg(t *testing.T) {
 		podNames       map[string][]string
 		expectedError  string
 		expectedMgPath string
+		isInspect      bool
 	}{
 		"valid mg": {
 			directory:      "./testdata/mgs/validMg",
 			expectedMgPath: "./testdata/mgs/validMg",
 			mgBasePath:     "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
+			isInspect:      false,
 			namespaceNames: []string{
 				"openshift-multus",
 				"openshift-nfs-storage",
@@ -65,6 +67,7 @@ func TestNewMg(t *testing.T) {
 			directory:      "./testdata/mgs/validInspect",
 			expectedMgPath: "./testdata/mgs/validInspect",
 			mgBasePath:     "./testdata/mgs/validInspect",
+			isInspect:      true,
 			namespaceNames: []string{
 				"stackrox",
 			},
@@ -82,6 +85,7 @@ func TestNewMg(t *testing.T) {
 			directory:      "./testdata/mgs/validMg/",
 			expectedMgPath: "./testdata/mgs/validMg",
 			mgBasePath:     "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256",
+			isInspect:      false,
 			namespaceNames: []string{
 				"openshift-multus",
 				"openshift-nfs-storage",
@@ -127,6 +131,7 @@ func TestNewMg(t *testing.T) {
 			directory:      "./testdata/mgs/validInspect/",
 			expectedMgPath: "./testdata/mgs/validInspect",
 			mgBasePath:     "./testdata/mgs/validInspect",
+			isInspect:      true,
 			namespaceNames: []string{
 				"stackrox",
 			},
@@ -185,6 +190,7 @@ func TestNewMg(t *testing.T) {
 
 			assert.Equal(t, tc.mgBasePath, mg.basePath)
 			assert.Equal(t, tc.expectedMgPath, mg.GetMgPath())
+			assert.Equal(t, tc.isInspect, mg.IsInspect())
 
 			// get the namespace names and sort them for comparison
 			namespaceNames := make([]string, len(mg.Namespaces))

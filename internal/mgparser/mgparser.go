@@ -23,6 +23,7 @@ type Mg struct {
 	Namespaces     map[string]*Namespace
 	infrastructure *configv1.Infrastructure
 	clusterVersion *configv1.ClusterVersion
+	inspect        bool
 }
 
 // NewMg return an instance of Mg.
@@ -52,6 +53,7 @@ func NewMg(directory string) (*Mg, error) {
 	timestampFileFound := false
 	namespaceDirFound := false
 	mgBasePath := ""
+	var inspect bool
 
 	for _, file := range files {
 		if file.Name() == "timestamp" && !file.IsDir() {
@@ -64,10 +66,12 @@ func NewMg(directory string) (*Mg, error) {
 				// inspect case
 				namespaceDirFound = true
 				mgBasePath = strings.TrimSuffix(directory, "/")
+				inspect = true
 			} else if directoryContains(directory+"/"+file.Name(), "namespaces") {
 				// must-gather case
 				namespaceDirFound = true
 				mgBasePath = strings.TrimSuffix(directory, "/") + "/" + file.Name()
+				inspect = false
 			}
 		}
 	}
@@ -122,11 +126,16 @@ func NewMg(directory string) (*Mg, error) {
 		Namespaces:     namespacesToReturn,
 		infrastructure: infrastructure,
 		clusterVersion: clusterVersion,
+		inspect:        inspect,
 	}, nil
 }
 
 func (m *Mg) GetMgPath() string {
 	return m.mgPath
+}
+
+func (m *Mg) IsInspect() bool {
+	return m.inspect
 }
 
 func (m *Mg) GetNamespacesAlphabetical() []string {
