@@ -55,6 +55,14 @@ func (p panel) Update(msg tea.Msg) (panel, tea.Cmd) {
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, p.keys.Open):
+
+			// do nothing if filter doesn't match anything. This is needed
+			// otherwise app crashes if Open key is pressed during unmatching
+			// filter.
+			if p.list.SelectedItem() == nil {
+				return p, cmd
+			}
+
 			filename := p.list.SelectedItem().(ActionableElement).Pressed()
 			if filename != "" {
 				return p, openEditor(filename)
