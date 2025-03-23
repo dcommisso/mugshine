@@ -12,10 +12,11 @@ const (
 )
 
 type mgBoard struct {
-	panels       [maxNumberOfPanels]panel
-	focused      int
-	windowWidth  int
-	windowHeight int
+	clusterInfoPanel ClusterInfoPanel
+	panels           [maxNumberOfPanels]panel
+	focused          int
+	windowWidth      int
+	windowHeight     int
 }
 
 func NewMgBoard(mustGatherPath string) (mgBoard, error) {
@@ -32,6 +33,9 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 	}
 
 	newMgBoard := mgBoard{}
+
+	// add ClusterInfoPanel
+	newMgBoard.clusterInfoPanel = NewClusterInfoPanel(mg)
 
 	// initialize the ActionableElement with mg and add them to firstPanelItems
 	for _, elem := range ocpSupportedResources {
@@ -231,5 +235,7 @@ func (m mgBoard) View() string {
 		activePanels = append(activePanels, panel.View())
 	}
 
-	return lipgloss.JoinHorizontal(lipgloss.Top, activePanels...)
+	clusterInfo := m.clusterInfoPanel.Render(m.windowWidth)
+	panels := lipgloss.JoinHorizontal(lipgloss.Top, activePanels...)
+	return lipgloss.JoinVertical(lipgloss.Left, clusterInfo, panels)
 }
