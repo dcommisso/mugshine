@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -17,6 +18,7 @@ type mgBoard struct {
 	focused          int
 	windowWidth      int
 	windowHeight     int
+	keys             keyMap
 }
 
 func NewMgBoard(mustGatherPath string) (mgBoard, error) {
@@ -32,10 +34,10 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 		new(aeLogs),
 	}
 
-	newMgBoard := mgBoard{}
-
-	// add ClusterInfoPanel
-	newMgBoard.clusterInfoPanel = NewClusterInfoPanel(mg)
+	newMgBoard := mgBoard{
+		clusterInfoPanel: NewClusterInfoPanel(mg),
+		keys:             keys,
+	}
 
 	// initialize the ActionableElement with mg and add them to firstPanelItems
 	for _, elem := range ocpSupportedResources {
@@ -67,6 +69,7 @@ func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
 	m.panels[index] = panel{
 		list:   model,
 		active: true,
+		keys:   keys,
 	}
 }
 
@@ -212,12 +215,12 @@ func (m mgBoard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.dynamicResizeAllPanelsWidth()
 		return m, nil
 	case tea.KeyMsg:
-		switch msg.String() {
-		case "ctrl+c":
+		switch {
+		case key.Matches(msg, m.keys.Quit):
 			return m, tea.Quit
-		case "right", "tab":
+		case key.Matches(msg, m.keys.Right):
 			m.IncreaseFocused()
-		case "left", "shift+tab":
+		case key.Matches(msg, m.keys.Left):
 			m.DecreaseFocused()
 		}
 	}

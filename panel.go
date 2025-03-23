@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -18,6 +19,7 @@ type panel struct {
 	list   list.Model
 	active bool
 	status PanelStatus
+	keys   keyMap
 }
 
 func (p *panel) SetStatus(status PanelStatus) {
@@ -51,8 +53,8 @@ func (p panel) Update(msg tea.Msg) (panel, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		p.setSize(msg.Width, msg.Height-5)
 	case tea.KeyMsg:
-		switch msg.String() {
-		case "enter":
+		switch {
+		case key.Matches(msg, p.keys.Open):
 			filename := p.list.SelectedItem().(ActionableElement).Pressed()
 			if filename != "" {
 				return p, openEditor(filename)
