@@ -6,11 +6,11 @@ import (
 
 /* Change here the colors */
 var (
-	colorSelectedItem      = lipgloss.Color("#35A7FF")
-	colorFocusBorder       = lipgloss.Color("#E4B363")
-	colorHeader            = lipgloss.Color("#048BA8")
-	colorFailed            = lipgloss.Color("#E84855")
-	colorClusterInfoBorder = lipgloss.Color("#6BF178")
+	colorSelectedItem      = lipgloss.Color("#4CE0B3")
+	colorFocusBorder       = lipgloss.Color("#F9A03F")
+	colorHeader            = lipgloss.Color("#377771")
+	colorFailed            = lipgloss.Color("#FF495C")
+	colorClusterInfoBorder = lipgloss.Color("#2D7DD2")
 )
 
 /* Change here the style of focused panel */
