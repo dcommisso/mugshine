@@ -5,14 +5,15 @@ import (
 )
 
 type keyMap struct {
-	Up     key.Binding
-	Down   key.Binding
-	Left   key.Binding
-	Right  key.Binding
-	Open   key.Binding
-	Filter key.Binding
-	Help   key.Binding
-	Quit   key.Binding
+	Up          key.Binding
+	Down        key.Binding
+	Left        key.Binding
+	Right       key.Binding
+	Open        key.Binding
+	Filter      key.Binding
+	ClearFilter key.Binding
+	Help        key.Binding
+	Quit        key.Binding
 }
 
 // not yet implemented
@@ -52,12 +53,17 @@ var keys = keyMap{
 		key.WithKeys("/"),
 		key.WithHelp("/", "filter"),
 	),
+	ClearFilter: key.NewBinding(
+		// only help description is needed here, since the key is managed by
+		// list component
+		key.WithHelp("esc", "clear filter"),
+	),
 	Help: key.NewBinding(
 		key.WithKeys("?"),
 		key.WithHelp("?", "toggle help"),
 	),
 	Quit: key.NewBinding(
-		key.WithKeys("q", "esc", "ctrl+c"),
+		key.WithKeys("q", "ctrl+c"),
 		key.WithHelp("q", "quit"),
 	),
 }

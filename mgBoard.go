@@ -56,6 +56,10 @@ func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
 	// disable help
 	model.SetShowHelp(false)
 
+	// disable quit since it's managed by mgBoard and I want use esc key only
+	// for clearing filter
+	model.DisableQuitKeybindings()
+
 	// remap left/right to pagedown/pageup to avoid overlapping to navigation
 	model.KeyMap.NextPage.SetKeys("pgdown")
 	model.KeyMap.PrevPage.SetKeys("pgup")
