@@ -54,7 +54,7 @@ func (p panel) Update(msg tea.Msg) (panel, tea.Cmd) {
 		p.setSize(msg.Width, msg.Height-5)
 	case tea.KeyMsg:
 		switch {
-		case key.Matches(msg, p.keys.Open):
+		case key.Matches(msg, p.keys.View):
 
 			// do nothing if filter doesn't match anything. This is needed
 			// otherwise app crashes if Open key is pressed during unmatching

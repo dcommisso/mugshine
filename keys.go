@@ -9,7 +9,7 @@ type keyMap struct {
 	Down        key.Binding
 	Left        key.Binding
 	Right       key.Binding
-	Open        key.Binding
+	View        key.Binding
 	Filter      key.Binding
 	ClearFilter key.Binding
 	Help        key.Binding
@@ -45,7 +45,7 @@ var keys = keyMap{
 		key.WithKeys("right", "tab"),
 		key.WithHelp("→/tab", "move to the next panel"),
 	),
-	Open: key.NewBinding(
+	View: key.NewBinding(
 		key.WithKeys("enter"),
 		key.WithHelp("enter", "view manifest/logs"),
 	),
