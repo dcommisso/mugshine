@@ -4,6 +4,7 @@ import (
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
+	"github.com/charmbracelet/bubbles/paginator"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/dcommisso/img/internal/mgparser"
@@ -55,6 +56,9 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
 	model := list.New(items, NewMgDelegate(), 0, 0)
+
+	// set arabic type on pagination
+	model.Paginator.Type = paginator.Arabic
 
 	// disable help
 	model.SetShowHelp(false)
