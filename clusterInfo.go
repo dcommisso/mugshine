@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/dcommisso/img/internal/mgparser"
+	"path/filepath"
 )
 
 type ClusterInfoPanel struct {
@@ -46,6 +47,10 @@ func NewClusterInfoPanel(mg *mgparser.Mg) ClusterInfoPanel {
 		"TimestampEnd": {
 			label: "Timestamp end",
 			value: timestampEnd,
+		},
+		"MgFilename": {
+			label: "Must-gather",
+			value: filepath.Base(mg.GetMgPath()),
 		},
 	}
 
@@ -91,7 +96,7 @@ func (c ClusterInfoPanel) Render(availableWidth int) string {
 
 	switch clusterType {
 	case "inspect":
-		minimumHeader := c.GetFormattedColumn("TimestampStart", "TimestampEnd")
+		minimumHeader := c.GetFormattedColumn("TimestampStart", "TimestampEnd", "MgFilename")
 		fullHeader := clusterInfoBorder.Render(minimumHeader)
 
 		fullHeaderWidth := lipgloss.Width(fullHeader)
@@ -103,7 +108,7 @@ func (c ClusterInfoPanel) Render(availableWidth int) string {
 			return fullHeader
 		}
 	case "mg":
-		firstColumn := c.GetFormattedColumn("ApiServerURL", "Platform", "ClusterVersion")
+		firstColumn := c.GetFormattedColumn("ApiServerURL", "Platform", "ClusterVersion", "MgFilename")
 		secondColumn := c.GetFormattedColumn("ClusterID", "TimestampStart", "TimestampEnd")
 
 		minimumHeader := lipgloss.JoinVertical(lipgloss.Left, firstColumn, secondColumn)
