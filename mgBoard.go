@@ -129,11 +129,11 @@ func (m *mgBoard) setSize(width, height int) {
 	m.windowHeight = height
 }
 
-func (m *mgBoard) GetActivePanels() []panel {
-	var activePanels []panel
-	for _, panel := range m.panels {
-		if panel.active {
-			activePanels = append(activePanels, panel)
+func (m *mgBoard) GetActivePanels() []*panel {
+	var activePanels []*panel
+	for i := 0; i < len(m.panels); i++ {
+		if m.panels[i].active {
+			activePanels = append(activePanels, &m.panels[i])
 		}
 	}
 	return activePanels
