@@ -134,6 +134,6 @@ func (c ClusterInfoPanel) Render(availableWidth int) string {
 /* STYLE SECTION  */
 var (
 	clusterInfoBorder = lipgloss.NewStyle().
-		Border(lipgloss.DoubleBorder()).
+		Border(lipgloss.DoubleBorder(), true, false, true, false).
 		BorderForeground(colorClusterInfoBorder)
 )
