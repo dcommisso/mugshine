@@ -54,7 +54,7 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 
 func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
 	items := aeSliceToItem(actElements)
-	model := list.New(items, NewMgDelegate(), 0, 40)
+	model := list.New(items, NewMgDelegate(), 0, 0)
 
 	// disable help
 	model.SetShowHelp(false)
@@ -159,7 +159,12 @@ func (m mgBoard) Init() tea.Cmd {
 	return nil
 }
 
-// dynamicResizeAllPanelsWidth resizes each panel based on its status. The
+func (m *mgBoard) updatePanelsSize() {
+	m.updatePanelsWidth()
+	m.updatePanelsHeight()
+}
+
+// updatePanelsWidth resizes each panel based on its status. The
 // algorithm prioritizes the panels in this order:
 //
 // 1. focused panel
@@ -175,7 +180,7 @@ func (m mgBoard) Init() tea.Cmd {
 // that the total sum of the panels will exceeds the available width, at the
 // expense of the last and prioritized panels, that's why a
 // `unresevedWidthPercentage` percentage is not allocated.
-func (m *mgBoard) dynamicResizeAllPanelsWidth() {
+func (m *mgBoard) updatePanelsWidth() {
 	const (
 		resizeDivisor            = 2
 		unresevedWidthPercentage = 0.08
@@ -213,13 +218,28 @@ func (m *mgBoard) dynamicResizeAllPanelsWidth() {
 	}
 }
 
+// updatePanelsHeight calculates and sets the height of all panels based on the
+// height of clusterInfo panel and mini help
+func (m *mgBoard) updatePanelsHeight() {
+	clusterInfo := m.clusterInfoPanel.Render(m.windowWidth)
+	help := m.help.View(m.keys)
+
+	clusterInfoHeight := lipgloss.Height(clusterInfo)
+	helpHeight := lipgloss.Height(help)
+	panelsAvailableHeight := m.windowHeight - clusterInfoHeight - helpHeight
+
+	for _, panel := range m.GetActivePanels() {
+		panel.setHeight(panelsAvailableHeight - panel.getStyle().GetVerticalFrameSize())
+	}
+}
+
 func (m mgBoard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.setSize(msg.Width, msg.Height)
-		m.dynamicResizeAllPanelsWidth()
+		m.updatePanelsSize()
 		return m, nil
 	case tea.KeyMsg:
 		switch {
@@ -236,8 +256,7 @@ func (m mgBoard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	m.panels[m.focused], cmd = m.panels[m.focused].Update(msg)
 	m.UpdatePanelsAfterMoving()
-	m.dynamicResizeAllPanelsWidth()
-
+	m.updatePanelsSize()
 	return m, cmd
 }
 
