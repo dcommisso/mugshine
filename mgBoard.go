@@ -270,8 +270,13 @@ func (m mgBoard) View() string {
 		activePanels = append(activePanels, panel.View())
 	}
 
-	clusterInfo := m.clusterInfoPanel.Render(m.windowWidth)
+	clusterInfo := lipgloss.PlaceHorizontal(m.windowWidth, lipgloss.Center,
+		m.clusterInfoPanel.Render(m.windowWidth))
+
 	panels := lipgloss.JoinHorizontal(lipgloss.Top, activePanels...)
-	help := m.help.View(m.keys)
+
+	help := lipgloss.PlaceHorizontal(m.windowWidth, lipgloss.Center,
+		m.help.View(m.keys))
+
 	return lipgloss.JoinVertical(lipgloss.Left, clusterInfo, panels, help)
 }
