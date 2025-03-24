@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -19,6 +20,7 @@ type mgBoard struct {
 	windowWidth      int
 	windowHeight     int
 	keys             keyMap
+	help             help.Model
 }
 
 func NewMgBoard(mustGatherPath string) (mgBoard, error) {
@@ -28,15 +30,16 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 		return mgBoard{}, nil
 	}
 
+	newMgBoard := mgBoard{
+		clusterInfoPanel: NewClusterInfoPanel(mg),
+		keys:             keys,
+		help:             help.New(),
+	}
+
 	// TODO: check if the resources has elements to show, otherwise don't add it
 	ocpSupportedResources := []ActionableElement{
 		// a pointer is needed since aeLogs Init method has a pointer receiver
 		new(aeLogs),
-	}
-
-	newMgBoard := mgBoard{
-		clusterInfoPanel: NewClusterInfoPanel(mg),
-		keys:             keys,
 	}
 
 	// initialize the ActionableElement with mg and add them to firstPanelItems
@@ -226,6 +229,8 @@ func (m mgBoard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.IncreaseFocused()
 		case key.Matches(msg, m.keys.Left):
 			m.DecreaseFocused()
+		case key.Matches(msg, m.keys.Help):
+			m.help.ShowAll = !m.help.ShowAll
 		}
 	}
 
@@ -244,5 +249,6 @@ func (m mgBoard) View() string {
 
 	clusterInfo := m.clusterInfoPanel.Render(m.windowWidth)
 	panels := lipgloss.JoinHorizontal(lipgloss.Top, activePanels...)
-	return lipgloss.JoinVertical(lipgloss.Left, clusterInfo, panels)
+	help := m.help.View(m.keys)
+	return lipgloss.JoinVertical(lipgloss.Left, clusterInfo, panels, help)
 }

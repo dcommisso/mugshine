@@ -5,28 +5,30 @@ import (
 )
 
 type keyMap struct {
-	Up          key.Binding
-	Down        key.Binding
-	Left        key.Binding
-	Right       key.Binding
-	View        key.Binding
-	Filter      key.Binding
-	ClearFilter key.Binding
-	Help        key.Binding
-	Quit        key.Binding
+	Up           key.Binding
+	Down         key.Binding
+	PreviousPage key.Binding
+	NextPage     key.Binding
+	Left         key.Binding
+	Right        key.Binding
+	View         key.Binding
+	Filter       key.Binding
+	ClearFilter  key.Binding
+	Help         key.Binding
+	Quit         key.Binding
 }
 
-// not yet implemented
-//func (k keyMap) ShortHelp() []key.Binding {
-//	return []key.Binding{k.Help, k.Quit}
-//}
-//
-//func (k keyMap) FullHelp() [][]key.Binding {
-//	return [][]key.Binding{
-//		{k.Up, k.Down, k.Left, k.Right}, // first column
-//		{k.Help, k.Quit},                // second column
-//	}
-//}
+func (k keyMap) ShortHelp() []key.Binding {
+	return []key.Binding{k.Help, k.Quit}
+}
+
+func (k keyMap) FullHelp() [][]key.Binding {
+	return [][]key.Binding{
+		{k.Up, k.Down, k.PreviousPage, k.NextPage, k.Left, k.Right}, // first column
+		{k.View, k.Filter, k.ClearFilter},                           // second column
+		{k.Help, k.Quit},                                            // third column
+	}
+}
 
 var keys = keyMap{
 	Up: key.NewBinding(
@@ -45,6 +47,14 @@ var keys = keyMap{
 		key.WithKeys("right", "tab"),
 		key.WithHelp("→/tab", "move to the next panel"),
 	),
+	PreviousPage: key.NewBinding(
+		key.WithKeys("pgup", "pgup"),
+		key.WithHelp("pgup", "move to the previous page"),
+	),
+	NextPage: key.NewBinding(
+		key.WithKeys("pgdown", "pgdown"),
+		key.WithHelp("pgdown", "move to the next page"),
+	),
 	View: key.NewBinding(
 		key.WithKeys("enter"),
 		key.WithHelp("enter", "view manifest/logs"),
@@ -54,8 +64,7 @@ var keys = keyMap{
 		key.WithHelp("/", "filter"),
 	),
 	ClearFilter: key.NewBinding(
-		// only help description is needed here, since the key is managed by
-		// list component
+		key.WithKeys("esc"),
 		key.WithHelp("esc", "clear filter"),
 	),
 	Help: key.NewBinding(
