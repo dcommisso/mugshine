@@ -33,7 +33,7 @@ func (a *aeLogs) Init(mg *mgparser.Mg) {
 }
 func (a aeLogs) Header() string      { return "OCP RESOURCES" }
 func (a aeLogs) Title() string       { return aeLogsSectionName }
-func (a aeLogs) FilterValue() string { return "" }
+func (a aeLogs) FilterValue() string { return a.Title() }
 func (a aeLogs) IsFailed() bool {
 	for _, ns := range a.Selected() {
 		if ns.IsFailed() {
@@ -63,7 +63,7 @@ type aeNamespace struct {
 func (a aeNamespace) Init(mg *mgparser.Mg) {}
 func (a aeNamespace) Header() string       { return "NAMESPACES" }
 func (a aeNamespace) Title() string        { return a.namespace.Name }
-func (a aeNamespace) FilterValue() string  { return a.namespace.Name }
+func (a aeNamespace) FilterValue() string  { return a.Title() }
 func (a aeNamespace) IsFailed() bool {
 	for _, pod := range a.Selected() {
 		if pod.IsFailed() {
