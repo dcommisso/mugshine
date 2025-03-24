@@ -40,13 +40,9 @@ func NewClusterInfoPanel(mg *mgparser.Mg) ClusterInfoPanel {
 			label: "Cluster ID",
 			value: mg.GetClusterID(),
 		},
-		"TimestampStart": {
-			label: "Timestamp start",
-			value: timestampStart,
-		},
-		"TimestampEnd": {
-			label: "Timestamp end",
-			value: timestampEnd,
+		"Timestamp": {
+			label: "Timestamp",
+			value: timestampStart + "\n" + timestampEnd,
 		},
 		"MgFilename": {
 			label: "Must-gather",
@@ -96,7 +92,7 @@ func (c ClusterInfoPanel) Render(availableWidth int) string {
 
 	switch clusterType {
 	case "inspect":
-		minimumHeader := c.GetFormattedColumn("TimestampStart", "TimestampEnd", "MgFilename")
+		minimumHeader := c.GetFormattedColumn("Timestamp", "MgFilename")
 		fullHeader := clusterInfoBorder.Render(minimumHeader)
 
 		fullHeaderWidth := lipgloss.Width(fullHeader)
@@ -109,7 +105,7 @@ func (c ClusterInfoPanel) Render(availableWidth int) string {
 		}
 	case "mg":
 		firstColumn := c.GetFormattedColumn("ApiServerURL", "Platform", "ClusterVersion", "MgFilename")
-		secondColumn := c.GetFormattedColumn("ClusterID", "TimestampStart", "TimestampEnd")
+		secondColumn := c.GetFormattedColumn("ClusterID", "Timestamp")
 
 		minimumHeader := lipgloss.JoinVertical(lipgloss.Left, firstColumn, secondColumn)
 		reducedHeader := clusterInfoBorder.Render(minimumHeader)
