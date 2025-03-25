@@ -19,14 +19,15 @@ type OcOutput struct {
 }
 
 type Mg struct {
-	mgPath         string
-	basePath       string
-	timestamp      []string
-	Namespaces     map[string]*Namespace
-	Nodes          map[string]*Node
-	infrastructure *configv1.Infrastructure
-	clusterVersion *configv1.ClusterVersion
-	inspect        bool
+	mgPath           string
+	basePath         string
+	timestamp        []string
+	Namespaces       map[string]*Namespace
+	Nodes            map[string]*Node
+	infrastructure   *configv1.Infrastructure
+	clusterOperators map[string]configv1.ClusterOperator
+	clusterVersion   *configv1.ClusterVersion
+	inspect          bool
 }
 
 // NewMg return an instance of Mg.
@@ -50,6 +51,7 @@ func NewMg(directory string) (*Mg, error) {
 		nodesDir                = "cluster-scoped-resources/core/nodes"
 		infrastructuresFilePath = "cluster-scoped-resources/config.openshift.io/infrastructures.yaml"
 		clusterVersionPath      = "cluster-scoped-resources/config.openshift.io/clusterversions/version.yaml"
+		clusterOperatorsPath    = "/cluster-scoped-resources/config.openshift.io/clusteroperators.yaml"
 		timestampPath           = "timestamp"
 	)
 
@@ -123,6 +125,19 @@ func NewMg(directory string) (*Mg, error) {
 		clusterVersion = &cv
 	}
 
+	// parse clusterOperators, if present
+	clusterOperatorsFile := mgBasePath + "/" + clusterOperatorsPath
+	clusterOperatorsToReturn := map[string]configv1.ClusterOperator{}
+	if _, err := os.Stat(clusterOperatorsFile); err == nil {
+		coList, err := parseClusterOperatorList(clusterOperatorsFile)
+		if err != nil {
+			return nil, err
+		}
+		for _, co := range coList.Items {
+			clusterOperatorsToReturn[co.GetName()] = co
+		}
+	}
+
 	// parse nodes, if present
 	nodesPath := mgBasePath + "/" + nodesDir
 	nodesToReturn := map[string]*Node{}
@@ -139,14 +154,15 @@ func NewMg(directory string) (*Mg, error) {
 	}
 
 	return &Mg{
-		mgPath:         strings.TrimSuffix(directory, "/"),
-		basePath:       mgBasePath,
-		timestamp:      timestampStartEnd,
-		Namespaces:     namespacesToReturn,
-		Nodes:          nodesToReturn,
-		infrastructure: infrastructure,
-		clusterVersion: clusterVersion,
-		inspect:        inspect,
+		mgPath:           strings.TrimSuffix(directory, "/"),
+		basePath:         mgBasePath,
+		timestamp:        timestampStartEnd,
+		Namespaces:       namespacesToReturn,
+		Nodes:            nodesToReturn,
+		infrastructure:   infrastructure,
+		clusterOperators: clusterOperatorsToReturn,
+		clusterVersion:   clusterVersion,
+		inspect:          inspect,
 	}, nil
 }
 
