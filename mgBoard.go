@@ -36,6 +36,7 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 			// a pointer is needed since aeLogs Init method has a pointer receiver
 			new(aeLogs),
 			new(aeNodesResource),
+			new(aeCoResource),
 		}
 	)
 
