@@ -98,7 +98,7 @@ func TestGetStatusesAndVersion(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			mg01, _ := NewMg(tc.mgPath)
 
-			co := mg01.clusterOperators[tc.co]
+			co := mg01.ClusterOperators[tc.co]
 			assert.Equal(t, tc.availableStatus, co.GetAvailableStatus())
 			assert.Equal(t, tc.progressingStatus, co.GetProgressingStatus())
 			assert.Equal(t, tc.degradedStatus, co.GetDegradedStatus())
@@ -132,7 +132,7 @@ func TestClusterOperatorGetManifestFilePath(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			mg01, _ := NewMg(tc.mgPath)
 
-			assert.Equal(t, tc.expectedPath, mg01.clusterOperators[tc.co].GetManifestFilePath())
+			assert.Equal(t, tc.expectedPath, mg01.ClusterOperators[tc.co].GetManifestFilePath())
 		})
 	}
 }

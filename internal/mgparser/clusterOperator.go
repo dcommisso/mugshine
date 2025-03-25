@@ -27,7 +27,7 @@ func parseClusterOperatorList(filename string) (configv1.ClusterOperatorList, er
 }
 
 func (m *Mg) GetClusterOperatorsAlphabetical() []string {
-	return getAlphabeticalKeys(m.clusterOperators)
+	return getAlphabeticalKeys(m.ClusterOperators)
 }
 
 func (c *ClusterOperator) GetAvailableStatus() string {

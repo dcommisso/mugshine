@@ -25,7 +25,7 @@ type Mg struct {
 	Namespaces       map[string]*Namespace
 	Nodes            map[string]*Node
 	infrastructure   *configv1.Infrastructure
-	clusterOperators map[string]ClusterOperator
+	ClusterOperators map[string]ClusterOperator
 	clusterVersion   *configv1.ClusterVersion
 	inspect          bool
 }
@@ -164,7 +164,7 @@ func NewMg(directory string) (*Mg, error) {
 		Namespaces:       namespacesToReturn,
 		Nodes:            nodesToReturn,
 		infrastructure:   infrastructure,
-		clusterOperators: clusterOperatorsToReturn,
+		ClusterOperators: clusterOperatorsToReturn,
 		clusterVersion:   clusterVersion,
 		inspect:          inspect,
 	}, nil
