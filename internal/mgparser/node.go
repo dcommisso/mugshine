@@ -57,3 +57,7 @@ func (n *Node) GetRoles() string {
 	}
 	return strings.Join(roles, ",")
 }
+
+func (n *Node) GetVersion() string {
+	return n.Status.NodeInfo.KubeletVersion
+}

@@ -13,6 +13,7 @@ func TestGetNode(t *testing.T) {
 		expectedNodePath string
 		expectedStatus   string
 		expectedRoles    string
+		expectedVersion  string
 	}{
 		"master-0.clustername.domain.local": {
 			mgPath:           "./testdata/mgs/validMg",
@@ -20,6 +21,7 @@ func TestGetNode(t *testing.T) {
 			expectedNodePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/cluster-scoped-resources/core/nodes/master-0.clustername.domain.local.yaml",
 			expectedStatus:   "Ready",
 			expectedRoles:    "control-plane,master",
+			expectedVersion:  "v1.30.7",
 		},
 		"worker-2.clustername.domain.local": {
 			mgPath:           "./testdata/mgs/validMg",
@@ -27,6 +29,7 @@ func TestGetNode(t *testing.T) {
 			expectedNodePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/cluster-scoped-resources/core/nodes/worker-2.clustername.domain.local.yaml",
 			expectedStatus:   "NotReady",
 			expectedRoles:    "worker",
+			expectedVersion:  "v1.30.7",
 		},
 	}
 
@@ -39,6 +42,7 @@ func TestGetNode(t *testing.T) {
 			assert.Equal(t, tc.expectedNodePath, node.GetManifestFilePath())
 			assert.Equal(t, tc.expectedStatus, node.GetStatus())
 			assert.Equal(t, tc.expectedRoles, node.GetRoles())
+			assert.Equal(t, tc.expectedVersion, node.GetVersion())
 		})
 	}
 }
