@@ -25,7 +25,7 @@ type Mg struct {
 	Namespaces       map[string]*Namespace
 	Nodes            map[string]*Node
 	infrastructure   *configv1.Infrastructure
-	clusterOperators map[string]configv1.ClusterOperator
+	clusterOperators map[string]ClusterOperator
 	clusterVersion   *configv1.ClusterVersion
 	inspect          bool
 }
@@ -52,6 +52,7 @@ func NewMg(directory string) (*Mg, error) {
 		infrastructuresFilePath = "cluster-scoped-resources/config.openshift.io/infrastructures.yaml"
 		clusterVersionPath      = "cluster-scoped-resources/config.openshift.io/clusterversions/version.yaml"
 		clusterOperatorsPath    = "/cluster-scoped-resources/config.openshift.io/clusteroperators.yaml"
+		clusterOperatorsDir     = "/cluster-scoped-resources/config.openshift.io/clusteroperators"
 		timestampPath           = "timestamp"
 	)
 
@@ -127,14 +128,17 @@ func NewMg(directory string) (*Mg, error) {
 
 	// parse clusterOperators, if present
 	clusterOperatorsFile := mgBasePath + "/" + clusterOperatorsPath
-	clusterOperatorsToReturn := map[string]configv1.ClusterOperator{}
+	clusterOperatorsToReturn := map[string]ClusterOperator{}
 	if _, err := os.Stat(clusterOperatorsFile); err == nil {
 		coList, err := parseClusterOperatorList(clusterOperatorsFile)
 		if err != nil {
 			return nil, err
 		}
 		for _, co := range coList.Items {
-			clusterOperatorsToReturn[co.GetName()] = co
+			clusterOperatorsToReturn[co.GetName()] = ClusterOperator{
+				ClusterOperator: co,
+				coFilePath:      mgBasePath + "/" + clusterOperatorsDir + "/" + co.GetName() + ".yaml",
+			}
 		}
 	}
 

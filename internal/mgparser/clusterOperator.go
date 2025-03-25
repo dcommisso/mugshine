@@ -6,6 +6,11 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+type ClusterOperator struct {
+	configv1.ClusterOperator
+	coFilePath string
+}
+
 func parseClusterOperatorList(filename string) (configv1.ClusterOperatorList, error) {
 	manifest, err := os.ReadFile(filename)
 	if err != nil {
