@@ -9,6 +9,7 @@ import (
 
 func main() {
 	mgPathToLoad := "./internal/mgparser/testdata/mgs/validMg"
+	//mgPathToLoad := "./internal/mgparser/testdata/mgs/validInspect"
 
 	mgBoard, err := NewMgBoard(mgPathToLoad)
 	if err != nil {

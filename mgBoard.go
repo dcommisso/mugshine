@@ -31,23 +31,30 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 		return mgBoard{}, nil
 	}
 
+	var (
+		ocpSupportedResources = []ActionableElement{
+			// a pointer is needed since aeLogs Init method has a pointer receiver
+			new(aeLogs),
+			new(aeNodesResource),
+		}
+	)
+
 	newMgBoard := mgBoard{
 		clusterInfoPanel: NewClusterInfoPanel(mg),
 		keys:             keys,
 		help:             help.New(),
 	}
 
-	// TODO: check if the resources has elements to show, otherwise don't add it
-	ocpSupportedResources := []ActionableElement{
-		// a pointer is needed since aeLogs Init method has a pointer receiver
-		new(aeLogs),
-	}
-
+	resourcesToShow := []ActionableElement{}
 	// initialize the ActionableElement with mg and add them to firstPanelItems
+	// if they return at least one elements (e.g. inspect doesn't return nodes)
 	for _, elem := range ocpSupportedResources {
 		elem.Init(mg)
+		if len(elem.Selected()) > 0 {
+			resourcesToShow = append(resourcesToShow, elem)
+		}
 	}
-	newMgBoard.AddNewPanel(0, ocpSupportedResources)
+	newMgBoard.AddNewPanel(0, resourcesToShow)
 	newMgBoard.UpdatePanelsAfterMoving()
 
 	return newMgBoard, nil
