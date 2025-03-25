@@ -137,7 +137,7 @@ func NewMg(directory string) (*Mg, error) {
 		for _, co := range coList.Items {
 			clusterOperatorsToReturn[co.GetName()] = ClusterOperator{
 				ClusterOperator: co,
-				coFilePath:      mgBasePath + "/" + clusterOperatorsDir + "/" + co.GetName() + ".yaml",
+				coFilePath:      mgBasePath + clusterOperatorsDir + "/" + co.GetName() + ".yaml",
 			}
 		}
 	}

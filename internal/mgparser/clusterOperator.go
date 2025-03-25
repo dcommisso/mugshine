@@ -56,3 +56,7 @@ func (c *ClusterOperator) GetDegradedStatus() string {
 	}
 	return "Unknown"
 }
+
+func (c ClusterOperator) GetManifestFilePath() string {
+	return c.coFilePath
+}

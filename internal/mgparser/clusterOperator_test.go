@@ -101,3 +101,33 @@ func TestGetStatuses(t *testing.T) {
 		})
 	}
 }
+
+func TestClusterOperatorGetManifestFilePath(t *testing.T) {
+	const (
+		mgPath       = "./testdata/mgs/validMg"
+		operatorsDir = "quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/cluster-scoped-resources/config.openshift.io/clusteroperators"
+	)
+	cases := map[string]struct {
+		mgPath       string
+		co           string
+		expectedPath string
+	}{
+		"cloud-controller-manager": {
+			mgPath:       mgPath,
+			co:           "cloud-controller-manager",
+			expectedPath: mgPath + "/" + operatorsDir + "/" + "cloud-controller-manager.yaml",
+		},
+		"etcd": {
+			mgPath:       mgPath,
+			co:           "etcd",
+			expectedPath: mgPath + "/" + operatorsDir + "/" + "etcd.yaml",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			mg01, _ := NewMg(tc.mgPath)
+
+			assert.Equal(t, tc.expectedPath, mg01.clusterOperators[tc.co].GetManifestFilePath())
+		})
+	}
+}
