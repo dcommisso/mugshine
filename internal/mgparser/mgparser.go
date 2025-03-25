@@ -2,9 +2,11 @@ package mgparser
 
 import (
 	"errors"
-	configv1 "github.com/openshift/api/config/v1"
 	"os"
+	"path"
 	"strings"
+
+	configv1 "github.com/openshift/api/config/v1"
 )
 
 // The pod info as returned by kubectl/oc.
@@ -21,6 +23,7 @@ type Mg struct {
 	basePath       string
 	timestamp      []string
 	Namespaces     map[string]*Namespace
+	Nodes          map[string]*Node
 	infrastructure *configv1.Infrastructure
 	clusterVersion *configv1.ClusterVersion
 	inspect        bool
@@ -44,6 +47,7 @@ func NewMg(directory string) (*Mg, error) {
 
 	const (
 		namespaceDir            = "namespaces"
+		nodesDir                = "cluster-scoped-resources/core/nodes"
 		infrastructuresFilePath = "cluster-scoped-resources/config.openshift.io/infrastructures.yaml"
 		clusterVersionPath      = "cluster-scoped-resources/config.openshift.io/clusterversions/version.yaml"
 		timestampPath           = "timestamp"
@@ -119,11 +123,27 @@ func NewMg(directory string) (*Mg, error) {
 		clusterVersion = &cv
 	}
 
+	// parse nodes, if present
+	nodesPath := mgBasePath + "/" + nodesDir
+	nodesToReturn := map[string]*Node{}
+	nodeFiles, _ := os.ReadDir(nodesPath)
+	for _, file := range nodeFiles {
+		if path.Ext(file.Name()) == ".yaml" || path.Ext(file.Name()) == ".yml" {
+			if node, err := parseNode(nodesPath + "/" + file.Name()); err == nil {
+				nodesToReturn[node.GetName()] = &Node{
+					Node:              node,
+					nodeDirectoryPath: nodesPath + "/" + file.Name(),
+				}
+			}
+		}
+	}
+
 	return &Mg{
 		mgPath:         strings.TrimSuffix(directory, "/"),
 		basePath:       mgBasePath,
 		timestamp:      timestampStartEnd,
 		Namespaces:     namespacesToReturn,
+		Nodes:          nodesToReturn,
 		infrastructure: infrastructure,
 		clusterVersion: clusterVersion,
 		inspect:        inspect,
@@ -140,4 +160,8 @@ func (m *Mg) IsInspect() bool {
 
 func (m *Mg) GetNamespacesAlphabetical() []string {
 	return getAlphabeticalKeys(m.Namespaces)
+}
+
+func (m *Mg) GetNodesAlphabetical() []string {
+	return getAlphabeticalKeys(m.Nodes)
 }

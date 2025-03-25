@@ -1,0 +1,351 @@
+---
+apiVersion: v1
+kind: Node
+metadata:
+  annotations:
+    k8s.ovn.org/host-cidrs: '["127.0.0.1/21"]'
+    k8s.ovn.org/l3-gateway-config: '{"default":{"mode":"shared","bridge-id":"br-ex","interface-id":"br-ex_master-2.clustername.domain.local","mac-address":"aa:aa:aa:aa:aa:aa","ip-addresses":["127.0.0.1/21"],"ip-address":"10.0.88.141/21","next-hops":["10.0.95.254"],"next-hop":"10.0.95.254","node-port-enable":"true","vlan-id":"0"}}'
+    k8s.ovn.org/network-ids: '{"default":"0"}'
+    k8s.ovn.org/node-gateway-router-lrp-ifaddrs: '{"default":{"ipv4":"127.0.0.1/16"}}'
+    k8s.ovn.org/node-id: "2"
+    k8s.ovn.org/node-masquerade-subnet: '{"ipv4":"127.0.0.1/17","ipv6":"fd69::/112"}'
+    k8s.ovn.org/node-mgmt-port-mac-addresses: '{"default":"aa:aa:aa:aa:aa:aa"}'
+    k8s.ovn.org/node-primary-ifaddr: '{"ipv4":"127.0.0.1/21"}'
+    k8s.ovn.org/node-subnets: '{"default":["127.0.0.1/23"]}'
+    k8s.ovn.org/node-transit-switch-port-ifaddr: '{"ipv4":"127.0.0.1/16"}'
+    k8s.ovn.org/remote-zone-migrated: master-2.clustername.domain.local
+    k8s.ovn.org/zone-name: master-2.clustername.domain.local
+    machineconfiguration.openshift.io/controlPlaneTopology: HighlyAvailable
+    machineconfiguration.openshift.io/lastObservedServerCAAnnotation: "false"
+    machineconfiguration.openshift.io/lastSyncedControllerConfigResourceVersion: "1443065"
+    machineconfiguration.openshift.io/reason: ""
+    machineconfiguration.openshift.io/state: Done
+    volumes.kubernetes.io/controller-managed-attach-detach: "true"
+  creationTimestamp: "2025-03-17T14:00:16Z"
+  labels:
+    beta.kubernetes.io/arch: amd64
+    beta.kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
+    kubernetes.io/hostname: master-2.clustername.domain.local
+    kubernetes.io/os: linux
+    node-role.kubernetes.io/control-plane: ""
+    node-role.kubernetes.io/master: ""
+    node.openshift.io/os_id: rhcos
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:volumes.kubernetes.io/controller-managed-attach-detach: {}
+        f:labels:
+          .: {}
+          f:beta.kubernetes.io/arch: {}
+          f:beta.kubernetes.io/os: {}
+          f:kubernetes.io/arch: {}
+          f:kubernetes.io/hostname: {}
+          f:kubernetes.io/os: {}
+          f:node-role.kubernetes.io/control-plane: {}
+          f:node-role.kubernetes.io/master: {}
+          f:node.openshift.io/os_id: {}
+    manager: kubelet
+    operation: Update
+    time: "2025-03-17T14:00:16Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:taints: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2025-03-17T14:09:56Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:machineconfiguration.openshift.io/controlPlaneTopology: {}
+          f:machineconfiguration.openshift.io/lastAppliedDrain: {}
+    manager: machine-config-controller
+    operation: Update
+    time: "2025-03-17T14:11:58Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:machineconfiguration.openshift.io/currentConfig: {}
+          f:machineconfiguration.openshift.io/desiredConfig: {}
+          f:machineconfiguration.openshift.io/desiredDrain: {}
+          f:machineconfiguration.openshift.io/lastObservedServerCAAnnotation: {}
+          f:machineconfiguration.openshift.io/lastSyncedControllerConfigResourceVersion: {}
+          f:machineconfiguration.openshift.io/reason: {}
+          f:machineconfiguration.openshift.io/state: {}
+    manager: machine-config-daemon
+    operation: Update
+    time: "2025-03-20T16:51:07Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          k:{"type":"DiskPressure"}:
+            f:lastHeartbeatTime: {}
+          k:{"type":"MemoryPressure"}:
+            f:lastHeartbeatTime: {}
+          k:{"type":"PIDPressure"}:
+            f:lastHeartbeatTime: {}
+          k:{"type":"Ready"}:
+            f:lastHeartbeatTime: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+        f:images: {}
+    manager: kubelet
+    operation: Update
+    subresource: status
+    time: "2025-03-20T17:06:37Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:k8s.ovn.org/host-cidrs: {}
+          f:k8s.ovn.org/l3-gateway-config: {}
+          f:k8s.ovn.org/network-ids: {}
+
+          f:k8s.ovn.org/node-gateway-router-lrp-ifaddrs: {}
+          f:k8s.ovn.org/node-id: {}
+          f:k8s.ovn.org/node-masquerade-subnet: {}
+          f:k8s.ovn.org/node-mgmt-port-mac-addresses: {}
+          f:k8s.ovn.org/node-primary-ifaddr: {}
+          f:k8s.ovn.org/node-subnets: {}
+          f:k8s.ovn.org/node-transit-switch-port-ifaddr: {}
+          f:k8s.ovn.org/remote-zone-migrated: {}
+          f:k8s.ovn.org/zone-name: {}
+    manager: master-2.clustername.domain.local
+    operation: Update
+    subresource: status
+    time: "2025-03-20T17:07:34Z"
+  name: master-2.clustername.domain.local
+  resourceVersion: "1449175"
+spec:
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+status:
+  addresses:
+  - address: 127.0.0.1
+    type: InternalIP
+  - address: master-2.clustername.domain.local
+    type: Hostname
+  allocatable:
+    cpu: 3500m
+    ephemeral-storage: "27372743429"
+    hugepages-1Gi: "0"
+    hugepages-2Mi: "0"
+    memory: 15225956Ki
+    pods: "250"
+  capacity:
+    cpu: "4"
+    ephemeral-storage: 30866412Ki
+    hugepages-1Gi: "0"
+    hugepages-2Mi: "0"
+    memory: 16376932Ki
+    pods: "250"
+  conditions:
+  - lastHeartbeatTime: "2025-03-20T17:06:37Z"
+    lastTransitionTime: "2025-03-17T14:00:16Z"
+    message: kubelet has sufficient memory available
+    reason: KubeletHasSufficientMemory
+    status: "False"
+    type: MemoryPressure
+  - lastHeartbeatTime: "2025-03-20T17:06:37Z"
+    lastTransitionTime: "2025-03-17T14:00:16Z"
+    message: kubelet has no disk pressure
+    reason: KubeletHasNoDiskPressure
+    status: "False"
+    type: DiskPressure
+  - lastHeartbeatTime: "2025-03-20T17:06:37Z"
+    lastTransitionTime: "2025-03-17T14:00:16Z"
+    message: kubelet has sufficient PID available
+    reason: KubeletHasSufficientPID
+    status: "False"
+    type: PIDPressure
+  - lastHeartbeatTime: "2025-03-20T17:06:37Z"
+    lastTransitionTime: "2025-03-17T14:09:56Z"
+    message: kubelet is posting ready status
+    reason: KubeletReady
+    status: "True"
+    type: Ready
+  daemonEndpoints:
+    kubeletEndpoint:
+      Port: 10250
+  images:
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 2657677594
+  - names:
+    - registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8
+    - registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8
+    sizeBytes: 1657290790
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 1377803075
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 1232821500
+  - names:
+    - registry.redhat.io/redhat/community-operator-index
+    - registry.redhat.io/redhat/community-operator-index
+    - registry.redhat.io/redhat/community-operator-index:v4.17
+    sizeBytes: 1177289909
+  - names:
+    - registry.redhat.io/redhat/redhat-marketplace-index
+    - registry.redhat.io/redhat/redhat-marketplace-index
+    - registry.redhat.io/redhat/redhat-marketplace-index:v4.17
+    sizeBytes: 1071790248
+  - names:
+    - registry.redhat.io/redhat/redhat-marketplace-index
+    sizeBytes: 1069951664
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    - registry.redhat.io/redhat/certified-operator-index
+    - registry.redhat.io/redhat/certified-operator-index:v4.17
+    sizeBytes: 1069504698
+  - names:
+    - registry.redhat.io/redhat/redhat-marketplace-index
+    sizeBytes: 1069433516
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1069359808
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1069227710
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1069129400
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1067688112
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1067548851
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1067253953
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1066701486
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1066180283
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1066180277
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1064340156
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1064200889
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1064110789
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1063987899
+  - names:
+    - registry.redhat.io/redhat/certified-operator-index
+    sizeBytes: 1063852725
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 989959078
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 917097599
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 876824855
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 823095427
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 772593040
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 705337954
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 687915987
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 666244837
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 648154413
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 635637243
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 593745577
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 557150194
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 556057151
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 533092230
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 531395160
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 499487687
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 496266094
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 494466983
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 493168775
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 492099214
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 490573263
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 489316311
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 486584736
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 485737056
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 479585218
+  - names:
+    - quay.io/openshift-release-dev/ocp-v4.0-art-dev
+    sizeBytes: 476681372
+  - names:
+    - quay.io/openshift-release-dev/ocp-release
+    sizeBytes: 474550133
+  nodeInfo:
+    architecture: amd64
+    containerRuntimeVersion: cri-o://1.30.9-3.rhaos4.17.gitbbf9018.el9
+    kernelVersion: 5.14.0-427.50.1.el9_4.x86_64
+    kubeProxyVersion: v1.30.7
+    kubeletVersion: v1.30.7
+    operatingSystem: linux
+    osImage: Red Hat Enterprise Linux CoreOS 417.94.202501301529-0

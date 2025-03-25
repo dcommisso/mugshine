@@ -328,6 +328,37 @@ func TestGetNamespacesAlphabetical(t *testing.T) {
 	}
 }
 
+func TestGetNodesAlphabetical(t *testing.T) {
+	cases := map[string]struct {
+		mgPath            string
+		nodesAlphabetical []string
+	}{
+		"validMg": {
+			mgPath: "./testdata/mgs/validMg",
+			nodesAlphabetical: []string{
+				"master-0.clustername.domain.local",
+				"master-1.clustername.domain.local",
+				"master-2.clustername.domain.local",
+				"worker-0.clustername.domain.local",
+				"worker-1.clustername.domain.local",
+				"worker-2.clustername.domain.local",
+			},
+		},
+		"validInspect": {
+			mgPath:            "./testdata/mgs/validInspect",
+			nodesAlphabetical: []string{},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			mg01, _ := NewMg(tc.mgPath)
+
+			nodes := mg01.GetNodesAlphabetical()
+			assert.Equal(t, tc.nodesAlphabetical, nodes)
+		})
+	}
+}
+
 func TestGetPodsAlphabetical(t *testing.T) {
 	const mgNamespacesDir = "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/namespaces"
 	const inspectNamespacesDir = "./testdata/mgs/validInspect/namespaces"
