@@ -57,6 +57,15 @@ func (c *ClusterOperator) GetDegradedStatus() string {
 	return "Unknown"
 }
 
+func (c ClusterOperator) GetVersion() string {
+	for _, version := range c.Status.Versions {
+		if version.Name == "operator" {
+			return version.Version
+		}
+	}
+	return "Unknown"
+}
+
 func (c ClusterOperator) GetManifestFilePath() string {
 	return c.coFilePath
 }

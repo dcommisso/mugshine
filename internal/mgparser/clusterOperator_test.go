@@ -59,7 +59,7 @@ func TestGetClusterOperatorsAlphabetical(t *testing.T) {
 	}
 }
 
-func TestGetStatuses(t *testing.T) {
+func TestGetStatusesAndVersion(t *testing.T) {
 	const mgPath = "./testdata/mgs/validMg"
 	cases := map[string]struct {
 		mgPath            string
@@ -67,6 +67,7 @@ func TestGetStatuses(t *testing.T) {
 		availableStatus   string
 		progressingStatus string
 		degradedStatus    string
+		version           string
 	}{
 		"authentication": {
 			mgPath:            mgPath,
@@ -74,6 +75,7 @@ func TestGetStatuses(t *testing.T) {
 			availableStatus:   "True",
 			progressingStatus: "False",
 			degradedStatus:    "False",
+			version:           "4.17.15",
 		},
 		"storage": {
 			mgPath:            mgPath,
@@ -81,6 +83,7 @@ func TestGetStatuses(t *testing.T) {
 			availableStatus:   "False",
 			progressingStatus: "True",
 			degradedStatus:    "False",
+			version:           "4.17.15",
 		},
 		"openshift-apiserver": {
 			mgPath:            mgPath,
@@ -88,6 +91,7 @@ func TestGetStatuses(t *testing.T) {
 			availableStatus:   "True",
 			progressingStatus: "False",
 			degradedStatus:    "True",
+			version:           "4.17.15",
 		},
 	}
 	for name, tc := range cases {
@@ -98,6 +102,7 @@ func TestGetStatuses(t *testing.T) {
 			assert.Equal(t, tc.availableStatus, co.GetAvailableStatus())
 			assert.Equal(t, tc.progressingStatus, co.GetProgressingStatus())
 			assert.Equal(t, tc.degradedStatus, co.GetDegradedStatus())
+			assert.Equal(t, tc.version, co.GetVersion())
 		})
 	}
 }
