@@ -2,6 +2,7 @@ package mgparser
 
 import (
 	"os"
+	"slices"
 	"strings"
 
 	v1 "k8s.io/api/core/v1"
@@ -55,6 +56,7 @@ func (n *Node) GetRoles() string {
 			roles = append(roles, labelFields[1])
 		}
 	}
+	slices.Sort(roles)
 	return strings.Join(roles, ",")
 }
 
