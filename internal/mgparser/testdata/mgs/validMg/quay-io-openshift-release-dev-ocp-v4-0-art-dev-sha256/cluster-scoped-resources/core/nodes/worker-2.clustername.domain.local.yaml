@@ -174,7 +174,7 @@ status:
     lastTransitionTime: "2025-03-17T14:22:46Z"
     message: kubelet is posting ready status
     reason: KubeletReady
-    status: "True"
+    status: "Unknown"
     type: Ready
   daemonEndpoints:
     kubeletEndpoint:

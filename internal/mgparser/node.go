@@ -30,3 +30,18 @@ func parseNode(filename string) (v1.Node, error) {
 func (n *Node) GetManifestFilePath() string {
 	return n.nodeFilePath
 }
+
+func (n *Node) GetStatus() string {
+	var status string
+	conditions := n.Status.Conditions
+	for _, cond := range conditions {
+		if cond.Type == "Ready" {
+			if cond.Status != "True" {
+				status = "NotReady"
+			} else {
+				status = "Ready"
+			}
+		}
+	}
+	return status
+}

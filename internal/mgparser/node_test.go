@@ -6,21 +6,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetNodeManifestFilePath(t *testing.T) {
+func TestGetNode(t *testing.T) {
 	cases := map[string]struct {
 		mgPath           string
-		node             string
+		nodeName         string
 		expectedNodePath string
+		expectedStatus   string
 	}{
 		"master-0.clustername.domain.local": {
 			mgPath:           "./testdata/mgs/validMg",
-			node:             "master-0.clustername.domain.local",
+			nodeName:         "master-0.clustername.domain.local",
 			expectedNodePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/cluster-scoped-resources/core/nodes/master-0.clustername.domain.local.yaml",
+			expectedStatus:   "Ready",
 		},
 		"worker-2.clustername.domain.local": {
 			mgPath:           "./testdata/mgs/validMg",
-			node:             "worker-2.clustername.domain.local",
+			nodeName:         "worker-2.clustername.domain.local",
 			expectedNodePath: "./testdata/mgs/validMg/quay-io-openshift-release-dev-ocp-v4-0-art-dev-sha256/cluster-scoped-resources/core/nodes/worker-2.clustername.domain.local.yaml",
+			expectedStatus:   "NotReady",
 		},
 	}
 
@@ -28,7 +31,10 @@ func TestGetNodeManifestFilePath(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			mg01, _ := NewMg(tc.mgPath)
 
-			assert.Equal(t, tc.expectedNodePath, mg01.Nodes[tc.node].GetManifestFilePath())
+			node := mg01.Nodes[tc.nodeName]
+
+			assert.Equal(t, tc.expectedNodePath, node.GetManifestFilePath())
+			assert.Equal(t, tc.expectedStatus, node.GetStatus())
 		})
 	}
 }
