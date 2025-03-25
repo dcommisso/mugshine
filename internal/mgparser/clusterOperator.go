@@ -29,3 +29,30 @@ func parseClusterOperatorList(filename string) (configv1.ClusterOperatorList, er
 func (m *Mg) GetClusterOperatorsAlphabetical() []string {
 	return getAlphabeticalKeys(m.clusterOperators)
 }
+
+func (c *ClusterOperator) GetAvailableStatus() string {
+	for _, cond := range c.Status.Conditions {
+		if cond.Type == "Available" {
+			return string(cond.Status)
+		}
+	}
+	return "Unknown"
+}
+
+func (c *ClusterOperator) GetProgressingStatus() string {
+	for _, cond := range c.Status.Conditions {
+		if cond.Type == "Progressing" {
+			return string(cond.Status)
+		}
+	}
+	return "Unknown"
+}
+
+func (c *ClusterOperator) GetDegradedStatus() string {
+	for _, cond := range c.Status.Conditions {
+		if cond.Type == "Degraded" {
+			return string(cond.Status)
+		}
+	}
+	return "Unknown"
+}

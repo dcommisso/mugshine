@@ -58,3 +58,46 @@ func TestGetClusterOperatorsAlphabetical(t *testing.T) {
 		})
 	}
 }
+
+func TestGetStatuses(t *testing.T) {
+	const mgPath = "./testdata/mgs/validMg"
+	cases := map[string]struct {
+		mgPath            string
+		co                string
+		availableStatus   string
+		progressingStatus string
+		degradedStatus    string
+	}{
+		"authentication": {
+			mgPath:            mgPath,
+			co:                "authentication",
+			availableStatus:   "True",
+			progressingStatus: "False",
+			degradedStatus:    "False",
+		},
+		"storage": {
+			mgPath:            mgPath,
+			co:                "storage",
+			availableStatus:   "False",
+			progressingStatus: "True",
+			degradedStatus:    "False",
+		},
+		"openshift-apiserver": {
+			mgPath:            mgPath,
+			co:                "openshift-apiserver",
+			availableStatus:   "True",
+			progressingStatus: "False",
+			degradedStatus:    "True",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			mg01, _ := NewMg(tc.mgPath)
+
+			co := mg01.clusterOperators[tc.co]
+			assert.Equal(t, tc.availableStatus, co.GetAvailableStatus())
+			assert.Equal(t, tc.progressingStatus, co.GetProgressingStatus())
+			assert.Equal(t, tc.degradedStatus, co.GetDegradedStatus())
+		})
+	}
+}

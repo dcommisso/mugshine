@@ -3310,7 +3310,7 @@ items:
     - lastTransitionTime: "2025-03-17T14:10:08Z"
       message: All is well
       reason: AsExpected
-      status: "False"
+      status: "True"
       type: Degraded
     - lastTransitionTime: "2025-03-17T14:34:55Z"
       message: All is well
@@ -3998,13 +3998,13 @@ items:
     - lastTransitionTime: "2025-03-17T14:10:05Z"
       message: All is well
       reason: AsExpected
-      status: "False"
+      status: "True"
       type: Progressing
     - lastTransitionTime: "2025-03-17T14:10:05Z"
       message: 'DefaultStorageClassControllerAvailable: No default StorageClass for
         this platform'
       reason: AsExpected
-      status: "True"
+      status: "False"
       type: Available
     - lastTransitionTime: "2025-03-17T14:10:05Z"
       message: All is well
