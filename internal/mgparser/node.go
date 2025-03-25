@@ -9,7 +9,7 @@ import (
 
 type Node struct {
 	v1.Node
-	nodeDirectoryPath string
+	nodeFilePath string
 }
 
 func parseNode(filename string) (v1.Node, error) {
@@ -25,4 +25,8 @@ func parseNode(filename string) (v1.Node, error) {
 	}
 
 	return node, nil
+}
+
+func (n *Node) GetManifestFilePath() string {
+	return n.nodeFilePath
 }

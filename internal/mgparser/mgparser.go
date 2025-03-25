@@ -131,8 +131,8 @@ func NewMg(directory string) (*Mg, error) {
 		if path.Ext(file.Name()) == ".yaml" || path.Ext(file.Name()) == ".yml" {
 			if node, err := parseNode(nodesPath + "/" + file.Name()); err == nil {
 				nodesToReturn[node.GetName()] = &Node{
-					Node:              node,
-					nodeDirectoryPath: nodesPath + "/" + file.Name(),
+					Node:         node,
+					nodeFilePath: nodesPath + "/" + file.Name(),
 				}
 			}
 		}
