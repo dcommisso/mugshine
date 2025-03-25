@@ -2,6 +2,7 @@ package mgparser
 
 import (
 	"os"
+	"strings"
 
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/yaml"
@@ -44,4 +45,15 @@ func (n *Node) GetStatus() string {
 		}
 	}
 	return status
+}
+
+func (n *Node) GetRoles() string {
+	roles := []string{}
+	for label := range n.GetLabels() {
+		labelFields := strings.Split(label, "/")
+		if labelFields[0] == "node-role.kubernetes.io" {
+			roles = append(roles, labelFields[1])
+		}
+	}
+	return strings.Join(roles, ",")
 }
