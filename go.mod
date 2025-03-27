@@ -1,4 +1,4 @@
-module github.com/dcommisso/img
+module github.com/dcommisso/mugshine
 
 go 1.24.0
 

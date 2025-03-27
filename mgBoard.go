@@ -7,7 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/paginator"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/dcommisso/img/internal/mgparser"
+	"github.com/dcommisso/mugshine/internal/mgparser"
 )
 
 const (

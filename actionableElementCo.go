@@ -1,6 +1,6 @@
 package main
 
-import "github.com/dcommisso/img/internal/mgparser"
+import "github.com/dcommisso/mugshine/internal/mgparser"
 
 /*
  * This is the section with the cluster operators

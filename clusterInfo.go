@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/dcommisso/img/internal/mgparser"
+	"github.com/dcommisso/mugshine/internal/mgparser"
 	"path/filepath"
 )
 

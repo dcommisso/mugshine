@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dcommisso/img/internal/mgparser"
+	"github.com/dcommisso/mugshine/internal/mgparser"
 )
 
 type ActionableElement interface {

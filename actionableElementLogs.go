@@ -3,7 +3,7 @@ package main
 import (
 	"strconv"
 
-	"github.com/dcommisso/img/internal/mgparser"
+	"github.com/dcommisso/mugshine/internal/mgparser"
 )
 
 /*
