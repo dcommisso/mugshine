@@ -53,7 +53,7 @@ func main() {
 
 	switch {
 	case versionFlag:
-		fmt.Fprint(os.Stderr, mugshineVersion)
+		fmt.Fprintln(os.Stderr, mugshineVersion)
 		os.Exit(0)
 	case helpFlag:
 		fs.Usage()
