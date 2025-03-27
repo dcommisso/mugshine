@@ -8,9 +8,9 @@ import (
 var (
 	colorSelectedItem      = lipgloss.Color("#4CE0B3")
 	colorFocusBorder       = lipgloss.Color("#F9A03F")
-	colorHeader            = lipgloss.Color("#377771")
-	colorFailed            = lipgloss.Color("#FF495C")
-	colorClusterInfoBorder = lipgloss.Color("#2D7DD2")
+	colorHeader            = lipgloss.Color("#084B83")
+	colorFailed            = lipgloss.Color("#cc0000")
+	colorClusterInfoBorder = lipgloss.Color("#FAA6FF")
 )
 
 /* Change here the style of focused panel */
