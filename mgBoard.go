@@ -28,7 +28,7 @@ func NewMgBoard(mustGatherPath string) (mgBoard, error) {
 	// load must-gather
 	mg, err := mgparser.NewMg(mustGatherPath)
 	if err != nil {
-		return mgBoard{}, nil
+		return mgBoard{}, err
 	}
 
 	var (
