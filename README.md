@@ -38,6 +38,7 @@ Mugshine is still at its first release. It's stable but it should be considered 
   4. Accessibility is important and I want to give users the freedom to create custom themes.
   
 - The `age` field is missing from OCP resources.
+- Failed filter. I would love having a way to filter out the failed resources.
 - Omc support to malformed must-gathers is better than mugshine's. I want to improve both the robustness and the error messages.
 - Tests. At the moment only the module to parse must-gather is covered by tests. Probably I should find a good way to test the interactive part as well.
 
