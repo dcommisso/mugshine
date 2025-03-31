@@ -23,6 +23,16 @@ $ go install github.com/dcommisso/mugshine@latest
 
 or you can download the compiled version for Linux x86_64 from releases section.
 
+### Build mugshine without GLIBC dependency
+On machines with old glibc version, a mugshine binary built with a newer glibc may fails with errors like: ``/lib64/libc.so.6: version `GLIBC_2.32' not found``.
+
+If building mugshine directly on that machine is not an option, is possible to build a binary without glibc dependency by disabling cgo:
+
+``` shell
+$ export CGO_ENABLED=0
+$ go build
+```
+
 ## Relation with OMC
 Mugshine is not intended as [omc](https://github.com/gmeghnag/omc) replacement. Omc is a non-interactive application, therefore it's more flexible than mugshine. It also supports a large number of OCP resources, while mugshine only supports a few.
 Supporting all of them is out of the scope of mugshine, since it's main job is to easily spot the interesting places to look during troubleshooting and quickly switching between container logs. Ideally omc and mugshine complement each other: mugshine for first approach to troubleshoot (and to quickly jump from one log/manifest to another), omc for deeper analysis.
