@@ -52,7 +52,7 @@ func (n *Node) GetRoles() string {
 	roles := []string{}
 	for label := range n.GetLabels() {
 		labelFields := strings.Split(label, "/")
-		if labelFields[0] == "node-role.kubernetes.io" {
+		if labelFields[0] == "node-role.kubernetes.io" && len(labelFields) == 2 {
 			roles = append(roles, labelFields[1])
 		}
 	}
