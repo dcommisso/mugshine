@@ -24,7 +24,7 @@ import (
 	flag "github.com/spf13/pflag"
 )
 
-var mugshineVersion = "v0.1.1"
+var mugshineVersion = "v0.1.2"
 
 var (
 	fs *flag.FlagSet
