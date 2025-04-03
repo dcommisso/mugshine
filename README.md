@@ -38,7 +38,7 @@ Mugshine is not intended as [omc](https://github.com/gmeghnag/omc) replacement. 
 Supporting all of them is out of the scope of mugshine, since it's main job is to easily spot the interesting places to look during troubleshooting and quickly switching between container logs. Ideally omc and mugshine complement each other: mugshine for first approach to troubleshoot (and to quickly jump from one log/manifest to another), omc for deeper analysis.
 
 ## TODO and limitations
-Mugshine is still at its first release. It's stable but it should be considered in beta, since some features have yet to be developed. Here are some of them:
+Mugshine is still at its first release. It should be considered in beta: bugs are expected and some features have yet to be developed. Here are some of them:
 
 - Color theme customization. I designed the mugshine color theme, but:
 
