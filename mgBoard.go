@@ -71,9 +71,8 @@ func (m *mgBoard) AddNewPanel(index int, actElements []ActionableElement) {
 	// disable help
 	model.SetShowHelp(false)
 
-	// disable quit since it's managed by mgBoard and I want use esc key only
-	// for clearing filter
-	model.DisableQuitKeybindings()
+	// remove esc from quit keys, since I want to use it only for clearing filter
+	model.KeyMap.Quit = key.NewBinding(key.WithKeys("q"))
 
 	// remap left/right to pagedown/pageup to avoid overlapping to navigation
 	model.KeyMap.NextPage.SetKeys("pgdown")
@@ -255,8 +254,6 @@ func (m mgBoard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 	case tea.KeyMsg:
 		switch {
-		case key.Matches(msg, m.keys.Quit):
-			return m, tea.Quit
 		case key.Matches(msg, m.keys.Right):
 			m.IncreaseFocused()
 		case key.Matches(msg, m.keys.Left):

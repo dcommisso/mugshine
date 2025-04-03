@@ -71,8 +71,11 @@ var keys = keyMap{
 		key.WithKeys("?"),
 		key.WithHelp("?", "toggle help"),
 	),
+	// this keymap is here only for the help menu but it's not actually consumed
+	// by mgBoard: all the quit keys are managed by list in panel, since it's
+	// aware of filtering state
 	Quit: key.NewBinding(
-		key.WithKeys("q", "ctrl+c"),
+		key.WithKeys("q"),
 		key.WithHelp("q", "quit"),
 	),
 }
